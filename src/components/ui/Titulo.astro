@@ -1,0 +1,11 @@
+---
+import { useTranslations } from '../../i18n/utils';
+
+//const { currentLocale } = Astro;
+
+const lang = Astro.currentLocale || 'es';
+const t = useTranslations(lang as 'es' | 'en' | 'de' | 'pt' | 'it' | 'zh');
+---
+<section>
+    <h1 class="text-red-500">{t('title')}</h1>
+</section>

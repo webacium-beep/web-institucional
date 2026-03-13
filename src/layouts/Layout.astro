@@ -1,22 +1,30 @@
+---
+import LanguageSelector from "../components/islands/LanguageSelector";
+import "../styles/global.css";
+const lang = Astro.currentLocale || 'es';
+---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>ACIUM</title>
 	</head>
 	<body>
 		<slot />
+		<LanguageSelector client:load />
 	</body>
 </html>
 
 <style>
 	html,
 	body {
+		box-sizing: border-box;
 		margin: 0;
+		padding: 0;
 		width: 100%;
 		height: 100%;
 	}
