@@ -1,16 +1,25 @@
 import { useState, useEffect, useRef } from "react";
 
+// Display code overrides: canonical locale → visual label
+const DISPLAY_CODE: Record<string, string> = {
+  de: "GE",
+  zh: "CH",
+};
+
 const LOCALES = [
-  { code: "es", flag: "🇪🇸", label: "ES", name: "Español" },
-  { code: "en", flag: "🇬🇧", label: "EN", name: "English" },
-  { code: "de", flag: "🇩🇪", label: "DE", name: "Deutsch" },
-  { code: "zh", flag: "🇨🇳", label: "ZH", name: "中文" },
-  { code: "pt", flag: "🇧🇷", label: "PT", name: "Português" },
-  { code: "it", flag: "🇮🇹", label: "IT", name: "Italiano" },
-];
+  { code: "es", label: "ES" },
+  { code: "en", label: "EN" },
+  { code: "de", label: "GE" },
+  { code: "zh", label: "CH" },
+  { code: "pt", label: "PT" },
+  { code: "it", label: "IT" },
+] as const;
 
 const DEFAULT_LOCALE = "es";
 const COOKIE_NAME = "preferred-locale";
+
+// Supported non-es locale prefixes (must match middleware + Astro i18n config)
+const PREFIXED_LOCALES = ["en", "de", "zh", "pt", "it"];
 
 function getCurrentLocale(): string {
   const path = window.location.pathname;
@@ -22,16 +31,72 @@ function setLocaleCookie(code: string) {
   document.cookie = `${COOKIE_NAME}=${code}; max-age=${60 * 60 * 24 * 365}; path=/; samesite=lax`;
 }
 
-export default function LanguageSelector() {
-  const [current, setCurrent] = useState(DEFAULT_LOCALE);
+/**
+ * Transforms the current pathname into a destination pathname for the target locale.
+ *
+ * Algorithm:
+ * 1. Strip any existing locale prefix (en|de|zh|pt|it) from the path.
+ * 2. If target is 'es', return the stripped (unprefixed) path.
+ * 3. Otherwise, prepend /{targetLocale} to the stripped path.
+ *
+ * Edge cases:
+ *   "/"          → es: "/"    | en: "/en/"
+ *   "/en"        → es: "/"    | de: "/de/"
+ *   "/en/"       → es: "/"    | zh: "/zh/"
+ *   "/en/about"  → es: "/about" | pt: "/pt/about"
+ *   "/de/a/b/c"  → es: "/a/b/c" | it: "/it/a/b/c"
+ */
+export function buildLocaleUrl(targetLocale: string, pathname: string): string {
+  const prefixPattern = new RegExp(`^\\/(${PREFIXED_LOCALES.join("|")})(\\/?)`);
+  const match = pathname.match(prefixPattern);
+
+  // Strip existing locale prefix; normalize to '/' if the result is empty
+  let pathWithoutLocale: string;
+  if (match) {
+    // match[0] is the full prefix (e.g. "/en" or "/en/")
+    // Remainder is everything after the prefix
+    const remainder = pathname.slice(match[0].length);
+    pathWithoutLocale = remainder ? `/${remainder}` : "/";
+  } else {
+    pathWithoutLocale = pathname || "/";
+  }
+
+  if (targetLocale === DEFAULT_LOCALE) {
+    return pathWithoutLocale;
+  }
+
+  // Construct prefixed URL:
+  // - Root path ("/") → "/{locale}/" (trailing slash for root)
+  // - Non-root path ("/about") → "/{locale}/about" (no trailing slash added)
+  if (pathWithoutLocale === "/") {
+    return `/${targetLocale}/`;
+  }
+  return `/${targetLocale}${pathWithoutLocale}`;
+}
+
+interface Props {
+  /** SSR-resolved locale from Header.astro; fallback to client-side detection if undefined */
+  currentLocale?: string;
+  /** Translated label for the selector button (e.g. "IDIOMA", "LANGUAGE") */
+  selectorLabel?: string;
+}
+
+export default function LanguageSelector({ currentLocale, selectorLabel = "IDIOMA" }: Props) {
+  // Seed state from SSR prop to prevent hydration flash; fall back to client detection
+  const [current, setCurrent] = useState(currentLocale ?? DEFAULT_LOCALE);
   const [open, setOpen] = useState(false);
+  const [flipUp, setFlipUp] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    setCurrent(getCurrentLocale());
-  }, []);
+    // If the SSR prop was provided, trust it; otherwise re-derive from URL client-side.
+    if (!currentLocale) {
+      setCurrent(getCurrentLocale());
+    }
+  }, [currentLocale]);
 
-  // Cerrar al hacer click fuera
+  // Click-away listener — closes dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -42,66 +107,74 @@ export default function LanguageSelector() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  function handleToggle() {
+    if (!open && triggerRef.current) {
+      // Check if dropdown would overflow viewport bottom
+      const rect = triggerRef.current.getBoundingClientRect();
+      const dropdownEstimatedHeight = LOCALES.length * 40;
+      if (rect.bottom + dropdownEstimatedHeight > window.innerHeight) {
+        setFlipUp(true);
+      } else {
+        setFlipUp(false);
+      }
+    }
+    setOpen((v) => !v);
+  }
+
   function changeLanguage(code: string) {
+    // Write cookie BEFORE navigation so middleware sees it on next root request
     setLocaleCookie(code);
     setCurrent(code);
     setOpen(false);
-
-    const destination = code === DEFAULT_LOCALE ? "/" : `/${code}/`;
+    const destination = buildLocaleUrl(code, window.location.pathname);
     window.location.href = destination;
   }
 
-  const active = LOCALES.find((l) => l.code === current) ?? LOCALES[0];
+  const displayLabel = (code: string) => DISPLAY_CODE[code] ?? code.toUpperCase();
+  const buttonLabel = `${selectorLabel} ▼`;
 
   return (
     <div ref={ref} className="relative inline-block">
-      {/* Botón */}
+      {/* Trigger button — ghost span prevents CLS on weight change */}
       <button
-        onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm font-medium text-gray-800 dark:text-gray-100 min-w-[80px] justify-between"
+        ref={triggerRef}
+        onClick={handleToggle}
         aria-expanded={open}
         aria-haspopup="listbox"
+        className="relative inline-flex flex-col items-center font-[300] hover:font-[800] cursor-pointer transition-none text-xs tracking-[0.15em] bg-transparent border-none outline-none"
       >
-        <span className="text-base leading-none">{active.flag}</span>
-        <span className="tracking-wide">{active.label}</span>
-        <svg
-          className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-          viewBox="0 0 16 16"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
+        {buttonLabel}
+        {/* Ghost span at font-800 pre-reserves the bold width — prevents CLS */}
+        <span
+          aria-hidden="true"
+          className="lang-ghost font-[800] h-0 overflow-hidden invisible block pointer-events-none select-none"
         >
-          <path d="M4 6l4 4 4-4" />
-        </svg>
+          {buttonLabel}
+        </span>
       </button>
 
-      {/* Dropdown */}
+      {/* Dropdown menu */}
       {open && (
         <ul
           role="listbox"
-          className="absolute left-10 top-full mt-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden z-50 min-w-[152px] shadow-sm"
+          className={`absolute ${flipUp ? "bottom-full mb-1" : "top-full mt-1"} right-0 bg-white text-black z-50 min-w-[64px] shadow-sm`}
         >
-          {LOCALES.map((locale) => (
-            <li
-              key={locale.code}
-              role="option"
-              aria-selected={locale.code === current}
-              onClick={() => changeLanguage(locale.code)}
-              className={`flex items-center gap-2.5 px-3.5 py-2.5 text-sm cursor-pointer transition-colors border-b border-gray-100 dark:border-gray-800 last:border-0
-                ${locale.code === current
-                  ? "bg-gray-50 dark:bg-gray-800 font-medium"
-                  : "hover:bg-gray-50 dark:hover:bg-gray-800"
+          {LOCALES.map((locale) => {
+            const isActive = locale.code === current;
+            return (
+              <li
+                key={locale.code}
+                role="option"
+                aria-selected={isActive}
+                onClick={() => changeLanguage(locale.code)}
+                className={`group px-4 py-2 cursor-pointer text-xs tracking-[0.15em] transition-none ${
+                  isActive ? "font-[800]" : "font-[300] hover:font-[800]"
                 }`}
-            >
-              <span className="text-base leading-none">{locale.flag}</span>
-              <span className="flex-1 text-gray-800 dark:text-gray-100">{locale.name}</span>
-              {locale.code === current && (
-                <svg className="w-3.5 h-3.5 text-blue-500" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M3 8l3.5 3.5L13 4.5" />
-                </svg>
-              )}
-            </li>
-          ))}
+              >
+                {displayLabel(locale.code)}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

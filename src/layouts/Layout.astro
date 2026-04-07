@@ -1,5 +1,5 @@
 ---
-import LanguageSelector from "../components/islands/LanguageSelector";
+import Header from "../components/ui/Header.astro";
 import "../styles/global.css";
 const lang = Astro.currentLocale || 'es';
 ---
@@ -14,8 +14,8 @@ const lang = Astro.currentLocale || 'es';
 		<title>ACIUM</title>
 	</head>
 	<body>
+		<Header locale={lang} />
 		<slot />
-		<LanguageSelector client:load />
 	</body>
 </html>
 

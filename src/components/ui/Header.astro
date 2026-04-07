@@ -1,0 +1,106 @@
+---
+import { Image } from "astro:assets";
+import logoParaLaNav from "../../assets/logos/logo-para-la-nav.png";
+import LanguageSelector from "../islands/LanguageSelector";
+import { useTranslations } from "../../i18n/utils";
+import type { Locales } from "../../i18n/ui";
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+// Cast to Locales — if an unrecognized locale arrives, useTranslations falls back to 'es'
+const t = useTranslations((locale as Locales) || 'es');
+---
+
+<header class="font-avenir w-full">
+  {/* Top row: 3 columns */}
+  <div class="flex justify-between items-center px-8 py-4">
+    {/* Left: CTA Button */}
+    <div class="flex-1 flex items-center">
+      <a
+        href="#"
+        class="cta-button border border-[#999999] text-[#999999] bg-transparent px-6 py-2 text-sm tracking-[0.2em] font-[500] transition-colors duration-200 hover:bg-[#999999] hover:text-white hover:font-[800]"
+      >
+        {t('nav.cta')}
+      </a>
+    </div>
+
+    {/* Center: Logo */}
+    <div class="flex-1 flex justify-center items-center">
+      <Image
+        src={logoParaLaNav}
+        alt="ACIUM Logo"
+        height={48}
+        class="object-contain"
+      />
+    </div>
+
+    {/* Right: Language Selector */}
+    <div class="flex-1 flex justify-end items-center">
+      <LanguageSelector client:load currentLocale={locale} selectorLabel={t('selector.label')} />
+    </div>
+  </div>
+
+  {/* Bottom row: Navigation links */}
+  <nav class="flex justify-center items-center gap-10 px-8 py-3 border-t border-white/10">
+    <a
+      href="#"
+      data-text={t('nav.about')}
+      class="nav-link relative text-xs tracking-[0.15em] font-[300] hover:font-[800] transition-none"
+    >
+      {t('nav.about')}
+      <span class="nav-ghost" aria-hidden="true">{t('nav.about')}</span>
+    </a>
+    <a
+      href="#"
+      data-text={t('nav.world')}
+      class="nav-link relative text-xs tracking-[0.15em] font-[300] hover:font-[800] transition-none"
+    >
+      {t('nav.world')}
+      <span class="nav-ghost" aria-hidden="true">{t('nav.world')}</span>
+    </a>
+    <a
+      href="#"
+      data-text={t('nav.franchise')}
+      class="nav-link relative text-xs tracking-[0.15em] font-[300] hover:font-[800] transition-none"
+    >
+      {t('nav.franchise')}
+      <span class="nav-ghost" aria-hidden="true">{t('nav.franchise')}</span>
+    </a>
+    <a
+      href="#"
+      data-text={t('nav.newsroom')}
+      class="nav-link relative text-xs tracking-[0.15em] font-[300] hover:font-[800] transition-none"
+    >
+      {t('nav.newsroom')}
+      <span class="nav-ghost" aria-hidden="true">{t('nav.newsroom')}</span>
+    </a>
+  </nav>
+</header>
+
+<style>
+  /*
+    Layout shift prevention technique:
+    Each nav link contains a hidden <span> (nav-ghost) that holds the same text
+    at font-weight 800. This pre-reserves the space for the bold width, so when
+    the visible text transitions to bold on hover, no reflow / layout shift occurs.
+  */
+  .nav-link {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-ghost {
+    font-weight: 800;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    display: block;
+    /* Ensures the ghost does NOT interfere with line-height rendering */
+    pointer-events: none;
+    user-select: none;
+  }
+</style>
