@@ -13,11 +13,11 @@ interface UIContent {
 export const ui: Record<Locales, UIContent> = {
     es: {
         title: "Título en español",
-        'nav.cta': "SE PARTE DE A C I U M",
-        'nav.about': "ABOUT US",
-        'nav.world': "AROUND THE WORLD",
-        'nav.franchise': "FRANCHISE OPPORTUNITIES",
-        'nav.newsroom': "NEWSROOM",
+        'nav.cta': "SÉ PARTE DE A C I U M",
+        'nav.about': "SOBRE NOSOTROS",
+        'nav.world': "ALREDEDOR DEL MUNDO",
+        'nav.franchise': "OPORTUNIDADES DE FRANQUICIA",
+        'nav.newsroom': "SALA DE PRENSA",
         'selector.label': "IDIOMA",
     },
     en: {

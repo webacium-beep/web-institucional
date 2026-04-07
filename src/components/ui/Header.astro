@@ -14,7 +14,7 @@ const { locale } = Astro.props;
 const t = useTranslations((locale as Locales) || 'es');
 ---
 
-<header class="font-avenir w-full">
+<header class="font-avenir w-full bg-black text-white">
   {/* Top row: 3 columns */}
   <div class="flex justify-between items-center px-8 py-4">
     {/* Left: CTA Button */}
@@ -44,7 +44,7 @@ const t = useTranslations((locale as Locales) || 'es');
   </div>
 
   {/* Bottom row: Navigation links */}
-  <nav class="flex justify-center items-center gap-10 px-8 py-3 border-t border-white/10">
+  <nav class="flex justify-center items-center gap-10 px-8 py-3 border-b border-[#6E6E6E]">
     <a
       href="#"
       data-text={t('nav.about')}
