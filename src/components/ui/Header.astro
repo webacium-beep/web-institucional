@@ -14,14 +14,14 @@ const { locale } = Astro.props;
 const t = useTranslations((locale as Locales) || 'es');
 ---
 
-<header class="font-avenir w-full bg-black text-white">
+<header id="site-header" class="sticky top-0 z-50 font-avenir w-full bg-black text-white">
   {/* Top row: 3 columns */}
-  <div class="flex justify-between items-center px-8 pt-6 pb-5">
+  <div class="flex justify-between items-center px-6 pt-8 pb-7">
     {/* Left: CTA Button */}
     <div class="flex-1 flex items-center">
       <a
         href="#"
-        class="cta-button border border-[#999999] text-[#999999] bg-transparent px-6 py-2 text-sm tracking-[0.2em] font-[500] transition-colors duration-200 hover:bg-[#999999] hover:text-white hover:font-[800]"
+        class="cta-button border border-[#8F8F8F] text-[#9B9B9B] bg-transparent px-5 py-2 text-[13px] tracking-[0.2em] font-[500] transition-colors duration-200 hover:bg-[#999999] hover:text-white hover:font-[800]"
       >
         {t('nav.cta')}
       </a>
@@ -32,52 +32,54 @@ const t = useTranslations((locale as Locales) || 'es');
       <Image
         src={logoParaLaNav}
         alt="ACIUM Logo"
-        height={48}
-        class="object-contain"
+        height={50}
+        class="object-contain w-auto"
       />
     </div>
 
     {/* Right: Language Selector */}
-    <div class="flex-1 flex justify-end items-center">
+    <div class="flex-1 flex justify-end items-center text-[#9B9B9B]">
       <LanguageSelector client:load currentLocale={locale} selectorLabel={t('selector.label')} />
     </div>
   </div>
 
   {/* Bottom row: Navigation links */}
-  <nav class="flex justify-center items-center gap-10 px-8 pt-5 pb-4 border-b border-[#6E6E6E]">
-    <a
-      href="#"
-      data-text={t('nav.about')}
-      class="nav-link relative text-xs tracking-[0.15em] font-[300] hover:font-[800] transition-none"
-    >
-      {t('nav.about')}
-      <span class="nav-ghost" aria-hidden="true">{t('nav.about')}</span>
-    </a>
-    <a
-      href="#"
-      data-text={t('nav.world')}
-      class="nav-link relative text-xs tracking-[0.15em] font-[300] hover:font-[800] transition-none"
-    >
-      {t('nav.world')}
-      <span class="nav-ghost" aria-hidden="true">{t('nav.world')}</span>
-    </a>
-    <a
-      href="#"
-      data-text={t('nav.franchise')}
-      class="nav-link relative text-xs tracking-[0.15em] font-[300] hover:font-[800] transition-none"
-    >
-      {t('nav.franchise')}
-      <span class="nav-ghost" aria-hidden="true">{t('nav.franchise')}</span>
-    </a>
-    <a
-      href="#"
-      data-text={t('nav.newsroom')}
-      class="nav-link relative text-xs tracking-[0.15em] font-[300] hover:font-[800] transition-none"
-    >
-      {t('nav.newsroom')}
-      <span class="nav-ghost" aria-hidden="true">{t('nav.newsroom')}</span>
-    </a>
-  </nav>
+  <div class="border-b border-[#6E6E6E]">
+    <nav class="mx-auto flex max-w-[1180px] justify-between items-center gap-8 px-8 md:px-12 pt-6 pb-5">
+      <a
+        href="#"
+        data-text={t('nav.about')}
+        class="nav-link relative text-[13px] tracking-[0.18em] text-[#9B9B9B] font-[300] hover:text-white hover:font-[800] transition-none"
+      >
+        {t('nav.about')}
+        <span class="nav-ghost" aria-hidden="true">{t('nav.about')}</span>
+      </a>
+      <a
+        href="#"
+        data-text={t('nav.world')}
+        class="nav-link relative text-[13px] tracking-[0.18em] text-[#9B9B9B] font-[300] hover:text-white hover:font-[800] transition-none"
+      >
+        {t('nav.world')}
+        <span class="nav-ghost" aria-hidden="true">{t('nav.world')}</span>
+      </a>
+      <a
+        href="#"
+        data-text={t('nav.franchise')}
+        class="nav-link relative text-[13px] tracking-[0.18em] text-[#9B9B9B] font-[300] hover:text-white hover:font-[800] transition-none"
+      >
+        {t('nav.franchise')}
+        <span class="nav-ghost" aria-hidden="true">{t('nav.franchise')}</span>
+      </a>
+      <a
+        href="#"
+        data-text={t('nav.newsroom')}
+        class="nav-link relative text-[13px] tracking-[0.18em] text-[#9B9B9B] font-[300] hover:text-white hover:font-[800] transition-none"
+      >
+        {t('nav.newsroom')}
+        <span class="nav-ghost" aria-hidden="true">{t('nav.newsroom')}</span>
+      </a>
+    </nav>
+  </div>
 </header>
 
 <style>
@@ -104,3 +106,16 @@ const t = useTranslations((locale as Locales) || 'es');
     user-select: none;
   }
 </style>
+
+<script>
+  const syncHeaderHeight = () => {
+    const header = document.getElementById("site-header");
+    if (!header) return;
+
+    document.documentElement.style.setProperty("--header-height", `${header.offsetHeight}px`);
+  };
+
+  syncHeaderHeight();
+  window.addEventListener("load", syncHeaderHeight);
+  window.addEventListener("resize", syncHeaderHeight);
+</script>

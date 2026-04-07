@@ -141,7 +141,7 @@ export default function LanguageSelector({ currentLocale, selectorLabel = "IDIOM
         onClick={handleToggle}
         aria-expanded={open}
         aria-haspopup="listbox"
-        className="relative inline-flex flex-col items-center font-[300] hover:font-[800] cursor-pointer transition-none text-xs tracking-[0.15em] bg-transparent border-none outline-none"
+        className="relative inline-flex flex-col items-center text-[#9B9B9B] hover:text-white font-[300] hover:font-[800] cursor-pointer transition-none text-[13px] tracking-[0.18em] bg-transparent border-none outline-none"
       >
         {buttonLabel}
         {/* Ghost span at font-800 pre-reserves the bold width — prevents CLS */}
@@ -167,7 +167,7 @@ export default function LanguageSelector({ currentLocale, selectorLabel = "IDIOM
                 role="option"
                 aria-selected={isActive}
                 onClick={() => changeLanguage(locale.code)}
-                className={`group px-4 py-2 cursor-pointer text-xs tracking-[0.15em] transition-none ${
+                className={`group px-4 py-2 cursor-pointer text-[13px] tracking-[0.18em] transition-none ${
                   isActive ? "font-[800]" : "font-[300] hover:font-[800]"
                 }`}
               >
