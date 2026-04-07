@@ -1,0 +1,153 @@
+---
+/**
+ * AboutSection — Story 1: Layout base (layout-only, no i18n)
+ *
+ * Layout: editorial block (left) + visual gallery (right)
+ * Cards: fixed 360px × 600px
+ * Responsive: desktop 2-col layout, tablet stacks section blocks while preserving fixed card sizes
+ *
+ * NOTE: All copy is mock content. Story 2 will wire i18n + typed contracts.
+ */
+---
+
+<section class="about-section w-full bg-white text-black font-avenir">
+  <div class="about-inner mx-auto max-w-[1180px] px-6 md:px-12 py-20 flex flex-col lg:flex-row gap-12 lg:gap-16">
+
+    {/* Left: Editorial block */}
+    <div class="about-editorial flex-1 flex flex-col justify-center gap-8">
+      <p class="text-[11px] tracking-[0.3em] text-[#B7B7B7] uppercase">
+        #ACIUM
+      </p>
+
+      <h2 class="text-[clamp(4rem,9vw,7rem)] leading-[0.88] font-[500] tracking-[-0.04em] max-w-[520px] uppercase">
+        <span class="block">About</span>
+        <span class="block">Us</span>
+      </h2>
+
+      <div class="self-start border border-[#2F2F2F] px-4 py-2 text-[1.05rem] font-[600] leading-none text-black bg-white">
+        Una trayectoria que trasciende fronteras
+      </div>
+
+      <p class="text-[1.15rem] leading-[1.55] text-[#2A2A2A] max-w-[430px] text-balance">
+        Redefinimos la joyería contemporánea a través de la sofisticación del acero
+        quirúrgico. Lo que comenzó como una visión, hoy es una realidad global.
+      </p>
+
+      <div class="flex items-start gap-8 pt-6 text-black uppercase">
+        <div class="min-w-[120px]">
+          <p class="text-[3.4rem] leading-[0.9] font-[600] tracking-[-0.05em]">+400</p>
+          <p class="text-[3rem] leading-[0.92] font-[600] tracking-[-0.05em]">PDV</p>
+        </div>
+
+        <div class="h-[72px] w-px bg-[#2A2A2A] mt-1"></div>
+
+        <div class="min-w-[120px]">
+          <p class="text-[3.4rem] leading-[0.9] font-[600] tracking-[-0.05em]">16</p>
+          <p class="text-[3rem] leading-[0.92] font-[600] tracking-[-0.05em]">Países</p>
+        </div>
+      </div>
+    </div>
+
+    {/* Right: Visual gallery */}
+    <div class="about-gallery flex flex-row gap-4 justify-center lg:justify-end items-end flex-shrink-0">
+
+      {/* Primary card — full height */}
+      <div
+        class="about-card about-card--primary bg-[#1A1A1A] overflow-hidden"
+        aria-label="About image 1"
+      >
+        <div class="about-card__placeholder w-full h-full bg-[#2A2A2A] flex items-end p-4">
+          <span class="text-[10px] tracking-[0.25em] text-[#555555] uppercase">
+            Image placeholder
+          </span>
+        </div>
+      </div>
+
+      {/* Secondary card — offset down */}
+      <div
+        class="about-card about-card--secondary bg-[#1A1A1A] overflow-hidden self-start"
+        aria-label="About image 2"
+      >
+        <div class="about-card__placeholder w-full h-full bg-[#222222] flex items-end p-4">
+          <span class="text-[10px] tracking-[0.25em] text-[#555555] uppercase">
+            Image placeholder
+          </span>
+        </div>
+      </div>
+
+      {/* Tertiary card — continues horizontal rhythm */}
+      <div
+        class="about-card about-card--tertiary bg-[#141414] overflow-hidden self-end"
+        aria-label="About image 3"
+      >
+        <div class="about-card__placeholder w-full h-full bg-[#1E1E1E] flex items-end p-4">
+          <span class="text-[10px] tracking-[0.25em] text-[#555555] uppercase">
+            Image placeholder
+          </span>
+        </div>
+      </div>
+
+      {/* Quaternary card — reinforces future horizontal gallery scroll */}
+      <div
+        class="about-card about-card--quaternary bg-[#101010] overflow-hidden self-start"
+        aria-label="About image 4"
+      >
+        <div class="about-card__placeholder w-full h-full bg-[#191919] flex items-end p-4">
+          <span class="text-[10px] tracking-[0.25em] text-[#555555] uppercase">
+            Image placeholder
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /*
+    Fixed card dimensions per acceptance criteria: 360px × 600px.
+    On tablet/mobile the gallery remains horizontally scrollable instead of
+    resizing or hiding cards, preserving the fixed-size requirement.
+  */
+
+  .about-card {
+    width: 360px;
+    height: 600px;
+    flex-shrink: 0;
+  }
+
+  /* Secondary card is visually offset downward by 48px for rhythm */
+  .about-card--secondary {
+    margin-top: 48px;
+  }
+
+  .about-card--tertiary {
+    margin-top: 12px;
+  }
+
+  .about-card--quaternary {
+    margin-top: 64px;
+  }
+
+  /* Tablet/mobile: preserve fixed card size and allow horizontal scroll */
+  @media (max-width: 1023px) {
+    .about-gallery {
+      justify-content: flex-start;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      width: 100%;
+    }
+
+    .about-card--secondary {
+      margin-top: 32px;
+    }
+
+    .about-card--tertiary {
+      margin-top: 0;
+    }
+
+    .about-card--quaternary {
+      margin-top: 40px;
+    }
+  }
+</style>
