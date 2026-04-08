@@ -4,6 +4,44 @@ Official website for ACIUM, built with Astro 6 + React 19 islands, Tailwind CSS 
 
 ---
 
+## Sanity Setup
+
+This project integrates with [Sanity](https://www.sanity.io/) as a headless CMS backend. The bootstrap layer (`src/lib/sanity/`) enables SSR content queries from Astro pages.
+
+### Prerequisites
+
+- A Sanity project with at least one dataset (typically `production`).
+- Your project ID is available in the [Sanity Manage console](https://www.sanity.io/manage).
+
+### Environment variables
+
+Copy `.env.example` to `.env` and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Required | Exposed to browser | Description |
+|----------|----------|--------------------|-------------|
+| `PUBLIC_SANITY_PROJECT_ID` | ✅ Yes | Yes | Your Sanity project ID |
+| `PUBLIC_SANITY_DATASET` | ✅ Yes | Yes | Dataset name (e.g. `production`) |
+| `SANITY_API_VERSION` | Recommended (has fallback `2024-04-08`) | No | API date pin (e.g. `2024-04-08`). Omitting it keeps the bundled fallback; always set explicitly in production. |
+| `SANITY_API_TOKEN` | Optional | **No — server-only** | Required only for private/draft reads |
+
+> **Important:** `SANITY_API_TOKEN` is intentionally not prefixed with `PUBLIC_`. It is a server-side secret and must never be bundled into browser code. For anonymous public reads it can be omitted entirely.
+
+### Image delivery strategy
+
+Story 3 uses **direct Sanity CDN URLs** as the canonical image strategy. The `urlFor()` helper in `src/lib/sanity/image.ts` resolves Sanity image references to `cdn.sanity.io` URLs directly.
+
+`astro.config.mjs` does not need remote image domain configuration for this bootstrap. Astro's `<Image>` optimisation for Sanity assets is explicitly deferred to a future story.
+
+### Current content source
+
+While the Sanity access layer is in place, existing pages still use local/static content. No live CMS queries are active until Story 4 wires the first page to Sanity.
+
+---
+
 ## Tech Stack
 
 | Layer | Technology | Version |
@@ -88,6 +126,19 @@ src/
 | `pnpm preview` | Serve the production build locally |
 | `pnpm lint` | Run ESLint across the project |
 | `pnpm lint:fix` | Run ESLint with auto-fix |
+| `pnpm test` | Run the full Vitest suite once (CI mode) |
+| `pnpm test:watch` | Run Vitest in watch mode (dev workflow) |
+| `pnpm test:coverage` | Run Vitest with v8 coverage report |
+
+### Testing
+
+The project uses **Vitest** as the single test runner for all test types:
+
+- **Node environment** (default): server-side logic such as `src/middleware.test.ts` and Sanity bootstrap smoke tests.
+- **jsdom environment** (per-file opt-in via `// @vitest-environment jsdom`): React island component tests using Testing Library.
+- **Shared setup**: `test/setup-dom.ts` registers `@testing-library/jest-dom` matchers and handles cleanup automatically.
+
+Test files live colocated next to their source (`src/**/*.test.ts(x)`). Run `pnpm test` before every commit.
 
 ---
 

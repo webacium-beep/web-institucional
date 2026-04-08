@@ -44,7 +44,7 @@ export const onRequest = defineMiddleware((context, next) => {
   return context.redirect(`/${detectedLocale}/`, 302);
 });
 
-function parseAcceptLanguage(header: string): string {
+export function parseAcceptLanguage(header: string): string {
   if (!header) return defaultLocale;
 
   const locales = header

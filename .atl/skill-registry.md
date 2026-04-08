@@ -4,48 +4,84 @@
 
 ## User Skills
 
+Scanned user-level skill directories: `~/.config/opencode/skills`, `~/.claude/skills`, `~/.gemini/skills`, `~/.copilot/skills`.
+Project-level skill directories scanned: `.agent/skills`, `skills`.
+Deduplicated by skill name with project-level skills preferred, then `~/.config/opencode/skills` as the active fallback source.
+Skipped: `sdd-*`, `_shared`, `skill-registry`.
+
 | Skill | Trigger | Source |
 |-------|---------|--------|
-| branch-pr | Creating a PR, opening a PR, preparing changes for review | ~/.config/opencode/skills/branch-pr/SKILL.md |
-| issue-creation | Creating a GitHub issue, reporting a bug, requesting a feature | ~/.config/opencode/skills/issue-creation/SKILL.md |
-| judgment-day | "judgment day", "dual review", "doble review", "juzgar", "que lo juzguen" | ~/.config/opencode/skills/judgment-day/SKILL.md |
-| go-testing | Writing Go tests, using teatest, adding test coverage | ~/.config/opencode/skills/go-testing/SKILL.md |
-| skill-creator | Creating a new skill, adding agent instructions, documenting patterns for AI | ~/.config/opencode/skills/skill-creator/SKILL.md |
+| ai-sdk-5 | When building AI chat features using Vercel AI SDK 5 patterns | ~/.config/opencode/skills/ai-sdk-5/SKILL.md |
+| angular | When writing Angular 20+ components, services, templates, or architecture decisions | ~/.config/opencode/skills/angular/SKILL.md |
+| branch-pr | When creating a pull request, opening a PR, or preparing changes for review | ~/.config/opencode/skills/branch-pr/SKILL.md |
+| django-drf | When building REST APIs with Django REST Framework | ~/.config/opencode/skills/django-drf/SKILL.md |
+| dotnet | When writing C# code, .NET APIs, or Entity Framework models | ~/.config/opencode/skills/dotnet/SKILL.md |
+| go-testing | When writing Go tests, using teatest, or adding test coverage | ~/.config/opencode/skills/go-testing/SKILL.md |
+| homebrew-release | When releasing or updating homebrew-tap projects | ~/.config/opencode/skills/homebrew-release/SKILL.md |
+| issue-creation | When creating a GitHub issue, reporting a bug, or requesting a feature | ~/.config/opencode/skills/issue-creation/SKILL.md |
+| jira-epic | When creating a Jira epic or large initiative | ~/.config/opencode/skills/jira-epic/SKILL.md |
+| jira-task | When creating a Jira task, ticket, or issue | ~/.config/opencode/skills/jira-task/SKILL.md |
+| judgment-day | When user asks for adversarial / dual review | ~/.config/opencode/skills/judgment-day/SKILL.md |
+| nextjs-15 | When working with Next.js 15 App Router patterns | ~/.config/opencode/skills/nextjs-15/SKILL.md |
+| playwright | When writing Playwright E2E tests | ~/.config/opencode/skills/playwright/SKILL.md |
+| pr-review | When reviewing GitHub PRs or issue backlog | ~/.config/opencode/skills/pr-review/SKILL.md |
+| pytest | When writing Python tests with pytest | ~/.config/opencode/skills/pytest/SKILL.md |
+| react-19 | When writing React components with React 19 patterns | ~/.config/opencode/skills/react-19/SKILL.md |
+| skill-creator | When creating a new AI skill or agent instructions | ~/.config/opencode/skills/skill-creator/SKILL.md |
+| stream-deck | When creating slide decks or stream presentation webs | ~/.config/opencode/skills/stream-deck/SKILL.md |
+| tailwind-4 | When styling with Tailwind CSS 4 | ~/.config/opencode/skills/tailwind-4/SKILL.md |
+| technical-review | When reviewing technical exercises or take-home submissions | ~/.config/opencode/skills/technical-review/SKILL.md |
+| typescript | When writing TypeScript code: types, interfaces, generics | ~/.config/opencode/skills/typescript/SKILL.md |
+| zod-4 | When using Zod 4 for validation | ~/.config/opencode/skills/zod-4/SKILL.md |
+| zustand-5 | When managing React state with Zustand | ~/.config/opencode/skills/zustand-5/SKILL.md |
 
 ## Project Conventions
 
-No project-level convention files detected (no AGENTS.md, CLAUDE.md, .cursorrules, GEMINI.md, or copilot-instructions.md found in project root).
+No project-level convention files detected in the repository root (`AGENTS.md`, `agents.md`, `CLAUDE.md`, `.cursorrules`, `GEMINI.md`, `copilot-instructions.md`).
 
 ## Compact Rules
 
+### typescript
+- Prefer strict TypeScript patterns: const objects for enums, flat interfaces, and no `any`.
+- Use explicit types and utility types instead of ad-hoc shape duplication.
+
+### react-19
+- Do not add manual `useMemo`/`useCallback` without strong proof.
+- Use named React imports and keep interactivity isolated to client islands.
+
+### tailwind-4
+- Prefer Tailwind utility classes over custom CSS variables in class strings.
+- Use `cn()` only for conditional or merge-heavy class composition.
+
 ### branch-pr
-- Follow issue-first enforcement: every PR must reference a GitHub issue
-- Use `gh pr create` with structured body format
+- Follow issue-first enforcement: every PR MUST reference an approved GitHub issue.
+- Use `gh pr create` with the repository's structured PR body.
 
 ### issue-creation
-- Use `gh issue create` with structured labels and body
-- Issues must be created before any branch or PR work
+- Create issues before any branch or PR work.
+- Use `gh issue create` with the appropriate template, labels, and structured body.
 
 ### judgment-day
-- Launches two independent blind judge sub-agents in parallel
-- Synthesizes findings, applies fixes, re-judges (max 2 iterations)
+- Run two independent blind judge sub-agents in parallel for adversarial review.
+- Synthesize findings, fix confirmed issues, and re-judge for up to 2 iterations.
 
 ### go-testing
-- Use teatest for Bubbletea TUI testing
-- Follow table-driven test patterns
+- Use table-driven tests and teatest for Bubbletea TUI work when applicable.
+- Keep Go test coverage patterns aligned with project conventions if Go code is introduced.
 
-### skill-creator
-- Follow Agent Skills spec for new skill creation
-- Include frontmatter with name, description, trigger, and metadata
+### playwright
+- Use Playwright page objects and stable selectors for browser E2E coverage.
+- Prefer MCP-driven workflows and keep E2E scope focused on real user flows.
 
 ## Stack Context
 
-- **Framework**: Astro 6 (SSR mode) + React 19 islands
-- **Styling**: Tailwind CSS 4 (via Vite plugin)
-- **Language**: TypeScript (strict mode)
-- **Deployment**: Netlify (server adapter)
+- **Framework**: Astro 6 SSR with React 19 islands
+- **Styling**: Tailwind CSS 4 via Vite plugin
+- **Language**: TypeScript strict config (`astro/tsconfigs/strict`)
+- **CMS**: Sanity client layer for server-side content access
+- **Deployment**: Netlify server adapter
 - **Package manager**: pnpm
 - **Node**: >=22.12.0
-- **i18n**: 6 locales (es default, en, de, zh, pt, it) via Astro built-in i18n + middleware
-- **Testing**: None configured
-- **Linting**: None configured
+- **Architecture**: Astro pages/layouts + UI components, React client islands, `src/lib/sanity` server utilities, and middleware-driven locale routing
+- **Testing**: Vitest + Testing Library + jsdom setup with colocated `src/**/*.test.ts(x)` files
+- **Quality**: ESLint configured, local `tsc` available, no dedicated formatter configured

@@ -1,7 +1,8 @@
 ---
 import Header from "../components/ui/Header.astro";
 import "../styles/global.css";
-const lang = Astro.currentLocale || 'es';
+import { normalizeLocale } from "../i18n/utils";
+const lang = normalizeLocale(Astro.currentLocale);
 ---
 <!doctype html>
 <html lang={lang}>

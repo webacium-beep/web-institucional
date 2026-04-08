@@ -1,16 +1,30 @@
 ---
 /**
- * AboutSection — Story 2: Contrato tipado e i18n
+ * AboutSection — Story 9: Multi-image gallery from Sanity
  *
  * Layout: editorial block (left) + visual gallery (right)
  * Cards: fixed 360px × 600px
- * Responsive: desktop 2-col layout, tablet stacks section blocks while preserving fixed card sizes
+ * Responsive: desktop 2-col layout, tablet/mobile horizontal scroll
+ *
+ * Story 9: replaces the 4 hardcoded card blocks with a gallery driven by
+ * `buildAboutSanityStateFromPosts().galleryItems[]`. The gallery renders ALL images
+ * returned by Sanity — no cap — repeating the 4-slot visual cadence
+ * (primary/secondary/tertiary/quaternary) cyclically for any gallery size.
+ *
+ * Story 9 / data-shape fix: ABOUT_QUERY now returns ALL `aboutPost` documents
+ * (removed `[0]` singleton). Each document's `mainImage` becomes a gallery item.
+ * The fix ensures both documents in the production dataset contribute their images.
  *
  * Content resolves from i18n catalog via useTranslations(lang).
  * Fallback: unknown locales normalize to 'es'.
  */
 import { useTranslations } from '../../i18n/utils';
 import type { Locales } from '../../i18n/ui';
+import { sanityClient } from '../../lib/sanity/client';
+import { ABOUT_QUERY } from '../../lib/sanity/queries';
+import { urlFor } from '../../lib/sanity/image';
+import { buildAboutSanityStateFromPosts } from '../../lib/sanity/about.utils';
+import type { AboutPost } from '../../lib/sanity/types';
 
 const rawLocale = Astro.currentLocale;
 const lang: Locales = (rawLocale === 'es' || rawLocale === 'en' || rawLocale === 'it' || rawLocale === 'pt' || rawLocale === 'de' || rawLocale === 'zh')
@@ -18,6 +32,16 @@ const lang: Locales = (rawLocale === 'es' || rawLocale === 'en' || rawLocale ===
     : 'es';
 
 const t = useTranslations(lang);
+
+// ─── Sanity SSR fetch ─────────────────────────────────────────────────────────
+// Story 9 / data-shape fix: ABOUT_QUERY now returns ALL aboutPost documents.
+// Each document contributes its mainImage to the gallery via buildAboutSanityStateFromPosts.
+const aboutPosts = await sanityClient.fetch<AboutPost[]>(ABOUT_QUERY);
+const { galleryItems } = buildAboutSanityStateFromPosts(aboutPosts ?? []);
+
+// Placeholder background tones repeat cyclically for the 4-slot visual cadence
+const PLACEHOLDER_TONES = ['#2A2A2A', '#222222', '#1E1E1E', '#191919'] as const;
+const VARIANT_NAMES = ['primary', 'secondary', 'tertiary', 'quaternary'] as const;
 ---
 
 <section class="about-section w-full bg-white text-black font-avenir">
@@ -57,56 +81,35 @@ const t = useTranslations(lang);
       </div>
     </div>
 
-    {/* Right: Visual gallery */}
+    {/* Right: Visual gallery — renders ALL galleryItems from Sanity */}
     <div class="about-gallery flex flex-row gap-4 justify-center lg:justify-end items-end flex-shrink-0">
 
-      {/* Primary card — full height */}
-      <div
-        class="about-card about-card--primary bg-transparent border border-black overflow-hidden"
-        aria-label="About image 1"
-      >
-        <div class="about-card__placeholder w-full h-full bg-[#2A2A2A] flex items-end p-4">
-          <span class="text-[10px] tracking-[0.25em] text-[#555555] uppercase">
-            Image placeholder
-          </span>
+      {galleryItems.map((item, index) => (
+        <div
+          class={`about-card about-card--${VARIANT_NAMES[item.variant]} bg-transparent border border-black overflow-hidden`}
+          aria-label={`About image ${index + 1}`}
+        >
+          {item.kind === 'image' ? (
+            <img
+              src={urlFor(item.source).width(360).height(600).auto('format').url()}
+              alt={item.alt}
+              width="360"
+              height="600"
+              class="w-full h-full object-cover"
+              loading={index === 0 ? 'eager' : 'lazy'}
+            />
+          ) : (
+            <div
+              class="about-card__placeholder w-full h-full flex items-end p-4"
+              style={`background-color: ${PLACEHOLDER_TONES[item.variant]};`}
+            >
+              <span class="text-[10px] tracking-[0.25em] text-[#555555] uppercase">
+                Image placeholder
+              </span>
+            </div>
+          )}
         </div>
-      </div>
-
-      {/* Secondary card — offset down */}
-      <div
-        class="about-card about-card--secondary bg-transparent border border-black overflow-hidden self-start"
-        aria-label="About image 2"
-      >
-        <div class="about-card__placeholder w-full h-full bg-[#222222] flex items-end p-4">
-          <span class="text-[10px] tracking-[0.25em] text-[#555555] uppercase">
-            Image placeholder
-          </span>
-        </div>
-      </div>
-
-      {/* Tertiary card — continues horizontal rhythm */}
-      <div
-        class="about-card about-card--tertiary bg-transparent border border-black overflow-hidden self-end"
-        aria-label="About image 3"
-      >
-        <div class="about-card__placeholder w-full h-full bg-[#1E1E1E] flex items-end p-4">
-          <span class="text-[10px] tracking-[0.25em] text-[#555555] uppercase">
-            Image placeholder
-          </span>
-        </div>
-      </div>
-
-      {/* Quaternary card — reinforces future horizontal gallery scroll */}
-      <div
-        class="about-card about-card--quaternary bg-transparent border border-black overflow-hidden self-start"
-        aria-label="About image 4"
-      >
-        <div class="about-card__placeholder w-full h-full bg-[#191919] flex items-end p-4">
-          <span class="text-[10px] tracking-[0.25em] text-[#555555] uppercase">
-            Image placeholder
-          </span>
-        </div>
-      </div>
+      ))}
 
     </div>
   </div>

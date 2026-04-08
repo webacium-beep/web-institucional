@@ -2,16 +2,15 @@
 import { Image } from "astro:assets";
 import logoParaLaNav from "../../assets/logos/logo-para-la-nav.png";
 import LanguageSelector from "../islands/LanguageSelector";
-import { useTranslations } from "../../i18n/utils";
-import type { Locales } from "../../i18n/ui";
+import { normalizeLocale, useTranslations } from "../../i18n/utils";
 
 interface Props {
   locale: string;
 }
 
 const { locale } = Astro.props;
-// Cast to Locales — if an unrecognized locale arrives, useTranslations falls back to 'es'
-const t = useTranslations((locale as Locales) || 'es');
+const safeLocale = normalizeLocale(locale);
+const t = useTranslations(safeLocale);
 ---
 
 <header id="site-header" class="sticky top-0 z-50 font-avenir w-full bg-black text-white">
@@ -39,7 +38,7 @@ const t = useTranslations((locale as Locales) || 'es');
 
     {/* Right: Language Selector */}
     <div class="flex-1 flex justify-end items-center text-[#9B9B9B]">
-      <LanguageSelector client:load currentLocale={locale} selectorLabel={t('selector.label')} />
+      <LanguageSelector client:load currentLocale={safeLocale} selectorLabel={t('selector.label')} />
     </div>
   </div>
 
