@@ -15,6 +15,10 @@
  * (removed `[0]` singleton). Each document's `mainImage` becomes a gallery item.
  * The fix ensures both documents in the production dataset contribute their images.
  *
+ * Story 7: The desktop gallery is now handled by the `AboutScrollGallery` React island
+ * which provides scroll-linked horizontal translation, sticky stage, and edge fades.
+ * Mobile/tablet and reduced-motion users get native overflow-x scroll from the island.
+ *
  * Content resolves from i18n catalog via useTranslations(lang).
  * Fallback: unknown locales normalize to 'es'.
  */
@@ -22,9 +26,9 @@ import { useTranslations } from '../../i18n/utils';
 import type { Locales } from '../../i18n/ui';
 import { sanityClient } from '../../lib/sanity/client';
 import { ABOUT_QUERY } from '../../lib/sanity/queries';
-import { urlFor } from '../../lib/sanity/image';
 import { buildAboutSanityStateFromPosts } from '../../lib/sanity/about.utils';
 import type { AboutPost } from '../../lib/sanity/types';
+import AboutScrollGallery from '../islands/AboutScrollGallery';
 
 const rawLocale = Astro.currentLocale;
 const lang: Locales = (rawLocale === 'es' || rawLocale === 'en' || rawLocale === 'it' || rawLocale === 'pt' || rawLocale === 'de' || rawLocale === 'zh')
@@ -38,29 +42,25 @@ const t = useTranslations(lang);
 // Each document contributes its mainImage to the gallery via buildAboutSanityStateFromPosts.
 const aboutPosts = await sanityClient.fetch<AboutPost[]>(ABOUT_QUERY);
 const { galleryItems } = buildAboutSanityStateFromPosts(aboutPosts ?? []);
-
-// Placeholder background tones repeat cyclically for the 4-slot visual cadence
-const PLACEHOLDER_TONES = ['#2A2A2A', '#222222', '#1E1E1E', '#191919'] as const;
-const VARIANT_NAMES = ['primary', 'secondary', 'tertiary', 'quaternary'] as const;
 ---
 
 <section class="about-section w-full bg-white text-black font-avenir">
-  <div class="about-inner ml-[48px] mr-0 max-w-[1180px] px-6 md:px-12 py-20 flex flex-col lg:flex-row gap-[56px] lg:gap-[72px]">
+  <div class="about-inner ml-[48px] mr-0 max-w-full px-6 md:px-12 py-20 flex flex-col lg:flex-row gap-[46px] lg:gap-[62px]">
 
     {/* Left: Editorial block */}
     <div class="about-editorial flex-1 flex flex-col items-start justify-start gap-8 px-12">
-      <p class="text-[11px] tracking-[0.3em] text-[#B7B7B7] uppercase">
+      <p class="text-[16px] tracking-[0.3em] text-[#B7B7B7] uppercase">
         {t('about.badge')}
       </p>
 
-      <h2 class="text-[clamp(4rem,9vw,7rem)] leading-[0.88] font-[500] tracking-[-0.04em] max-w-[520px] uppercase">
+      <h2 class="text-[clamp(4rem,9vw,7rem)] leading-[0.88] font-[500] tracking-[-0.04em] max-w-[520px] uppercase opacity-0 translate-y-[50px]" data-scroll-scrub>
         <span class="block">{t('about.titleLine1')}</span>
         <span class="block">{t('about.titleLine2')}</span>
       </h2>
 
-      <div class="self-start border border-[#2F2F2F] px-4 py-2 text-[1.05rem] font-[600] leading-none text-black bg-white">
+      <button class="self-start border border-[#2F2F2F] px-4 py-2 text-[1.05rem] font-[600] leading-none text-black bg-white hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer">
         {t('about.subtitle')}
-      </div>
+      </button>
 
       <p class="text-[1.15rem] leading-[1.55] text-[#2A2A2A] max-w-[430px] text-balance">
         {t('about.description')}
@@ -81,45 +81,93 @@ const VARIANT_NAMES = ['primary', 'secondary', 'tertiary', 'quaternary'] as cons
       </div>
     </div>
 
-    {/* Right: Visual gallery — renders ALL galleryItems from Sanity */}
-    <div class="about-gallery flex flex-row gap-4 justify-center lg:justify-end items-end flex-shrink-0">
-
-      {galleryItems.map((item, index) => (
-        <div
-          class={`about-card about-card--${VARIANT_NAMES[item.variant]} bg-transparent border border-black overflow-hidden`}
-          aria-label={`About image ${index + 1}`}
-        >
-          {item.kind === 'image' ? (
-            <img
-              src={urlFor(item.source).width(360).height(600).auto('format').url()}
-              alt={item.alt}
-              width="360"
-              height="600"
-              class="w-full h-full object-cover"
-              loading={index === 0 ? 'eager' : 'lazy'}
-            />
-          ) : (
-            <div
-              class="about-card__placeholder w-full h-full flex items-end p-4"
-              style={`background-color: ${PLACEHOLDER_TONES[item.variant]};`}
-            >
-              <span class="text-[10px] tracking-[0.25em] text-[#555555] uppercase">
-                Image placeholder
-              </span>
-            </div>
-          )}
-        </div>
-      ))}
-
+    {/* Right: Visual gallery — Story 7: React island owns desktop scroll-link + mobile native scroll */}
+    <div class="about-gallery-wrapper w-full min-w-0 overflow-hidden lg:flex-1 lg:basis-0">
+      <AboutScrollGallery client:load items={galleryItems} />
     </div>
+
   </div>
 </section>
+
+<script>
+  /**
+   * Story 6 (revised): Scroll-scrubbing animation for the h2 title.
+   *
+   * The animation progress is DIRECTLY tied to the scroll position:
+   * - Scroll DOWN → element moves up and fades in.
+   * - Scroll UP  → element moves back down and fades out.
+   *
+   * Algorithm:
+   * 1. On every scroll event, call requestAnimationFrame to keep updates at 60fps.
+   * 2. Use getBoundingClientRect() to measure how far the element is inside the viewport.
+   * 3. Map progress (0 → 1) from "bottom of viewport" to "element top at or above midpoint".
+   * 4. Apply translateY (50px → 0px) and opacity (0 → 1) as inline styles.
+   *
+   * Cross-browser: scroll event + rAF + getBoundingClientRect works in ALL browsers.
+   * No CSS animation-timeline (Chrome-only). Bidirectional: scrubs forward and backward.
+   *
+   * prefers-reduced-motion: skip scroll effect — element immediately fully visible.
+   */
+
+  const TRANSLATE_START_PX = 100; // px below natural position when fully out of view
+  const TRANSLATE_END_PX = -50;  // px — natural position when fully in view (moves 10px higher)
+
+  const targets = document.querySelectorAll<HTMLElement>('[data-scroll-scrub]');
+
+  if (!targets.length) {
+    // nothing to animate
+  } else if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Accessibility: skip animation entirely, show elements at full opacity
+    targets.forEach((el) => {
+      el.style.opacity = '1';
+      el.style.transform = `translateY(${TRANSLATE_END_PX}px)`;
+    });
+  } else {
+    let rafScheduled = false;
+
+    function updateScrub() {
+      rafScheduled = false;
+      const vh = window.innerHeight;
+
+      targets.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+
+        // progress: 0 when element bottom is at viewport bottom, 1 when element top is at midpoint
+        const entryPoint = vh;                  // element enters from here (bottom of viewport)
+        const exitPoint = vh * 0.4;             // fully animated when element top reaches 40% from top
+        const currentPos = rect.top;
+
+        const raw = (entryPoint - currentPos) / (entryPoint - exitPoint);
+        const progress = Math.min(1, Math.max(0, raw));
+
+        const translateY = TRANSLATE_START_PX - progress * (TRANSLATE_START_PX - TRANSLATE_END_PX);
+
+        el.style.opacity = String(progress);
+        el.style.transform = `translateY(${translateY}px)`;
+      });
+    }
+
+    // Run once on load to set correct initial state based on current scroll position
+    updateScrub();
+
+    window.addEventListener('scroll', () => {
+      if (!rafScheduled) {
+        rafScheduled = true;
+        requestAnimationFrame(updateScrub);
+      }
+    }, { passive: true });
+  }
+</script>
 
 <style>
   /*
     Fixed card dimensions per acceptance criteria: 360px × 600px.
-    On tablet/mobile the gallery remains horizontally scrollable instead of
-    resizing or hiding cards, preserving the fixed-size requirement.
+    The island (AboutScrollGallery) handles card sizing internally via inline styles
+    and about-visual constants. Card variant CSS modifier classes (.about-card--*)
+    are applied by the island using getVariantClassName() from about-visual.ts.
+
+    Story 7: The @media (max-width: 1023px) gallery block is removed — the island
+    handles both desktop and mobile layout internally.
   */
 
   .about-card {
@@ -139,27 +187,5 @@ const VARIANT_NAMES = ['primary', 'secondary', 'tertiary', 'quaternary'] as cons
 
   .about-card--quaternary {
     margin-top: 64px;
-  }
-
-  /* Tablet/mobile: preserve fixed card size and allow horizontal scroll */
-  @media (max-width: 1023px) {
-    .about-gallery {
-      justify-content: flex-start;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      width: 100%;
-    }
-
-    .about-card--secondary {
-      margin-top: 32px;
-    }
-
-    .about-card--tertiary {
-      margin-top: 0;
-    }
-
-    .about-card--quaternary {
-      margin-top: 40px;
-    }
   }
 </style>

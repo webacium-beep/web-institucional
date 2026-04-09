@@ -55,3 +55,8 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* ─── Story 6 (revised): Scroll-scrubbing animation is now fully JS-driven ── */
+/* The h2 title uses inline styles (style.opacity, style.transform) applied     */
+/* by a scroll event listener in AboutSection.astro. No CSS animation needed.   */
+/* prefers-reduced-motion is handled in JS (window.matchMedia).                 */
