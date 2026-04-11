@@ -53,3 +53,27 @@ export const ABOUT_QUERY = `*[_type == "aboutPost"]{
     "lqip": asset->metadata.lqip
   }
 }`;
+
+/**
+ * Fetches the singleton Lanzamientos document.
+ *
+ * The document itself is singular (`[0]`), but the image payload can arrive in
+ * either `images[]` or `mainImage`. Consumers must render only `images[0]` when
+ * the array exists; if `images[0]` is absent they must keep placeholder mode.
+ */
+export const LANZAMIENTOS_QUERY = `*[_type == "lanzamientosPost"][0]{
+  _id,
+  mainImage {
+    alt,
+    asset,
+    "url": asset->url,
+    "lqip": asset->metadata.lqip
+  },
+  images[]{
+    _key,
+    alt,
+    asset,
+    "url": asset->url,
+    "lqip": asset->metadata.lqip
+  }
+}`;

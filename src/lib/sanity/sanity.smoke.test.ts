@@ -9,10 +9,15 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { ABOUT_QUERY } from './queries';
+import { ABOUT_QUERY, LANZAMIENTOS_QUERY } from './queries';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { SANITY_API_VERSION_FALLBACK } from './constants';
-import type { AboutGalleryImage, AboutGalleryItem, AboutSectionSanityState } from './types';
+import type {
+  AboutGalleryImage,
+  AboutGalleryItem,
+  AboutSectionSanityState,
+  LanzamientosSectionSanityState,
+} from './types';
 
 // ─── Test 1: GROQ query constants ────────────────────────────────────────────
 
@@ -31,6 +36,22 @@ describe('GROQ query constants (queries.ts)', () => {
     // mainImage. Using [0] silently drops all but the first. The query must return
     // the full collection so every image is visible in the gallery.
     expect(ABOUT_QUERY).not.toContain('[0]');
+  });
+
+  it('LANZAMIENTOS_QUERY targets the lanzamientosPost type', () => {
+    expect(LANZAMIENTOS_QUERY).toContain('"lanzamientosPost"');
+  });
+
+  it('LANZAMIENTOS_QUERY uses a singleton [0] document selector', () => {
+    expect(LANZAMIENTOS_QUERY).toContain('[0]');
+  });
+
+  it('LANZAMIENTOS_QUERY projects image candidates without dereferencing asset spreads', () => {
+    expect(LANZAMIENTOS_QUERY).toContain('mainImage');
+    expect(LANZAMIENTOS_QUERY).toContain('images[]{');
+    expect(LANZAMIENTOS_QUERY).toContain('"url": asset->url');
+    expect(LANZAMIENTOS_QUERY).toContain('"lqip": asset->metadata.lqip');
+    expect(LANZAMIENTOS_QUERY).not.toMatch(/asset->\s*\{/);
   });
 });
 
@@ -192,6 +213,33 @@ describe('AboutSectionSanityState galleryItems contract (Story 9)', () => {
   it('AboutSectionSanityState allows empty galleryItems', () => {
     const state: AboutSectionSanityState = { galleryItems: [] };
     expect(state.galleryItems).toHaveLength(0);
+  });
+});
+
+describe('LanzamientosSectionSanityState contract', () => {
+  it('supports a renderable image state', () => {
+    const state: LanzamientosSectionSanityState = {
+      hasImage: true,
+      image: {
+        url: 'https://cdn.sanity.io/images/proj/dataset/lanzamiento.jpg',
+        alt: 'Nueva colección',
+        source: {
+          _type: 'image',
+          asset: { _type: 'reference', _ref: 'image-launch-1200x800-jpg' },
+        },
+        lqip: 'data:image/jpeg;base64,launch',
+      },
+    };
+
+    expect(state.hasImage).toBe(true);
+    expect(state.image?.url).toContain('cdn.sanity.io');
+  });
+
+  it('supports placeholder fallback when no image is available', () => {
+    const state: LanzamientosSectionSanityState = { hasImage: false };
+
+    expect(state.hasImage).toBe(false);
+    expect(state.image).toBeUndefined();
   });
 });
 

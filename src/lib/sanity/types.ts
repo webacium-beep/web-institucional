@@ -132,3 +132,29 @@ export type AboutGalleryItem =
 export interface AboutSectionSanityState {
   galleryItems: AboutGalleryItem[];
 }
+
+/**
+ * Raw Lanzamientos document shape.
+ *
+ * The CMS may provide either a singleton `mainImage` or an `images[]` collection.
+ * The Lanzamientos section renders only ONE image: `images[0]` when present,
+ * otherwise it falls back to `mainImage`.
+ */
+export interface LanzamientosPost {
+  _id: string;
+  _type: 'lanzamientosPost';
+  mainImage?: AboutPostMainImage;
+  images?: Array<RawGalleryImage | undefined>;
+}
+
+export interface LanzamientosSectionImage {
+  url: string;
+  alt: string;
+  source: SanityImageSource;
+  lqip?: string;
+}
+
+export interface LanzamientosSectionSanityState {
+  hasImage: boolean;
+  image?: LanzamientosSectionImage;
+}
