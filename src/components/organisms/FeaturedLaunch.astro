@@ -1,9 +1,22 @@
 ---
 import LaunchContent from '../molecules/LaunchContent.astro';
 import LaunchMediaPlaceholder from '../molecules/LaunchMediaPlaceholder.astro';
+import { useTranslations } from '../../i18n/utils';
+
+interface Props {
+  lang?: string | undefined | null;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const tagline = t('launch.tagline');
+const title = t('launch.title');
+const description = t('launch.description');
+const ctaText = t('launch.cta');
+const mediaFallback = t('launch.mediaFallback');
 ---
 
 <section class="w-full h-[600px] flex flex-col md:flex-row">
-  <LaunchMediaPlaceholder />
-  <LaunchContent />
+  <LaunchMediaPlaceholder fallbackText={mediaFallback} />
+  <LaunchContent tagline={tagline} title={title} description={description} ctaText={ctaText} />
 </section>

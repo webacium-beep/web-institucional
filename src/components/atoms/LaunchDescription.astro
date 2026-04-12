@@ -1,6 +1,11 @@
+---
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
 <div class="border-l pl-3 mb-6">
-  <p>
-    Descripción del próximo lanzamiento. Este texto es un placeholder que será reemplazado con
-    contenido real y estilos visuales en un paso posterior.
-  </p>
+  <p>{text}</p>
 </div>

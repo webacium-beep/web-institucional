@@ -38,3 +38,11 @@ El framework principal y (casi) exclusivo para estilos es **Tailwind CSS**.
 
 *   Asegurar que la interactividad pesada esté encapsulada en la carpeta `islands/` para no penalizar la carga inicial de Astro.
 *   Mantener los componentes lo más "tontos" (presentacionales) posible en las carpetas `atoms` y `molecules`.
+
+## 4. Internacionalización (i18n) y Flujo de Datos
+
+Para mantener el desacoplamiento y la arquitectura limpia, el consumo del diccionario de idiomas (`src/i18n/ui.ts` y utilidades) debe seguir un flujo estrictamente **Top-Down**:
+
+*   **Organismos y Páginas (Astro):** Son los **únicos** responsables de importar utilidades de i18n (ej. `useTranslations`), determinar el idioma actual, extraer los textos del diccionario y pasarlos hacia abajo.
+*   **Átomos y Moléculas (Astro/React):** Tienen **estrictamente prohibido** importar diccionarios o utilidades de i18n. Son componentes "tontos" que deben recibir todos los textos de la interfaz exclusivamente como `strings` a través de sus `props`.
+*   **Islas (React):** Al igual que los átomos y moléculas, **no deben importar** el diccionario para evitar enviar el JSON completo de idiomas al bundle del cliente. Las páginas u organismos que instancian la isla deben inyectarle los textos ya traducidos mediante props (ej. `translations={{ title: "Hola" }}`).

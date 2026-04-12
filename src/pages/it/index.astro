@@ -2,12 +2,15 @@
 import Banner from "../../components/ui/Banner.astro";
 import Titulo from "../../components/ui/Titulo.astro";
 import AboutSection from "../../components/ui/AboutSection.astro";
-import Lanzamientos from "../../components/ui/Lanzamientos.astro";
+import FeaturedLaunch from "../../components/organisms/FeaturedLaunch.astro";
 import Layout from "../../layouts/Layout.astro";
+import { normalizeLocale } from "../../i18n/utils";
+
+const lang = normalizeLocale(Astro.currentLocale);
 ---
 
 <Layout>
     <Banner />
     <AboutSection />
-    <Lanzamientos />
+    <FeaturedLaunch lang={lang} />
 </Layout>

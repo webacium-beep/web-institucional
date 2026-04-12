@@ -3,11 +3,20 @@ import LaunchCTA from '../atoms/LaunchCTA.astro';
 import LaunchDescription from '../atoms/LaunchDescription.astro';
 import LaunchTagline from '../atoms/LaunchTagline.astro';
 import LaunchTitle from '../atoms/LaunchTitle.astro';
+
+interface Props {
+  tagline: string;
+  title: string;
+  description: string;
+  ctaText: string;
+}
+
+const { tagline, title, description, ctaText } = Astro.props;
 ---
 
 <div class="h-full w-full md:w-1/2 flex-1 md:flex-none flex flex-col justify-center items-start px-8">
-  <LaunchTagline />
-  <LaunchTitle />
-  <LaunchDescription />
-  <LaunchCTA />
+  <LaunchTagline text={tagline} />
+  <LaunchTitle text={title} />
+  <LaunchDescription text={description} />
+  <LaunchCTA text={ctaText} />
 </div>

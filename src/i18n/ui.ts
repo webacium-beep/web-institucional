@@ -21,7 +21,18 @@ export interface LanzamientosSectionData {
   "lanzamientos.cta": string;
 }
 
-interface UIContent extends AboutSectionData, LanzamientosSectionData {
+export interface LaunchSectionData {
+  "launch.tagline": string;
+  "launch.title": string;
+  "launch.description": string;
+  "launch.cta": string;
+  "launch.mediaFallback": string;
+}
+
+interface UIContent
+  extends AboutSectionData,
+    LanzamientosSectionData,
+    LaunchSectionData {
   title: string;
   "nav.cta": string;
   "nav.about": string;
@@ -56,6 +67,11 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.description": "Dije giratorio",
     "lanzamiento.modelo": "forever",
     "lanzamientos.cta": "conoce más",
+    "launch.tagline": "PRÓXIMAMENTE",
+    "launch.title": "Nuevo Lanzamiento",
+    "launch.description": "Dije giratorio",
+    "launch.cta": "conoce más",
+    "launch.mediaFallback": "Imagen del lanzamiento",
   },
   en: {
     title: "Title in English",
@@ -81,6 +97,11 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.description": "Swivel pendant",
     "lanzamiento.modelo": "forever",
     "lanzamientos.cta": "learn more",
+    "launch.tagline": "COMING SOON",
+    "launch.title": "New Launch",
+    "launch.description": "Swivel pendant",
+    "launch.cta": "learn more",
+    "launch.mediaFallback": "Launch image",
   },
   it: {
     title: "Titolo in italiano",
@@ -106,6 +127,11 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.description": "Ciondolo girevole",
     "lanzamiento.modelo": "forever",
     "lanzamientos.cta": "scopri di più",
+    "launch.tagline": "PROSSIMAMENTE",
+    "launch.title": "Nuovo Lancio",
+    "launch.description": "Ciondolo girevole",
+    "launch.cta": "scopri di più",
+    "launch.mediaFallback": "Immagine del lancio",
   },
   pt: {
     title: "Título em português",
@@ -131,6 +157,11 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.description": "Pingente giratório",
     "lanzamiento.modelo": "forever",
     "lanzamientos.cta": "saiba mais",
+    "launch.tagline": "EM BREVE",
+    "launch.title": "Novo Lançamento",
+    "launch.description": "Pingente giratório",
+    "launch.cta": "saiba mais",
+    "launch.mediaFallback": "Imagem do lançamento",
   },
   de: {
     title: "Titel in Deutsch",
@@ -156,6 +187,11 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.description": "Drehbarer Anhänger",
     "lanzamiento.modelo": "forever",
     "lanzamientos.cta": "mehr erfahren",
+    "launch.tagline": "DEMNÄCHST",
+    "launch.title": "Neuer Launch",
+    "launch.description": "Drehbarer Anhänger",
+    "launch.cta": "mehr erfahren",
+    "launch.mediaFallback": "Launch-Bild",
   },
   zh: {
     title: "中文标题",
@@ -181,5 +217,10 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.description": "旋转吊坠",
     "lanzamiento.modelo": "forever",
     "lanzamientos.cta": "了解更多",
+    "launch.tagline": "即将推出",
+    "launch.title": "全新发布",
+    "launch.description": "旋转吊坠",
+    "launch.cta": "了解更多",
+    "launch.mediaFallback": "发布图片",
   },
 } as const;

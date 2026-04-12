@@ -1,1 +1,9 @@
-<h2 class="mb-3">Nuevo Lanzamiento</h2>
+---
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<h2 class="mb-3">{text}</h2>

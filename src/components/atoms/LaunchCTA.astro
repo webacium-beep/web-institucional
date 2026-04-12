@@ -1,11 +1,10 @@
 ---
 interface Props {
+  text: string;
   href?: string;
 }
 
-const { href = "/lanzamientos" } = Astro.props;
+const { text, href = "/lanzamientos" } = Astro.props;
 ---
 
-<a href={href} class="border px-5 py-2 inline-block">
-  <slot>VER MÁS</slot>
-</a>
+<a href={href} class="border px-5 py-2 inline-block">{text}</a>

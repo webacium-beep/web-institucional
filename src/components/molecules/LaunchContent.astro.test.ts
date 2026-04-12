@@ -22,8 +22,19 @@ describe('LaunchMediaPlaceholder.astro', () => {
     expect(templateContent).toContain('bg-gray-200');
   });
 
+  it('accepts an optional fallbackText prop and renders it when provided', () => {
+    expect(templateContent).toContain('interface Props');
+    expect(templateContent).toContain('fallbackText?: string;');
+    expect(templateContent).toContain('const { fallbackText } = Astro.props;');
+    expect(templateContent).toContain('{fallbackText && <span>{fallbackText}</span>}');
+  });
+
   it('keeps a default slot for future media content', () => {
     expect(templateContent).toContain('<slot />');
+  });
+
+  it('keeps i18n imports out of the molecule', () => {
+    expect(templateContent).not.toMatch(/from ['"].*i18n\//);
   });
 });
 
@@ -52,15 +63,35 @@ describe('LaunchContent.astro', () => {
     expect(templateContent).toContain('px-8');
   });
 
+  it('accepts translated props for each piece of launch copy', () => {
+    expect(templateContent).toContain('interface Props');
+    expect(templateContent).toContain('tagline: string;');
+    expect(templateContent).toContain('title: string;');
+    expect(templateContent).toContain('description: string;');
+    expect(templateContent).toContain('ctaText: string;');
+    expect(templateContent).toContain('const { tagline, title, description, ctaText } = Astro.props;');
+  });
+
+  it('forwards each prop to the matching atom through the text prop', () => {
+    expect(templateContent).toContain('<LaunchTagline text={tagline} />');
+    expect(templateContent).toContain('<LaunchTitle text={title} />');
+    expect(templateContent).toContain('<LaunchDescription text={description} />');
+    expect(templateContent).toContain('<LaunchCTA text={ctaText} />');
+  });
+
   it('composes the atoms in the expected order', () => {
-    const taglineIndex = templateContent.indexOf('<LaunchTagline />');
-    const titleIndex = templateContent.indexOf('<LaunchTitle />');
-    const descriptionIndex = templateContent.indexOf('<LaunchDescription />');
-    const ctaIndex = templateContent.indexOf('<LaunchCTA />');
+    const taglineIndex = templateContent.indexOf('<LaunchTagline text={tagline} />');
+    const titleIndex = templateContent.indexOf('<LaunchTitle text={title} />');
+    const descriptionIndex = templateContent.indexOf('<LaunchDescription text={description} />');
+    const ctaIndex = templateContent.indexOf('<LaunchCTA text={ctaText} />');
 
     expect(taglineIndex).toBeGreaterThan(-1);
     expect(titleIndex).toBeGreaterThan(taglineIndex);
     expect(descriptionIndex).toBeGreaterThan(titleIndex);
     expect(ctaIndex).toBeGreaterThan(descriptionIndex);
+  });
+
+  it('keeps i18n imports out of the content molecule', () => {
+    expect(templateContent).not.toMatch(/from ['"].*i18n\//);
   });
 });

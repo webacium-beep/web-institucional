@@ -1,1 +1,9 @@
-<p class="block mb-2">PRÓXIMAMENTE</p>
+---
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<p class="block mb-2">{text}</p>

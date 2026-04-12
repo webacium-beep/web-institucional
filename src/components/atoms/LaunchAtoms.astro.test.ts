@@ -15,14 +15,21 @@ describe('LaunchTagline.astro', () => {
     templateContent = readFileSync(TAGLINE_PATH, 'utf-8');
   });
 
-  it('renders the hardcoded Spanish eyebrow copy inside a semantic paragraph', () => {
+  it('accepts a text prop and renders it inside a semantic paragraph', () => {
+    expect(templateContent).toContain('interface Props');
+    expect(templateContent).toContain('text: string');
     expect(templateContent).toContain('<p');
-    expect(templateContent).toContain('PRÓXIMAMENTE');
+    expect(templateContent).toContain('{text}');
+    expect(templateContent).not.toContain('PRÓXIMAMENTE');
   });
 
   it('uses only structural spacing classes for the tagline block', () => {
     expect(templateContent).toContain('block');
     expect(templateContent).toContain('mb-2');
+  });
+
+  it('does not import i18n helpers directly', () => {
+    expect(templateContent).not.toContain('i18n');
   });
 });
 
@@ -33,13 +40,20 @@ describe('LaunchTitle.astro', () => {
     templateContent = readFileSync(TITLE_PATH, 'utf-8');
   });
 
-  it('renders the hardcoded title as an h2 heading', () => {
+  it('accepts a text prop and renders it as an h2 heading', () => {
+    expect(templateContent).toContain('interface Props');
+    expect(templateContent).toContain('text: string');
     expect(templateContent).toContain('<h2');
-    expect(templateContent).toContain('Nuevo Lanzamiento');
+    expect(templateContent).toContain('{text}');
+    expect(templateContent).not.toContain('Nuevo Lanzamiento');
   });
 
   it('keeps only structural spacing classes on the heading', () => {
     expect(templateContent).toContain('mb-3');
+  });
+
+  it('does not import i18n helpers directly', () => {
+    expect(templateContent).not.toContain('i18n');
   });
 });
 
@@ -50,16 +64,23 @@ describe('LaunchDescription.astro', () => {
     templateContent = readFileSync(DESCRIPTION_PATH, 'utf-8');
   });
 
-  it('renders the placeholder copy inside a structural wrapper', () => {
+  it('accepts a text prop and renders it inside the structural wrapper', () => {
+    expect(templateContent).toContain('interface Props');
+    expect(templateContent).toContain('text: string');
     expect(templateContent).toContain('<div');
     expect(templateContent).toContain('<p');
-    expect(templateContent).toContain('Descripción del próximo lanzamiento.');
+    expect(templateContent).toContain('{text}');
+    expect(templateContent).not.toContain('Descripción del próximo lanzamiento.');
   });
 
   it('prepares the left border container with spacing only classes', () => {
     expect(templateContent).toContain('border-l');
     expect(templateContent).toContain('pl-3');
     expect(templateContent).toContain('mb-6');
+  });
+
+  it('does not import i18n helpers directly', () => {
+    expect(templateContent).not.toContain('i18n');
   });
 });
 
@@ -70,18 +91,24 @@ describe('LaunchCTA.astro', () => {
     templateContent = readFileSync(CTA_PATH, 'utf-8');
   });
 
-  it('defines an optional href prop with /lanzamientos as the default destination', () => {
+  it('defines text and href props with /lanzamientos as the default destination', () => {
     expect(templateContent).toContain('interface Props');
+    expect(templateContent).toContain('text: string');
     expect(templateContent).toContain('href?: string');
     expect(templateContent).toContain('href = "/lanzamientos"');
   });
 
-  it('renders a structural outline anchor with fallback CTA copy', () => {
+  it('renders a structural outline anchor with the provided text prop', () => {
     expect(templateContent).toContain('<a');
     expect(templateContent).toContain('border');
     expect(templateContent).toContain('px-5');
     expect(templateContent).toContain('py-2');
     expect(templateContent).toContain('inline-block');
-    expect(templateContent).toContain('VER MÁS');
+    expect(templateContent).toContain('{text}');
+    expect(templateContent).not.toContain('VER MÁS');
+  });
+
+  it('does not import i18n helpers directly', () => {
+    expect(templateContent).not.toContain('i18n');
   });
 });
