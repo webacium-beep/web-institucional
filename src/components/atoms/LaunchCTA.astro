@@ -7,4 +7,9 @@ interface Props {
 const { text, href = "/lanzamientos" } = Astro.props;
 ---
 
-<a href={href} class="border px-5 py-2 inline-block">{text}</a>
+<a
+  href={href}
+  class="border border-black px-10 py-3 text-center font-extrabold text-sm tracking-widest uppercase transition-colors hover:bg-black hover:text-white"
+>
+  {text}
+</a>

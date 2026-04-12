@@ -25,17 +25,23 @@ describe('FeaturedLaunch.astro', () => {
   it('renders the fixed-height responsive organism shell', () => {
     expect(templateContent).toContain('<section');
     expect(templateContent).toContain('w-full');
-    expect(templateContent).toContain('h-[600px]');
+    expect(templateContent).toContain('min-h-[600px]');
     expect(templateContent).toContain('flex');
     expect(templateContent).toContain('flex-col');
-    expect(templateContent).toContain('md:flex-row');
+    expect(templateContent).toContain('lg:flex-row');
   });
 
   it('imports and composes the two launch molecules', () => {
     expect(templateContent).toContain("import LaunchMediaPlaceholder from '../molecules/LaunchMediaPlaceholder.astro';");
     expect(templateContent).toContain("import LaunchContent from '../molecules/LaunchContent.astro';");
     expect(templateContent).toContain('<LaunchMediaPlaceholder fallbackText={mediaFallback} />');
-    expect(templateContent).toContain('<LaunchContent tagline={tagline} title={title} description={description} ctaText={ctaText} />');
+    expect(templateContent).toContain("const ctaHref = '/lanzamientos';");
+    expect(templateContent).toContain('<LaunchContent');
+    expect(templateContent).toContain('tagline={tagline}');
+    expect(templateContent).toContain('title={title}');
+    expect(templateContent).toContain('description={description}');
+    expect(templateContent).toContain('ctaText={ctaText}');
+    expect(templateContent).toContain('ctaHref={ctaHref}');
   });
 
   it('keeps the organism Astro-only with no client directives or ui imports', () => {
@@ -59,10 +65,10 @@ describe('FeaturedLaunch.astro', () => {
   });
 
   it('removes hardcoded launch copy and keeps i18n imports out of lower layers', () => {
-    expect(templateContent).not.toContain('PRÓXIMAMENTE');
-    expect(templateContent).not.toContain('Nuevo Lanzamiento');
-    expect(templateContent).not.toContain('VER MÁS');
-    expect(templateContent).not.toContain('Dije giratorio');
+    expect(templateContent).not.toContain('CONOCE EL NUEVO');
+    expect(templateContent).not.toContain('LANZAMIENTO');
+    expect(templateContent).not.toContain('CONOCE MÁS');
+    expect(templateContent).not.toContain('Dije giratorio FOREVER');
 
     nonI18nLaunchSources.forEach((source) => {
       expect(source).not.toContain('../i18n/');

@@ -13,20 +13,21 @@ describe('LaunchMediaPlaceholder.astro', () => {
     templateContent = readFileSync(MEDIA_PLACEHOLDER_PATH, 'utf-8');
   });
 
-  it('renders the responsive placeholder shell with gray background', () => {
+  it('renders the responsive placeholder shell with the desktop half-width layout', () => {
     expect(templateContent).toContain('<div');
     expect(templateContent).toContain('w-full');
-    expect(templateContent).toContain('md:w-1/2');
-    expect(templateContent).toContain('flex-1');
-    expect(templateContent).toContain('md:flex-none');
-    expect(templateContent).toContain('bg-gray-200');
+    expect(templateContent).toContain('lg:w-1/2');
+    expect(templateContent).toContain('min-h-[300px]');
+    expect(templateContent).toContain('lg:min-h-[600px]');
+    expect(templateContent).toContain('overflow-hidden');
+    expect(templateContent).toContain('background-color: #D9D9D9;');
   });
 
   it('accepts an optional fallbackText prop and renders it when provided', () => {
     expect(templateContent).toContain('interface Props');
     expect(templateContent).toContain('fallbackText?: string;');
     expect(templateContent).toContain('const { fallbackText } = Astro.props;');
-    expect(templateContent).toContain('{fallbackText && <span>{fallbackText}</span>}');
+    expect(templateContent).toContain('{fallbackText && <span class="sr-only">{fallbackText}</span>}');
   });
 
   it('keeps a default slot for future media content', () => {
@@ -54,13 +55,12 @@ describe('LaunchContent.astro', () => {
 
   it('renders the responsive centered content column', () => {
     expect(templateContent).toContain('w-full');
-    expect(templateContent).toContain('md:w-1/2');
-    expect(templateContent).toContain('flex-1');
-    expect(templateContent).toContain('md:flex-none');
+    expect(templateContent).toContain('lg:w-1/2');
     expect(templateContent).toContain('flex-col');
     expect(templateContent).toContain('justify-center');
-    expect(templateContent).toContain('items-start');
     expect(templateContent).toContain('px-8');
+    expect(templateContent).toContain('lg:px-20');
+    expect(templateContent).toContain('gap-y-4');
   });
 
   it('accepts translated props for each piece of launch copy', () => {
@@ -69,21 +69,22 @@ describe('LaunchContent.astro', () => {
     expect(templateContent).toContain('title: string;');
     expect(templateContent).toContain('description: string;');
     expect(templateContent).toContain('ctaText: string;');
-    expect(templateContent).toContain('const { tagline, title, description, ctaText } = Astro.props;');
+    expect(templateContent).toContain('ctaHref?: string;');
+    expect(templateContent).toContain("const { tagline, title, description, ctaText, ctaHref = '/lanzamientos' } = Astro.props;");
   });
 
-  it('forwards each prop to the matching atom through the text prop', () => {
+  it('forwards each prop to the matching atom through the expected props', () => {
     expect(templateContent).toContain('<LaunchTagline text={tagline} />');
     expect(templateContent).toContain('<LaunchTitle text={title} />');
     expect(templateContent).toContain('<LaunchDescription text={description} />');
-    expect(templateContent).toContain('<LaunchCTA text={ctaText} />');
+    expect(templateContent).toContain('<LaunchCTA text={ctaText} href={ctaHref} />');
   });
 
   it('composes the atoms in the expected order', () => {
     const taglineIndex = templateContent.indexOf('<LaunchTagline text={tagline} />');
     const titleIndex = templateContent.indexOf('<LaunchTitle text={title} />');
     const descriptionIndex = templateContent.indexOf('<LaunchDescription text={description} />');
-    const ctaIndex = templateContent.indexOf('<LaunchCTA text={ctaText} />');
+    const ctaIndex = templateContent.indexOf('<LaunchCTA text={ctaText} href={ctaHref} />');
 
     expect(taglineIndex).toBeGreaterThan(-1);
     expect(titleIndex).toBeGreaterThan(taglineIndex);

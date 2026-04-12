@@ -23,9 +23,10 @@ describe('LaunchTagline.astro', () => {
     expect(templateContent).not.toContain('PRÓXIMAMENTE');
   });
 
-  it('uses only structural spacing classes for the tagline block', () => {
-    expect(templateContent).toContain('block');
-    expect(templateContent).toContain('mb-2');
+  it('uses the launch typography utility classes for the tagline block', () => {
+    expect(templateContent).toContain('text-subtitulo');
+    expect(templateContent).toContain('font-light');
+    expect(templateContent).toContain('uppercase');
   });
 
   it('does not import i18n helpers directly', () => {
@@ -48,8 +49,10 @@ describe('LaunchTitle.astro', () => {
     expect(templateContent).not.toContain('Nuevo Lanzamiento');
   });
 
-  it('keeps only structural spacing classes on the heading', () => {
-    expect(templateContent).toContain('mb-3');
+  it('uses the launch typography utility classes on the heading', () => {
+    expect(templateContent).toContain('text-titulo');
+    expect(templateContent).toContain('font-extrabold');
+    expect(templateContent).toContain('uppercase');
   });
 
   it('does not import i18n helpers directly', () => {
@@ -73,10 +76,14 @@ describe('LaunchDescription.astro', () => {
     expect(templateContent).not.toContain('Descripción del próximo lanzamiento.');
   });
 
-  it('prepares the left border container with spacing only classes', () => {
+  it('prepares the left border container with the required border and text utilities', () => {
+    expect(templateContent).toContain('min-h-[65px]');
+    expect(templateContent).toContain('items-center');
     expect(templateContent).toContain('border-l');
-    expect(templateContent).toContain('pl-3');
-    expect(templateContent).toContain('mb-6');
+    expect(templateContent).toContain('border-black');
+    expect(templateContent).toContain('pl-4');
+    expect(templateContent).toContain('text-parrafo');
+    expect(templateContent).toContain('font-normal');
   });
 
   it('does not import i18n helpers directly', () => {
@@ -98,12 +105,19 @@ describe('LaunchCTA.astro', () => {
     expect(templateContent).toContain('href = "/lanzamientos"');
   });
 
-  it('renders a structural outline anchor with the provided text prop', () => {
+  it('renders the outline CTA anchor with the provided text prop', () => {
     expect(templateContent).toContain('<a');
     expect(templateContent).toContain('border');
-    expect(templateContent).toContain('px-5');
+    expect(templateContent).toContain('border-black');
+    expect(templateContent).toContain('px-6');
     expect(templateContent).toContain('py-2');
-    expect(templateContent).toContain('inline-block');
+    expect(templateContent).toContain('text-center');
+    expect(templateContent).toContain('font-extrabold');
+    expect(templateContent).toContain('text-[14px]');
+    expect(templateContent).toContain('tracking-[0.2em]');
+    expect(templateContent).toContain('uppercase');
+    expect(templateContent).toContain('hover:bg-black');
+    expect(templateContent).toContain('hover:text-white');
     expect(templateContent).toContain('{text}');
     expect(templateContent).not.toContain('VER MÁS');
   });

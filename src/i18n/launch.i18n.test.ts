@@ -15,11 +15,11 @@ describe('launch i18n copy', () => {
   });
 
   it('matches the spanish reference copy from the spec', () => {
-    expect(ui.es['launch.tagline']).toBe('PRÓXIMAMENTE');
-    expect(ui.es['launch.title']).toBe('Nuevo Lanzamiento');
-    expect(ui.es['launch.description']).toBe('Dije giratorio');
-    expect(ui.es['launch.cta']).toBe('conoce más');
-    expect(ui.es['launch.mediaFallback']).toBe('Imagen del lanzamiento');
+    expect(ui.es['launch.tagline']).toBe('CONOCE EL NUEVO');
+    expect(ui.es['launch.title']).toBe('LANZAMIENTO');
+    expect(ui.es['launch.description']).toBe('Dije giratorio\nFOREVER');
+    expect(ui.es['launch.cta']).toBe('CONOCE MÁS');
+    expect(ui.es['launch.mediaFallback']).toBe('Imagen destacada del lanzamiento');
   });
 
   it('falls back to spanish launch copy for unknown locales', () => {

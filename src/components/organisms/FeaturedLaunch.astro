@@ -13,10 +13,17 @@ const tagline = t('launch.tagline');
 const title = t('launch.title');
 const description = t('launch.description');
 const ctaText = t('launch.cta');
+const ctaHref = '/lanzamientos';
 const mediaFallback = t('launch.mediaFallback');
 ---
 
-<section class="w-full h-[600px] flex flex-col md:flex-row">
+<section class="w-full min-h-[600px] flex flex-col lg:flex-row">
   <LaunchMediaPlaceholder fallbackText={mediaFallback} />
-  <LaunchContent tagline={tagline} title={title} description={description} ctaText={ctaText} />
+  <LaunchContent
+    tagline={tagline}
+    title={title}
+    description={description}
+    ctaText={ctaText}
+    ctaHref={ctaHref}
+  />
 </section>
