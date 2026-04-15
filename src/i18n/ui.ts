@@ -30,6 +30,10 @@ export interface LaunchSectionData {
 }
 
 export interface WorldSectionData {
+  "world.hero.subtitle": string;
+  "world.hero.title": string;
+  "world.hero.description": string;
+  "world.hero.cta": string;
   "world.format.kiosk": string;
   "world.format.stand": string;
   "world.format.store": string;
@@ -77,6 +81,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "Dije FOREVER",
     "launch.cta": "CONOCE MÁS",
     "launch.mediaFallback": "Imagen destacada del lanzamiento",
+    "world.hero.subtitle": "AROUND THE",
+    "world.hero.title": "WORLD",
+    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.cta": "CONOCE MÁS",
     "world.format.kiosk": "KIOSKO",
     "world.format.stand": "STAND",
     "world.format.store": "TIENDA",
@@ -111,6 +119,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "FOREVER pendant",
     "launch.cta": "DISCOVER MORE",
     "launch.mediaFallback": "Featured launch image",
+    "world.hero.subtitle": "AROUND THE",
+    "world.hero.title": "WORLD",
+    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.cta": "LEARN MORE",
     "world.format.kiosk": "KIOSK",
     "world.format.stand": "STAND",
     "world.format.store": "STORE",
@@ -145,6 +157,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "Ciondolo FOREVER",
     "launch.cta": "SCOPRI DI PIÙ",
     "launch.mediaFallback": "Immagine principale del lancio",
+    "world.hero.subtitle": "AROUND THE",
+    "world.hero.title": "WORLD",
+    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.cta": "SCOPRI DI PIÙ",
     "world.format.kiosk": "CHIOSCO",
     "world.format.stand": "STAND",
     "world.format.store": "NEGOZIO",
@@ -179,6 +195,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "Pingente FOREVER",
     "launch.cta": "CONHEÇA MAIS",
     "launch.mediaFallback": "Imagem principal do lançamento",
+    "world.hero.subtitle": "AROUND THE",
+    "world.hero.title": "WORLD",
+    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.cta": "SAIBA MAIS",
     "world.format.kiosk": "QUIOSQUE",
     "world.format.stand": "STAND",
     "world.format.store": "LOJA",
@@ -213,6 +233,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "FOREVER-Anhänger",
     "launch.cta": "MEHR ENTDECKEN",
     "launch.mediaFallback": "Hauptbild des Launches",
+    "world.hero.subtitle": "AROUND THE",
+    "world.hero.title": "WORLD",
+    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.cta": "MEHR ERFAHREN",
     "world.format.kiosk": "KIOSK",
     "world.format.stand": "STAND",
     "world.format.store": "GESCHÄFT",
@@ -247,6 +271,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "FOREVER 吊坠",
     "launch.cta": "了解更多",
     "launch.mediaFallback": "精选发布图片",
+    "world.hero.subtitle": "AROUND THE",
+    "world.hero.title": "WORLD",
+    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.cta": "了解更多",
     "world.format.kiosk": "专柜",
     "world.format.stand": "展台",
     "world.format.store": "门店",
