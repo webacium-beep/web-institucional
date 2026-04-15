@@ -30,9 +30,7 @@ export interface LaunchSectionData {
 }
 
 interface UIContent
-  extends AboutSectionData,
-    LanzamientosSectionData,
-    LaunchSectionData {
+  extends AboutSectionData, LanzamientosSectionData, LaunchSectionData {
   title: string;
   "nav.cta": string;
   "nav.about": string;
@@ -69,7 +67,7 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.cta": "conoce más",
     "launch.tagline": "CONOCE EL NUEVO",
     "launch.title": "LANZAMIENTO",
-    "launch.description": "Dije giratorio\nFOREVER",
+    "launch.description": "Dije FOREVER",
     "launch.cta": "CONOCE MÁS",
     "launch.mediaFallback": "Imagen destacada del lanzamiento",
   },
@@ -99,7 +97,7 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.cta": "learn more",
     "launch.tagline": "DISCOVER THE NEW",
     "launch.title": "LAUNCH",
-    "launch.description": "FOREVER\nswivel pendant",
+    "launch.description": "FOREVER pendant",
     "launch.cta": "DISCOVER MORE",
     "launch.mediaFallback": "Featured launch image",
   },
@@ -129,7 +127,7 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.cta": "scopri di più",
     "launch.tagline": "SCOPRI IL NUOVO",
     "launch.title": "LANCIO",
-    "launch.description": "Ciondolo girevole\nFOREVER",
+    "launch.description": "Ciondolo FOREVER",
     "launch.cta": "SCOPRI DI PIÙ",
     "launch.mediaFallback": "Immagine principale del lancio",
   },
@@ -159,7 +157,7 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.cta": "saiba mais",
     "launch.tagline": "CONHEÇA O NOVO",
     "launch.title": "LANÇAMENTO",
-    "launch.description": "Pingente giratório\nFOREVER",
+    "launch.description": "Pingente FOREVER",
     "launch.cta": "CONHEÇA MAIS",
     "launch.mediaFallback": "Imagem principal do lançamento",
   },
@@ -189,7 +187,7 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.cta": "mehr erfahren",
     "launch.tagline": "ENTDECKE DAS NEUE",
     "launch.title": "LAUNCH",
-    "launch.description": "Drehbarer\nFOREVER-Anhänger",
+    "launch.description": "FOREVER-Anhänger",
     "launch.cta": "MEHR ENTDECKEN",
     "launch.mediaFallback": "Hauptbild des Launches",
   },
@@ -219,7 +217,7 @@ export const ui: Record<Locales, UIContent> = {
     "lanzamientos.cta": "了解更多",
     "launch.tagline": "认识全新",
     "launch.title": "发布",
-    "launch.description": "FOREVER\n旋转吊坠",
+    "launch.description": "FOREVER 吊坠",
     "launch.cta": "了解更多",
     "launch.mediaFallback": "精选发布图片",
   },
