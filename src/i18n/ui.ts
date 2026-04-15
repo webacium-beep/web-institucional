@@ -29,8 +29,15 @@ export interface LaunchSectionData {
   "launch.mediaFallback": string;
 }
 
+export interface WorldSectionData {
+  "world.format.kiosk": string;
+  "world.format.stand": string;
+  "world.format.store": string;
+  "world.format.showroom": string;
+}
+
 interface UIContent
-  extends AboutSectionData, LanzamientosSectionData, LaunchSectionData {
+  extends AboutSectionData, LanzamientosSectionData, LaunchSectionData, WorldSectionData {
   title: string;
   "nav.cta": string;
   "nav.about": string;
@@ -70,6 +77,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "Dije FOREVER",
     "launch.cta": "CONOCE MÁS",
     "launch.mediaFallback": "Imagen destacada del lanzamiento",
+    "world.format.kiosk": "KIOSKO",
+    "world.format.stand": "STAND",
+    "world.format.store": "TIENDA",
+    "world.format.showroom": "SHOWROOM",
   },
   en: {
     title: "Title in English",
@@ -100,6 +111,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "FOREVER pendant",
     "launch.cta": "DISCOVER MORE",
     "launch.mediaFallback": "Featured launch image",
+    "world.format.kiosk": "KIOSK",
+    "world.format.stand": "STAND",
+    "world.format.store": "STORE",
+    "world.format.showroom": "SHOWROOM",
   },
   it: {
     title: "Titolo in italiano",
@@ -130,6 +145,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "Ciondolo FOREVER",
     "launch.cta": "SCOPRI DI PIÙ",
     "launch.mediaFallback": "Immagine principale del lancio",
+    "world.format.kiosk": "CHIOSCO",
+    "world.format.stand": "STAND",
+    "world.format.store": "NEGOZIO",
+    "world.format.showroom": "SHOWROOM",
   },
   pt: {
     title: "Título em português",
@@ -160,6 +179,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "Pingente FOREVER",
     "launch.cta": "CONHEÇA MAIS",
     "launch.mediaFallback": "Imagem principal do lançamento",
+    "world.format.kiosk": "QUIOSQUE",
+    "world.format.stand": "STAND",
+    "world.format.store": "LOJA",
+    "world.format.showroom": "SHOWROOM",
   },
   de: {
     title: "Titel in Deutsch",
@@ -190,6 +213,10 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "FOREVER-Anhänger",
     "launch.cta": "MEHR ENTDECKEN",
     "launch.mediaFallback": "Hauptbild des Launches",
+    "world.format.kiosk": "KIOSK",
+    "world.format.stand": "STAND",
+    "world.format.store": "GESCHÄFT",
+    "world.format.showroom": "SHOWROOM",
   },
   zh: {
     title: "中文标题",
@@ -220,5 +247,9 @@ export const ui: Record<Locales, UIContent> = {
     "launch.description": "FOREVER 吊坠",
     "launch.cta": "了解更多",
     "launch.mediaFallback": "精选发布图片",
+    "world.format.kiosk": "专柜",
+    "world.format.stand": "展台",
+    "world.format.store": "门店",
+    "world.format.showroom": "展厅",
   },
 } as const;
