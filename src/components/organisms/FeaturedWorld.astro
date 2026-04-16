@@ -1,5 +1,7 @@
 ---
 import WorldBrand from '../atoms/WorldBrand.astro';
+import FeaturedWorldContent from '../molecules/FeaturedWorldContent.astro';
+import FeaturedWorldMedia from '../molecules/FeaturedWorldMedia.astro';
 import { useTranslations } from '../../i18n/utils';
 import logo from '../../assets/logoaciumworld.svg';
 
@@ -12,13 +14,22 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const taglineOnetext = t("world.hero.subtitle");
 const taglineTwotext = t("world.hero.title")
+const description = t("world.hero.description");
+const ctaText = t("world.hero.cta");
+const ctaHref = '/lanzamientos';
 
 
 ---
-<section class="w-full h-[auto] flex justify-between items-center p-[100px] bg-black">
-  <WorldBrand  
+<section class="w-full bg-black px-6 py-12 lg:p-[100px] flex flex-col items-start gap-10 lg:gap-12 xl:gap-16 lg:flex-row lg:items-center lg:justify-between">
+  <WorldBrand
     imageSrc={logo}
     taglineOne={taglineOnetext}
     taglineTwo={taglineTwotext}
+  />
+  <FeaturedWorldMedia />
+  <FeaturedWorldContent
+    description={description}
+    ctaText={ctaText}
+    ctaHref={ctaHref}
   />
 </section>

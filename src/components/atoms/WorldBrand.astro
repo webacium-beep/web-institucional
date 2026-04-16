@@ -11,12 +11,12 @@ taglineTwo: string;
 const { imageSrc, taglineOne, taglineTwo } = Astro.props; 
 ---
 
-<article class="w-[340px] h-[auto] p-[16px] flex flex-col justify-center items-center gap-[16px]">
+<article class="w-fit max-w-full h-[auto] p-[16px] flex flex-col justify-center items-center gap-[16px]">
    <img class="max-w-[198px] object-cover" src={imageSrc.src} alt="">
-  <div class="border-y-[1px] border-[#fff]">
-    <p class="text-[#fff] text-[40px] font-[300]">{taglineOne}</p>
-  </div>
-  <div>
-    <span class="text-[#fff] text-[75px] leading-[75px]">{taglineTwo}</span>
-  </div>
+   <div class="border-y-[1px] border-white">
+     <p class="text-white text-[40px] font-[300]">{taglineOne}</p>
+   </div>
+   <div>
+     <span class="text-white text-[75px] leading-[75px]">{taglineTwo}</span>
+   </div>
 </article>

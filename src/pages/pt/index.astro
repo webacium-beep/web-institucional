@@ -3,6 +3,7 @@ import Banner from "../../components/ui/Banner.astro";
 import Titulo from "../../components/ui/Titulo.astro";
 import AboutSection from "../../components/ui/AboutSection.astro";
 import FeaturedLaunch from "../../components/organisms/FeaturedLaunch.astro";
+import FeaturedWorld from "../../components/organisms/FeaturedWorld.astro";
 import SeparadorOne from "../../components/atoms/SeparadorOne.astro";
 import Layout from "../../layouts/Layout.astro";
 import { normalizeLocale } from "../../i18n/utils";
@@ -15,5 +16,5 @@ const lang = normalizeLocale(Astro.currentLocale);
     <AboutSection />
     <FeaturedLaunch lang={lang} />
     <SeparadorOne />
-    <Banner />
+    <FeaturedWorld lang={lang} />
 </Layout>

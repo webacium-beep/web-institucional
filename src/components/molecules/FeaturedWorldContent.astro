@@ -1,0 +1,17 @@
+---
+import WorldHeroDescription from '../atoms/WorldHeroDescription.astro';
+import WorldHeroCTA from '../atoms/WorldHeroCTA.astro';
+
+interface Props {
+  description: string;
+  ctaText: string;
+  ctaHref?: string;
+}
+
+const { description, ctaText, ctaHref = '/lanzamientos' } = Astro.props;
+---
+
+<div class="w-full lg:ml-auto lg:w-[419px] lg:min-h-[167px] flex flex-col justify-between gap-6">
+  <WorldHeroDescription text={description} />
+  <WorldHeroCTA text={ctaText} href={ctaHref} />
+</div>
