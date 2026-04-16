@@ -17,19 +17,71 @@ const taglineTwotext = t("world.hero.title")
 const description = t("world.hero.description");
 const ctaText = t("world.hero.cta");
 const ctaHref = '/lanzamientos';
+const worldVideoSrc: string | undefined = undefined;
 
 
 ---
-<section class="w-full bg-black px-6 py-12 lg:p-[100px] flex flex-col items-start gap-10 lg:gap-12 xl:gap-16 lg:flex-row lg:items-center lg:justify-between">
+<section class="w-full overflow-hidden bg-black px-6 py-12 lg:p-[100px] flex flex-col items-start gap-10 lg:gap-12 xl:gap-16 lg:flex-row lg:items-center lg:justify-between">
   <WorldBrand
     imageSrc={logo}
     taglineOne={taglineOnetext}
     taglineTwo={taglineTwotext}
   />
-  <FeaturedWorldMedia />
+  <FeaturedWorldMedia videoSrc={worldVideoSrc} />
   <FeaturedWorldContent
     description={description}
     ctaText={ctaText}
     ctaHref={ctaHref}
   />
 </section>
+
+<script>
+  const WORLD_TRANSLATE_START_PX = 16;
+  const WORLD_TRANSLATE_END_PX = 0;
+
+  const worldTargets = document.querySelectorAll<HTMLElement>('[data-scroll-scrub-world]');
+
+  if (!worldTargets.length) {
+    // nothing to animate
+  } else if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      worldTargets.forEach((el) => {
+        const inner = el.querySelector<HTMLElement>('[data-scroll-scrub-world-inner]');
+        if (!inner) return;
+        inner.style.opacity = '1';
+        inner.style.transform = `translateY(${WORLD_TRANSLATE_END_PX}px)`;
+      });
+  } else {
+    let rafScheduled = false;
+
+    function updateWorldScrub() {
+      rafScheduled = false;
+      const vh = window.innerHeight;
+
+      worldTargets.forEach((el) => {
+        const inner = el.querySelector<HTMLElement>('[data-scroll-scrub-world-inner]');
+        if (!inner) return;
+
+        const rect = el.getBoundingClientRect();
+        const entryPoint = vh;
+        const exitPoint = vh * 0.5;
+        const currentPos = rect.top;
+
+        const raw = (entryPoint - currentPos) / (entryPoint - exitPoint);
+        const progress = Math.min(1, Math.max(0, raw));
+        const translateY = WORLD_TRANSLATE_START_PX - progress * (WORLD_TRANSLATE_START_PX - WORLD_TRANSLATE_END_PX);
+
+        inner.style.opacity = String(progress);
+        inner.style.transform = `translateY(${translateY}px)`;
+      });
+    }
+
+    updateWorldScrub();
+
+    window.addEventListener('scroll', () => {
+      if (!rafScheduled) {
+        rafScheduled = true;
+        requestAnimationFrame(updateWorldScrub);
+      }
+    }, { passive: true });
+  }
+</script>

@@ -1,17 +1,17 @@
 ---
 interface Props {
   fallbackText?: string;
+  videoSrc?: string;
 }
 
-const { fallbackText = 'Video de la sección world pendiente de definición' } = Astro.props;
+const { fallbackText = 'Video de la sección world pendiente de definición', videoSrc } = Astro.props;
 
 // const videoSrc = '/videos/world.mp4';
 ---
 
-<div class="w-full lg:w-auto flex-1 self-stretch min-h-[280px] lg:min-h-[420px] overflow-hidden">
-  {fallbackText && <span class="sr-only">{fallbackText}</span>}
-
-  <!--
+{videoSrc && (
+  <div class="w-full lg:w-auto flex-1 self-stretch min-h-[280px] lg:min-h-[420px] overflow-hidden">
+    {fallbackText && <span class="sr-only">{fallbackText}</span>}
     <video
       class="h-full w-auto object-cover"
       autoplay
@@ -20,5 +20,5 @@ const { fallbackText = 'Video de la sección world pendiente de definición' } =
       playsinline
       src={videoSrc}
     />
-  -->
-</div>
+  </div>
+)}
