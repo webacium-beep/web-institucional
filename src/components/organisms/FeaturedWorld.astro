@@ -1,0 +1,24 @@
+---
+import WorldBrand from '../atoms/WorldBrand.astro';
+import { useTranslations } from '../../i18n/utils';
+import logo from '../../assets/logoaciumworld.svg';
+
+
+interface Props {
+  lang?: string | undefined | null;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const taglineOnetext = t("world.hero.subtitle");
+const taglineTwotext = t("world.hero.title")
+
+
+---
+<section class="w-full h-[auto] flex justify-between items-center p-[100px] bg-black">
+  <WorldBrand  
+    imageSrc={logo}
+    taglineOne={taglineOnetext}
+    taglineTwo={taglineTwotext}
+  />
+</section>
