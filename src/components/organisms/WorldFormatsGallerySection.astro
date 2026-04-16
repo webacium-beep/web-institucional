@@ -1,0 +1,34 @@
+---
+import WorldFormatsGallery from '../islands/WorldFormatsGallery';
+import { useTranslations } from '../../i18n/utils';
+import { commercialFormats } from '../../data/formatGallery';
+
+interface Props {
+  lang?: string | undefined | null;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const items = commercialFormats.map((format) => ({
+  id: format.id,
+  label: t(format.labelKey),
+  alt: t(format.altKey),
+  image: {
+    src: format.imageSrc.src,
+    width: format.imageSrc.width,
+    height: format.imageSrc.height,
+  },
+}));
+---
+
+<section class="WorldFormatsGallery-gallery relative w-full overflow-hidden bg-black pb-0 pt-4 lg:pb-0">
+  <div
+    class="pointer-events-none absolute inset-x-0 top-0 z-10 h-60 bg-gradient-to-b from-black/95 via-black/85 to-transparent"
+    aria-hidden="true"
+  ></div>
+  <WorldFormatsGallery
+    client:load
+    items={items}
+  />
+</section>
