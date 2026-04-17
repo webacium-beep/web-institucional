@@ -34,7 +34,9 @@ describe('FeaturedLaunch.astro', () => {
   it('imports and composes the two launch molecules', () => {
     expect(templateContent).toContain("import LaunchMediaPlaceholder from '../molecules/LaunchMediaPlaceholder.astro';");
     expect(templateContent).toContain("import LaunchContent from '../molecules/LaunchContent.astro';");
-    expect(templateContent).toContain('<LaunchMediaPlaceholder fallbackText={mediaFallback} />');
+    expect(templateContent).toContain("import launchVideo from '../../assets/Video_lanzamiento.mp4';");
+    expect(templateContent).toContain('const launchVideoSrc = launchVideo;');
+    expect(templateContent).toContain('<LaunchMediaPlaceholder fallbackText={mediaFallback} videoSrc={launchVideoSrc} decorative={false} />');
     expect(templateContent).toContain("const ctaHref = '/lanzamientos';");
     expect(templateContent).toContain('<LaunchContent');
     expect(templateContent).toContain('tagline={tagline}');

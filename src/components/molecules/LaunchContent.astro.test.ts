@@ -5,12 +5,15 @@ import { beforeAll, describe, expect, it } from 'vitest';
 
 const MEDIA_PLACEHOLDER_PATH = resolve(__dirname, './LaunchMediaPlaceholder.astro');
 const CONTENT_PATH = resolve(__dirname, './LaunchContent.astro');
+const VIDEO_MEDIA_TYPES_PATH = resolve(__dirname, './VideoMedia.types.ts');
 
 describe('LaunchMediaPlaceholder.astro', () => {
   let templateContent: string;
+  let sharedTypesContent: string;
 
   beforeAll(() => {
     templateContent = readFileSync(MEDIA_PLACEHOLDER_PATH, 'utf-8');
+    sharedTypesContent = readFileSync(VIDEO_MEDIA_TYPES_PATH, 'utf-8');
   });
 
   it('renders the responsive placeholder shell with the desktop half-width layout', () => {
@@ -24,14 +27,33 @@ describe('LaunchMediaPlaceholder.astro', () => {
   });
 
   it('accepts an optional fallbackText prop and renders it when provided', () => {
-    expect(templateContent).toContain('interface Props');
-    expect(templateContent).toContain('fallbackText?: string;');
-    expect(templateContent).toContain('const { fallbackText } = Astro.props;');
-    expect(templateContent).toContain('{fallbackText && <span class="sr-only">{fallbackText}</span>}');
+    expect(templateContent).toContain("import type { VideoMediaProps } from './VideoMedia.types';");
+    expect(templateContent).toContain('type Props = VideoMediaProps;');
+    expect(sharedTypesContent).toContain('export interface VideoMediaProps');
+    expect(sharedTypesContent).toContain('fallbackText?: string;');
+    expect(sharedTypesContent).toContain('videoSrc?: string;');
+    expect(sharedTypesContent).toContain('decorative?: boolean;');
+    expect(templateContent).toContain('const { fallbackText, videoSrc, decorative = false } = Astro.props;');
   });
 
-  it('keeps a default slot for future media content', () => {
+  it('renders a video when videoSrc is provided and keeps a slot fallback otherwise', () => {
+    expect(templateContent).toContain('{videoSrc ? (');
+    expect(templateContent).toContain('<video');
+    expect(templateContent).toContain('src={videoSrc}');
+    expect(templateContent).toContain('autoplay');
+    expect(templateContent).toContain('muted');
+    expect(templateContent).toContain('loop');
+    expect(templateContent).toContain('playsinline');
     expect(templateContent).toContain('<slot />');
+  });
+
+  it('exposes a non-decorative accessible label by default and hides the inner video from assistive tech', () => {
+    expect(templateContent).toContain("const mediaRole = !decorative && fallbackText ? 'img' : undefined;");
+    expect(templateContent).toContain("const mediaLabel = !decorative ? fallbackText : undefined;");
+    expect(templateContent).toContain("aria-hidden={decorative ? 'true' : undefined}");
+    expect(templateContent).toContain('role={mediaRole}');
+    expect(templateContent).toContain('aria-label={mediaLabel}');
+    expect(templateContent).toContain('aria-hidden="true"');
   });
 
   it('keeps i18n imports out of the molecule', () => {
@@ -59,8 +81,8 @@ describe('LaunchContent.astro', () => {
     expect(templateContent).toContain('flex-col');
     expect(templateContent).toContain('justify-center');
     expect(templateContent).toContain('px-8');
-    expect(templateContent).toContain('lg:px-20');
-    expect(templateContent).toContain('gap-y-4');
+    expect(templateContent).toContain('lg:pl-60');
+    expect(templateContent).toContain('lg:pr-8');
   });
 
   it('accepts translated props for each piece of launch copy', () => {

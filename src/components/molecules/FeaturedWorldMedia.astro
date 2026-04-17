@@ -1,17 +1,22 @@
 ---
-interface Props {
-  fallbackText?: string;
-  videoSrc?: string;
-}
+import type { VideoMediaProps } from './VideoMedia.types';
 
-const { fallbackText = 'Video de la sección world pendiente de definición', videoSrc } = Astro.props;
+type Props = VideoMediaProps;
 
-// const videoSrc = '/videos/world.mp4';
+const { fallbackText = 'Video de la sección world pendiente de definición', videoSrc, decorative = true } = Astro.props;
+const mediaRole = !decorative && fallbackText ? 'img' : undefined;
+const mediaLabel = !decorative ? fallbackText : undefined;
+
+//const videoSrcA = '../../assets/PLANETA_ACIUM.mp4';
 ---
 
 {videoSrc && (
-  <div class="w-full lg:w-auto flex-1 self-stretch min-h-[280px] lg:min-h-[420px] overflow-hidden">
-    {fallbackText && <span class="sr-only">{fallbackText}</span>}
+  <div
+    class="w-full lg:w-auto flex-1 self-stretch min-h-[280px] lg:min-h-[420px] overflow-hidden"
+    aria-hidden={decorative ? 'true' : undefined}
+    role={mediaRole}
+    aria-label={mediaLabel}
+  >
     <video
       class="h-full w-auto object-cover"
       autoplay
@@ -19,6 +24,7 @@ const { fallbackText = 'Video de la sección world pendiente de definición', vi
       loop
       playsinline
       src={videoSrc}
+      aria-hidden="true"
     />
   </div>
 )}

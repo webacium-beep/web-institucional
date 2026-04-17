@@ -1,15 +1,31 @@
 ---
-interface Props {
-  fallbackText?: string;
-}
+import type { VideoMediaProps } from './VideoMedia.types';
 
-const { fallbackText } = Astro.props;
+type Props = VideoMediaProps;
+
+const { fallbackText, videoSrc, decorative = false } = Astro.props;
+const mediaRole = !decorative && fallbackText ? 'img' : undefined;
+const mediaLabel = !decorative ? fallbackText : undefined;
 ---
 
 <div
   class="w-full lg:w-1/2 min-h-[300px] lg:min-h-[600px] overflow-hidden"
   style="background-color: #D9D9D9;"
+  aria-hidden={decorative ? 'true' : undefined}
+  role={mediaRole}
+  aria-label={mediaLabel}
 >
-  {fallbackText && <span class="sr-only">{fallbackText}</span>}
-  <slot />
+  {videoSrc ? (
+    <video
+      class="h-full w-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      src={videoSrc}
+      aria-hidden="true"
+    />
+  ) : (
+    <slot />
+  )}
 </div>

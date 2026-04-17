@@ -2,6 +2,7 @@
 import LaunchContent from '../molecules/LaunchContent.astro';
 import LaunchMediaPlaceholder from '../molecules/LaunchMediaPlaceholder.astro';
 import { useTranslations } from '../../i18n/utils';
+import launchVideo from '../../assets/Video_lanzamiento.mp4';
 
 interface Props {
   lang?: string | undefined | null;
@@ -15,10 +16,11 @@ const description = t('launch.description');
 const ctaText = t('launch.cta');
 const ctaHref = '/lanzamientos';
 const mediaFallback = t('launch.mediaFallback');
+const launchVideoSrc = launchVideo;
 ---
 
 <section class="w-full min-h-[600px] flex flex-col lg:flex-row">
-  <LaunchMediaPlaceholder fallbackText={mediaFallback} />
+  <LaunchMediaPlaceholder fallbackText={mediaFallback} videoSrc={launchVideoSrc} decorative={false} />
   <LaunchContent
     tagline={tagline}
     title={title}
