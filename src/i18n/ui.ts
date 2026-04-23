@@ -58,6 +58,13 @@ export interface EngravingSectionData {
   "engraving.mediaFallback": string;
 }
 
+export interface NewsroomSectionData {
+  "newsroom.title": string;
+  "newsroom.description": string;
+  "newsroom.cta": string;
+  "newsroom.galleryPlaceholder": string;
+}
+
 interface UIContent
   extends
     AboutSectionData,
@@ -65,7 +72,8 @@ interface UIContent
     LaunchSectionData,
     WorldSectionData,
     FranchiseSectionData,
-    EngravingSectionData {
+    EngravingSectionData,
+    NewsroomSectionData {
   title: string;
   "nav.cta": string;
   "nav.about": string;
@@ -128,6 +136,10 @@ export const ui: Record<Locales, UIContent> = {
       "En ACIUM, creemos que el verdadero lujo reside en el significado. Transformamos la joyería en un lienzo personal a través de nuestra técnica exclusiva de grabado.",
     "engraving.card.cta": "CONOCE MÁS",
     "engraving.mediaFallback": "Video de fondo de fotograbado",
+    "newsroom.title": "NEWSROOM",
+    "newsroom.description": "Explora las últimas novedades, lanzamientos exclusivos y la evolución de nuestra huella global en el mundo de la joyería contemporánea.",
+    "newsroom.cta": "CONOCE MÁS",
+    "newsroom.galleryPlaceholder": "Próxima imagen de newsroom",
   },
   en: {
     title: "Title in English",
@@ -181,6 +193,10 @@ export const ui: Record<Locales, UIContent> = {
       "At ACIUM, we believe true luxury lies in meaning. We transform jewelry into a personal canvas through our exclusive engraving technique.",
     "engraving.card.cta": "DISCOVER MORE",
     "engraving.mediaFallback": "Photo engraving background video",
+    "newsroom.title": "NEWSROOM",
+    "newsroom.description": "Explore the latest updates, exclusive launches, and the evolution of our global footprint in the world of contemporary jewelry.",
+    "newsroom.cta": "DISCOVER MORE",
+    "newsroom.galleryPlaceholder": "Upcoming newsroom image",
   },
   it: {
     title: "Titolo in italiano",
@@ -234,6 +250,10 @@ export const ui: Record<Locales, UIContent> = {
       "In ACIUM, crediamo che il vero lusso risieda nel significato. Trasformiamo la gioielleria in una tela personale attraverso la nostra tecnica esclusiva di incisione.",
     "engraving.card.cta": "SCOPRI DI PIÙ",
     "engraving.mediaFallback": "Video di sfondo della fotoincisione",
+    "newsroom.title": "NEWSROOM",
+    "newsroom.description": "Esplora le ultime novità, i lanci esclusivi e l'evoluzione della nostra impronta globale nel mondo della gioielleria contemporanea.",
+    "newsroom.cta": "SCOPRI DI PIÙ",
+    "newsroom.galleryPlaceholder": "Prossima immagine newsroom",
   },
   pt: {
     title: "Título em português",
@@ -287,6 +307,10 @@ export const ui: Record<Locales, UIContent> = {
       "Na ACIUM, acreditamos que o verdadeiro luxo reside no significado. Transformamos a joalheria em uma tela pessoal por meio da nossa técnica exclusiva de gravação.",
     "engraving.card.cta": "CONHEÇA MAIS",
     "engraving.mediaFallback": "Vídeo de fundo de fotogravação",
+    "newsroom.title": "NEWSROOM",
+    "newsroom.description": "Explore as últimas novidades, lançamentos exclusivos e a evolução da nossa presença global no universo da joalheria contemporânea.",
+    "newsroom.cta": "CONHEÇA MAIS",
+    "newsroom.galleryPlaceholder": "Próxima imagem da newsroom",
   },
   de: {
     title: "Titel in Deutsch",
@@ -340,6 +364,10 @@ export const ui: Record<Locales, UIContent> = {
       "Bei ACIUM glauben wir, dass wahrer Luxus in der Bedeutung liegt. Mit unserer exklusiven Gravurtechnik verwandeln wir Schmuck in eine persönliche Leinwand.",
     "engraving.card.cta": "MEHR ENTDECKEN",
     "engraving.mediaFallback": "Hintergrundvideo zur Fotogravur",
+    "newsroom.title": "NEWSROOM",
+    "newsroom.description": "Entdecken Sie die neuesten Neuigkeiten, exklusive Launches und die Entwicklung unserer globalen Präsenz in der Welt des zeitgenössischen Schmucks.",
+    "newsroom.cta": "MEHR ENTDECKEN",
+    "newsroom.galleryPlaceholder": "Kommendes Newsroom-Bild",
   },
   zh: {
     title: "中文标题",
@@ -393,5 +421,9 @@ export const ui: Record<Locales, UIContent> = {
       "在 ACIUM，我们相信真正的奢华源于意义本身。通过独家的镌刻工艺，我们将珠宝化作承载个人记忆的画布。",
     "engraving.card.cta": "了解更多",
     "engraving.mediaFallback": "照片镌刻背景视频",
+    "newsroom.title": "NEWSROOM",
+    "newsroom.description": "探索最新动态、独家发布，以及我们在当代珠宝世界中不断扩展的全球影响力。",
+    "newsroom.cta": "了解更多",
+    "newsroom.galleryPlaceholder": "即将上线的 newsroom 图片",
   },
 } as const;
