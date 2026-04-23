@@ -5,6 +5,7 @@ import FeaturedLaunch from '../organisms/FeaturedLaunch.astro';
 import SectionDivider from '../atoms/SectionDivider.astro';
 import FeaturedWorld from '../organisms/FeaturedWorld.astro';
 import WorldFormatsGallerySection from '../organisms/WorldFormatsGallerySection.astro';
+import FranchiseSection from '../organisms/FranchiseSection.astro';
 import Layout from '../../layouts/Layout.astro';
 import type { Locales } from '../../i18n/ui';
 import SeparadorOneImage from '../../assets/images/SeparadorOneImage.svg';
@@ -24,5 +25,6 @@ const { lang } = Astro.props;
   <SectionDivider img={SeparadorOneImage.src} />
   <FeaturedWorld lang={lang} />
   <WorldFormatsGallerySection lang={lang} />
+  <FranchiseSection lang={lang} />
   <SectionDivider img={SeparadorTwoImage.src} />
-</Layout>
+  </Layout>

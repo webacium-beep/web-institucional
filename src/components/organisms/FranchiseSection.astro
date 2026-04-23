@@ -1,0 +1,55 @@
+---
+import type { Locales } from '../../i18n/ui';
+import { useTranslations } from '../../i18n/utils';
+import franchiseIcon from '../../assets/icons/franquiciaIcon.svg';
+
+interface Props {
+  lang?: Locales | string | null;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const ctaHref = '#';
+---
+
+<section class="w-full bg-white px-6 py-20 text-black sm:px-10 lg:flex lg:h-[600px] lg:items-center lg:px-16 lg:py-0 xl:px-24 font-avenir">
+  <div class="mx-auto flex w-full max-w-[1360px] flex-col gap-14 lg:flex-row lg:items-center lg:justify-between lg:gap-20">
+    <div class="flex w-full max-w-[640px] flex-col items-start gap-8 lg:max-w-[390px] lg:gap-10">
+      <span class="inline-flex w-full items-center justify-center bg-black px-4 py-2 text-[11px] font-[600] uppercase tracking-[0.26em] text-white sm:text-[12px] lg:w-[390px]">
+        {t('franchise.badge')}
+      </span>
+
+      <h2 class="w-full max-w-[390px] text-[clamp(2.1rem,4vw,3.8rem)] leading-[0.92] font-[500] uppercase tracking-[-0.045em] text-black">
+        <span class="block">{t('franchise.titleLine1')}</span>
+        <span class="block">{t('franchise.titleLine2')}</span>
+      </h2>
+
+      <button
+        type="button"
+        class="self-end inline-flex cursor-pointer items-center justify-center bg-transparent p-0"
+        aria-label="Abrir información de franquicia"
+      >
+        <img
+          src={franchiseIcon.src}
+          alt=""
+          aria-hidden="true"
+          class="h-9 w-9 object-contain sm:h-10 sm:w-10"
+          loading="lazy"
+        />
+      </button>
+    </div>
+
+    <div class="flex w-full max-w-[480px] flex-col items-start gap-8">
+      <p class="text-[1.06rem] leading-[1.72] text-[#202020] sm:text-[1.12rem] lg:text-[1.18rem]">
+        {t('franchise.description')}
+      </p>
+
+      <a
+        href={ctaHref}
+        class="inline-flex items-center border border-transparent bg-black px-6 py-3 text-center text-[11px] font-[700] uppercase tracking-[0.32em] text-white transition-colors duration-200 hover:border-black hover:bg-white hover:text-black"
+      >
+        {t('franchise.cta')}
+      </a>
+    </div>
+  </div>
+</section>
