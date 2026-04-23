@@ -1,5 +1,6 @@
 ---
 import Banner from '../ui/Banner.astro';
+import EngravingSection from '../organisms/EngravingSection.astro';
 import AboutSection from '../ui/AboutSection.astro';
 import FeaturedLaunch from '../organisms/FeaturedLaunch.astro';
 import SectionDivider from '../atoms/SectionDivider.astro';
@@ -20,6 +21,7 @@ const { lang } = Astro.props;
 
 <Layout>
   <Banner />
+  <EngravingSection lang={lang} />
   <AboutSection />
   <FeaturedLaunch lang={lang} />
   <SectionDivider img={SeparadorOneImage.src} />

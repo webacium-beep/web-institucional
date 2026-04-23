@@ -48,13 +48,24 @@ export interface FranchiseSectionData {
   "franchise.cta": string;
 }
 
+export interface EngravingSectionData {
+  "engraving.hero.title": string;
+  "engraving.card.eyebrow": string;
+  "engraving.card.title": string;
+  "engraving.card.badge": string;
+  "engraving.card.description": string;
+  "engraving.card.cta": string;
+  "engraving.mediaFallback": string;
+}
+
 interface UIContent
   extends
     AboutSectionData,
     LanzamientosSectionData,
     LaunchSectionData,
     WorldSectionData,
-    FranchiseSectionData {
+    FranchiseSectionData,
+    EngravingSectionData {
   title: string;
   "nav.cta": string;
   "nav.about": string;
@@ -109,6 +120,14 @@ export const ui: Record<Locales, UIContent> = {
     "franchise.description":
       "Te invitamos a expandir nuestra esencia bajo tu propia visión: desde la exclusividad de una Master para conquistar nuevos mercados nacionales, hasta la solidez de una Franquicia de diseño internacional. El límite lo define tu ambición.",
     "franchise.cta": "SE PARTE DE A C I U M",
+    "engraving.hero.title": "FOTOGRABADO",
+    "engraving.card.eyebrow": "MOMENTOS",
+    "engraving.card.title": "GRABADOS",
+    "engraving.card.badge": "PARA SIEMPRE",
+    "engraving.card.description":
+      "En ACIUM, creemos que el verdadero lujo reside en el significado. Transformamos la joyería en un lienzo personal a través de nuestra técnica exclusiva de grabado.",
+    "engraving.card.cta": "CONOCE MÁS",
+    "engraving.mediaFallback": "Video de fondo de fotograbado",
   },
   en: {
     title: "Title in English",
@@ -154,6 +173,14 @@ export const ui: Record<Locales, UIContent> = {
     "franchise.description":
       "We invite you to expand our essence under your own vision: from the exclusivity of a Master to conquer new national markets, to the solidity of an internationally designed Franchise. The limit is defined by your ambition.",
     "franchise.cta": "BECOME PART OF A C I U M",
+    "engraving.hero.title": "PHOTO ENGRAVING",
+    "engraving.card.eyebrow": "MOMENTS",
+    "engraving.card.title": "ENGRAVED",
+    "engraving.card.badge": "FOREVER",
+    "engraving.card.description":
+      "At ACIUM, we believe true luxury lies in meaning. We transform jewelry into a personal canvas through our exclusive engraving technique.",
+    "engraving.card.cta": "DISCOVER MORE",
+    "engraving.mediaFallback": "Photo engraving background video",
   },
   it: {
     title: "Titolo in italiano",
@@ -199,6 +226,14 @@ export const ui: Record<Locales, UIContent> = {
     "franchise.description":
       "Vi invitiamo a espandere la nostra essenza sotto la vostra visione: dall'esclusività di una Master per conquistare nuovi mercati nazionali, alla solidità di un Franchising dal design internazionale. Il limite lo definisce la vostra ambizione.",
     "franchise.cta": "ENTRA A FAR PARTE DI A C I U M",
+    "engraving.hero.title": "FOTOINCISIONE",
+    "engraving.card.eyebrow": "MOMENTI",
+    "engraving.card.title": "INCISI",
+    "engraving.card.badge": "PER SEMPRE",
+    "engraving.card.description":
+      "In ACIUM, crediamo che il vero lusso risieda nel significato. Trasformiamo la gioielleria in una tela personale attraverso la nostra tecnica esclusiva di incisione.",
+    "engraving.card.cta": "SCOPRI DI PIÙ",
+    "engraving.mediaFallback": "Video di sfondo della fotoincisione",
   },
   pt: {
     title: "Título em português",
@@ -244,6 +279,14 @@ export const ui: Record<Locales, UIContent> = {
     "franchise.description":
       "Convidamo você a expandir nossa essência sob sua própria visão: desde a exclusividade de uma Master para conquistar novos mercados nacionais, até a solidez de uma Franquia de design internacional. O limite é definido pela sua ambição.",
     "franchise.cta": "FAÇA PARTE DA A C I U M",
+    "engraving.hero.title": "FOTOGRAVAÇÃO",
+    "engraving.card.eyebrow": "MOMENTOS",
+    "engraving.card.title": "GRAVADOS",
+    "engraving.card.badge": "PARA SEMPRE",
+    "engraving.card.description":
+      "Na ACIUM, acreditamos que o verdadeiro luxo reside no significado. Transformamos a joalheria em uma tela pessoal por meio da nossa técnica exclusiva de gravação.",
+    "engraving.card.cta": "CONHEÇA MAIS",
+    "engraving.mediaFallback": "Vídeo de fundo de fotogravação",
   },
   de: {
     title: "Titel in Deutsch",
@@ -289,6 +332,14 @@ export const ui: Record<Locales, UIContent> = {
     "franchise.description":
       "Wir laden Sie ein, unser Wesen unter Ihrer eigenen Vision zu erweitern: von der Exklusivität eines Masters zur Eroberung neuer nationaler Märkte, bis hin zur Solidität eines international gestalteten Franchises. Die Grenze wird von Ihrer Ambition definiert.",
     "franchise.cta": "WERDEN SIE TEIL VON A C I U M",
+    "engraving.hero.title": "FOTOGRAVUR",
+    "engraving.card.eyebrow": "MOMENTE",
+    "engraving.card.title": "VEREWIGT",
+    "engraving.card.badge": "FÜR IMMER",
+    "engraving.card.description":
+      "Bei ACIUM glauben wir, dass wahrer Luxus in der Bedeutung liegt. Mit unserer exklusiven Gravurtechnik verwandeln wir Schmuck in eine persönliche Leinwand.",
+    "engraving.card.cta": "MEHR ENTDECKEN",
+    "engraving.mediaFallback": "Hintergrundvideo zur Fotogravur",
   },
   zh: {
     title: "中文标题",
@@ -334,5 +385,13 @@ export const ui: Record<Locales, UIContent> = {
     "franchise.description":
       "我们诚邀您按照自己的愿景拓展我们的精髓：从征服新 national 市场的 Master  exclusivity，到国际设计 Franchise 的稳固性。极限由您的雄心定义。",
     "franchise.cta": "成为A C I U M合作伙伴",
+    "engraving.hero.title": "照片镌刻",
+    "engraving.card.eyebrow": "珍藏时刻",
+    "engraving.card.title": "铭刻",
+    "engraving.card.badge": "永恒留存",
+    "engraving.card.description":
+      "在 ACIUM，我们相信真正的奢华源于意义本身。通过独家的镌刻工艺，我们将珠宝化作承载个人记忆的画布。",
+    "engraving.card.cta": "了解更多",
+    "engraving.mediaFallback": "照片镌刻背景视频",
   },
 } as const;
