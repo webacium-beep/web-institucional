@@ -40,8 +40,21 @@ export interface WorldSectionData {
   "world.format.showroom": string;
 }
 
+export interface FranchiseSectionData {
+  "franchise.badge": string;
+  "franchise.titleLine1": string;
+  "franchise.titleLine2": string;
+  "franchise.description": string;
+  "franchise.cta": string;
+}
+
 interface UIContent
-  extends AboutSectionData, LanzamientosSectionData, LaunchSectionData, WorldSectionData {
+  extends
+    AboutSectionData,
+    LanzamientosSectionData,
+    LaunchSectionData,
+    WorldSectionData,
+    FranchiseSectionData {
   title: string;
   "nav.cta": string;
   "nav.about": string;
@@ -83,12 +96,19 @@ export const ui: Record<Locales, UIContent> = {
     "launch.mediaFallback": "Video destacado del lanzamiento",
     "world.hero.subtitle": "ALREDEDOR DEL",
     "world.hero.title": "MUNDO",
-    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.description":
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
     "world.hero.cta": "CONOCE MÁS",
     "world.format.kiosk": "KIOSKO",
     "world.format.stand": "STAND",
     "world.format.store": "TIENDA",
     "world.format.showroom": "SHOWROOM",
+    "franchise.badge": "SE PARTE",
+    "franchise.titleLine1": "DE NUESTRA",
+    "franchise.titleLine2": "FRANQUICIA",
+    "franchise.description":
+      "Te invitamos a expandir nuestra esencia bajo tu propia visión: desde la exclusividad de una Master para conquistar nuevos mercados nacionales, hasta la solidez de una Franquicia de diseño internacional. El límite lo define tu ambición.",
+    "franchise.cta": "SE PARTE DE A C I U M",
   },
   en: {
     title: "Title in English",
@@ -121,12 +141,19 @@ export const ui: Record<Locales, UIContent> = {
     "launch.mediaFallback": "Featured launch video",
     "world.hero.subtitle": "AROUND THE",
     "world.hero.title": "WORLD",
-    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.description":
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
     "world.hero.cta": "LEARN MORE",
     "world.format.kiosk": "KIOSK",
     "world.format.stand": "STAND",
     "world.format.store": "STORE",
     "world.format.showroom": "SHOWROOM",
+    "franchise.badge": "BECOME PART",
+    "franchise.titleLine1": "OF OUR",
+    "franchise.titleLine2": "FRANCHISE",
+    "franchise.description":
+      "We invite you to expand our essence under your own vision: from the exclusivity of a Master to conquer new national markets, to the solidity of an internationally designed Franchise. The limit is defined by your ambition.",
+    "franchise.cta": "BECOME PART OF A C I U M",
   },
   it: {
     title: "Titolo in italiano",
@@ -159,12 +186,19 @@ export const ui: Record<Locales, UIContent> = {
     "launch.mediaFallback": "Video principale del lancio",
     "world.hero.subtitle": "NEL",
     "world.hero.title": "MONDO",
-    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.description":
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
     "world.hero.cta": "SCOPRI DI PIÙ",
     "world.format.kiosk": "CHIOSCO",
     "world.format.stand": "STAND",
     "world.format.store": "NEGOZIO",
     "world.format.showroom": "SHOWROOM",
+    "franchise.badge": "ENTRA A FAR PARTE",
+    "franchise.titleLine1": "DEL NOSTRO",
+    "franchise.titleLine2": "FRANCHISING",
+    "franchise.description":
+      "Vi invitiamo a espandere la nostra essenza sotto la vostra visione: dall'esclusività di una Master per conquistare nuovi mercati nazionali, alla solidità di un Franchising dal design internazionale. Il limite lo definisce la vostra ambizione.",
+    "franchise.cta": "ENTRA A FAR PARTE DI A C I U M",
   },
   pt: {
     title: "Título em português",
@@ -197,12 +231,19 @@ export const ui: Record<Locales, UIContent> = {
     "launch.mediaFallback": "Vídeo principal do lançamento",
     "world.hero.subtitle": "AO REDOR DO",
     "world.hero.title": "MUNDO",
-    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.description":
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
     "world.hero.cta": "SAIBA MAIS",
     "world.format.kiosk": "QUIOSQUE",
     "world.format.stand": "STAND",
     "world.format.store": "LOJA",
     "world.format.showroom": "SHOWROOM",
+    "franchise.badge": "FAÇA PARTE",
+    "franchise.titleLine1": "DA NOSSA",
+    "franchise.titleLine2": "FRANQUIA",
+    "franchise.description":
+      "Convidamo você a expandir nossa essência sob sua própria visão: desde a exclusividade de uma Master para conquistar novos mercados nacionais, até a solidez de uma Franquia de design internacional. O limite é definido pela sua ambição.",
+    "franchise.cta": "FAÇA PARTE DA A C I U M",
   },
   de: {
     title: "Titel in Deutsch",
@@ -235,12 +276,19 @@ export const ui: Record<Locales, UIContent> = {
     "launch.mediaFallback": "Hauptvideo des Launches",
     "world.hero.subtitle": "RUND UM DIE",
     "world.hero.title": "WELT",
-    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.description":
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
     "world.hero.cta": "MEHR ERFAHREN",
     "world.format.kiosk": "KIOSK",
     "world.format.stand": "STAND",
     "world.format.store": "GESCHÄFT",
     "world.format.showroom": "SHOWROOM",
+    "franchise.badge": "WERDEN SIE TEIL",
+    "franchise.titleLine1": "UNSERER",
+    "franchise.titleLine2": "FRANCHISE",
+    "franchise.description":
+      "Wir laden Sie ein, unser Wesen unter Ihrer eigenen Vision zu erweitern: von der Exklusivität eines Masters zur Eroberung neuer nationaler Märkte, bis hin zur Solidität eines international gestalteten Franchises. Die Grenze wird von Ihrer Ambition definiert.",
+    "franchise.cta": "WERDEN SIE TEIL VON A C I U M",
   },
   zh: {
     title: "中文标题",
@@ -273,11 +321,18 @@ export const ui: Record<Locales, UIContent> = {
     "launch.mediaFallback": "精选发布视频",
     "world.hero.subtitle": "遍布",
     "world.hero.title": "全球",
-    "world.hero.description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+    "world.hero.description":
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
     "world.hero.cta": "了解更多",
     "world.format.kiosk": "专柜",
     "world.format.stand": "展台",
     "world.format.store": "门店",
     "world.format.showroom": "展厅",
+    "franchise.badge": "成为伙伴",
+    "franchise.titleLine1": "加入我们",
+    "franchise.titleLine2": "特许经营",
+    "franchise.description":
+      "我们诚邀您按照自己的愿景拓展我们的精髓：从征服新 national 市场的 Master  exclusivity，到国际设计 Franchise 的稳固性。极限由您的雄心定义。",
+    "franchise.cta": "成为A C I U M合作伙伴",
   },
 } as const;
