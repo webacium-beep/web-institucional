@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
+import flechaIcon from "../../assets/icons/Flecha_icon.svg";
 import type {
   WorldFormatsGalleryIslandProps,
   WorldFormatsGalleryItemView,
@@ -131,9 +132,12 @@ export default function WorldFormatsGallery({
                 }`}
               >
                 <span>{format.label}</span>
-                <span
-                  className={`mt-2 h-0 w-0 border-l-2 border-r-2 border-t-2 border-b-0 border-solid ${
-                    isActive ? "border-t-zinc-100" : "border-t-zinc-500"
+                <img
+                  src={flechaIcon.src}
+                  alt=""
+                  aria-hidden="true"
+                  className={`mt-2 h-[7px] w-[16px] object-contain ${
+                    isActive ? "opacity-100" : "opacity-60"
                   }`}
                 />
               </button>
