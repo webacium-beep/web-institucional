@@ -1,0 +1,28 @@
+---
+import Banner from '../ui/Banner.astro';
+import AboutSection from '../ui/AboutSection.astro';
+import FeaturedLaunch from '../organisms/FeaturedLaunch.astro';
+import SectionDivider from '../atoms/SectionDivider.astro';
+import FeaturedWorld from '../organisms/FeaturedWorld.astro';
+import WorldFormatsGallerySection from '../organisms/WorldFormatsGallerySection.astro';
+import Layout from '../../layouts/Layout.astro';
+import type { Locales } from '../../i18n/ui';
+import SeparadorOneImage from '../../assets/images/SeparadorOneImage.svg';
+import SeparadorTwoImage from '../../assets/images/SeparadorTwoImage.svg';
+
+interface Props {
+  lang: Locales;
+}
+
+const { lang } = Astro.props;
+---
+
+<Layout>
+  <Banner />
+  <AboutSection />
+  <FeaturedLaunch lang={lang} />
+  <SectionDivider img={SeparadorOneImage.src} />
+  <FeaturedWorld lang={lang} />
+  <WorldFormatsGallerySection lang={lang} />
+  <SectionDivider img={SeparadorTwoImage.src} />
+</Layout>

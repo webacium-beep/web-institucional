@@ -1,0 +1,23 @@
+---
+interface Props {
+  img: string;
+  alt?: string;
+  decorative?: boolean;
+}
+
+const {
+  img,
+  alt = '',
+  decorative = true,
+} = Astro.props;
+---
+<section class="w-full h-auto overflow-hidden flex items-center justify-center">
+  <img
+    class="w-full h-full object-cover"
+    src={img}
+    alt={decorative ? '' : alt}
+    aria-hidden={decorative ? 'true' : undefined}
+    loading="lazy"
+    decoding="async"
+  />
+</section>
