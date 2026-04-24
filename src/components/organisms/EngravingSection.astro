@@ -65,7 +65,7 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
               <img
                 src={firstFrameSrc}
                 alt={mediaFallback}
-                class="block h-full w-auto max-w-full object-contain"
+                class="block h-full w-auto max-w-full object-contain will-change-transform"
                 loading="eager"
                 decoding="async"
                 fetchpriority="high"
@@ -107,6 +107,8 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
 
     const SMOOTHING = 0.12;
     const FINAL_FRAME_HOLD = 0.08;
+    const MIN_SCALE = 0.92;
+    const MAX_SCALE = 1.12;
 
     const easeInOut = (value) => value * value * (3 - 2 * value);
 
@@ -189,7 +191,10 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
       }
 
       const easedProgress = easeInOut(currentProgress);
+      const scale = MIN_SCALE + (MAX_SCALE - MIN_SCALE) * easedProgress;
       const nextFrame = Math.min(frameUrls.length - 1, Math.round(easedProgress * (frameUrls.length - 1)));
+
+      image.style.transform = `scale(${scale})`;
 
       commitFrame(nextFrame);
 
