@@ -1,7 +1,6 @@
 ---
 import type { Locales } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
-import engravingVideo from '../../assets/DIJE_GIRANDO.webm';
 
 interface Props {
   lang?: Locales | string | null;
@@ -11,57 +10,215 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const ctaHref = '#';
 const mediaFallback = t('engraving.mediaFallback');
+const frameBasePath = '/FRAMES_FOTOGRAMA_GRABADOS/DIJE_GIRANDO_24fps';
+const frameCount = 181;
+const firstFrameSrc = `${frameBasePath}0000.webp`;
 ---
 
-<section class="w-full bg-white px-6 pt-24 text-black sm:px-10 lg:px-16 lg:pt-20 xl:px-24 font-avenir">
+<section class="w-full bg-white px-6 pt-24 text-black sm:px-10 lg:px-16 lg:pt-20 xl:px-24 font-avenir" data-engraving-sequence>
   <div class="mx-auto flex w-full max-w-[1360px] flex-col gap-10 lg:gap-10">
     <h2 class="hidden text-center text-[clamp(1.8rem,3.6vw,3.25rem)] leading-[0.92] font-[500] uppercase tracking-[-0.05em] text-black whitespace-nowrap">
       {t('engraving.hero.title')}
     </h2>
 
-    <div class="flex flex-col gap-6 lg:relative lg:justify-center">
-      <div class="relative flex w-full items-center justify-center">
-        <div class="w-full lg:w-[60%]">
-          <video
-            class="h-auto w-full object-contain"
-            autoplay
-            loop
-            muted
-            playsinline
-            aria-label={mediaFallback}
+    <div class="relative min-h-[360vh] sm:min-h-[400vh]" data-engraving-sequence-track>
+      <div
+        class="sticky flex items-center py-8 sm:py-10 lg:py-14"
+        style="top: var(--header-height, 0px); min-height: calc(100vh - var(--header-height, 0px));"
+        data-engraving-sequence-sticky
+      >
+        <div class="grid w-full items-center gap-8 lg:grid-cols-[minmax(320px,430px)_minmax(0,1fr)] lg:gap-10 xl:gap-14">
+          <article class="order-2 flex w-full flex-col gap-5 bg-white p-6 sm:p-8 lg:order-1 lg:p-10">
+            <div class="flex flex-col gap-4">
+              <span class="text-[16px] font-[300] uppercase tracking-[0.3em] text-[#B7B7B7]">
+                {t('engraving.card.eyebrow')}
+              </span>
+
+              <h3 class="text-[clamp(2.8rem,4.8vw,4.6rem)] leading-[0.88] font-[500] uppercase tracking-[-0.04em] text-black">
+                {t('engraving.card.title')}
+              </h3>
+
+              <span class="inline-flex w-fit items-center border border-black bg-white px-4 py-2 text-[1.05rem] font-[600] leading-none text-black">
+                {t('engraving.card.badge')}
+              </span>
+            </div>
+
+            <p class="max-w-[32ch] text-[1.15rem] leading-[1.55] text-[#2A2A2A]">
+              {t('engraving.card.description')}
+            </p>
+
+            <a
+              href={ctaHref}
+              class="inline-flex w-fit items-center border border-black bg-white px-5 py-3 text-[11px] font-[700] uppercase tracking-[0.3em] text-black transition-colors duration-200 hover:bg-black hover:text-white"
+            >
+              {t('engraving.card.cta')}
+            </a>
+          </article>
+
+          <figure
+            class="order-1 flex w-full items-center justify-center self-center lg:order-2"
+            style="height: calc(100vh - var(--header-height, 0px) - 4rem);"
           >
-            <source src={engravingVideo} type="video/webm" />
-            {mediaFallback}
-          </video>
+            <div
+              class="relative flex h-full w-full max-w-[420px] items-center justify-center bg-white sm:max-w-[460px] lg:max-w-[520px] xl:max-w-[560px]"
+            >
+              <img
+                src={firstFrameSrc}
+                alt={mediaFallback}
+                class="block h-full w-auto max-w-full object-contain"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                draggable="false"
+                data-engraving-sequence-image
+              />
+            </div>
+          </figure>
         </div>
       </div>
-
-      <article class="flex w-full flex-col gap-5 bg-white p-6 sm:p-8 lg:absolute lg:bottom-[580px] lg:left-0 lg:max-w-[430px] lg:p-10">
-        <div class="flex flex-col gap-4">
-          <span class="text-[16px] font-[300] uppercase tracking-[0.3em] text-[#B7B7B7]">
-            {t('engraving.card.eyebrow')}
-          </span>
-
-          <h3 class="text-[clamp(2.8rem,4.8vw,4.6rem)] leading-[0.88] font-[500] uppercase tracking-[-0.04em] text-black">
-            {t('engraving.card.title')}
-          </h3>
-
-          <span class="inline-flex w-fit items-center border border-black px-4 py-2 text-[1.05rem] font-[600] leading-none text-black bg-white">
-            {t('engraving.card.badge')}
-          </span>
-        </div>
-
-        <p class="max-w-[32ch] text-[1.15rem] leading-[1.55] text-[#2A2A2A]">
-          {t('engraving.card.description')}
-        </p>
-
-        <a
-          href={ctaHref}
-          class="inline-flex w-fit items-center border border-black bg-white px-5 py-3 text-[11px] font-[700] uppercase tracking-[0.3em] text-black transition-colors duration-200 hover:bg-black hover:text-white"
-        >
-          {t('engraving.card.cta')}
-        </a>
-      </article>
     </div>
   </div>
 </section>
+
+<script is:inline define:vars={{ frameBasePath, frameCount }}>
+  (() => {
+    const section = document.querySelector('[data-engraving-sequence]');
+    if (!section) return;
+
+    const track = section.querySelector('[data-engraving-sequence-track]');
+    const sticky = section.querySelector('[data-engraving-sequence-sticky]');
+    const image = section.querySelector('[data-engraving-sequence-image]');
+    if (!(track instanceof HTMLElement) || !(sticky instanceof HTMLElement) || !(image instanceof HTMLImageElement)) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (prefersReducedMotion.matches) return;
+
+    const frameUrls = Array.from({ length: frameCount }, (_, index) =>
+      `${frameBasePath}${String(index).padStart(4, '0')}.webp`,
+    );
+
+    const warmedFrames = new Set();
+    const frameCache = new Map();
+    let currentFrame = 0;
+    let rafId = 0;
+    let warmupStarted = false;
+    let currentProgress = 0;
+    let targetProgress = 0;
+
+    const SMOOTHING = 0.12;
+    const FINAL_FRAME_HOLD = 0.08;
+
+    const easeInOut = (value) => value * value * (3 - 2 * value);
+
+    const preloadFrame = (index) => {
+      if (index < 0 || index >= frameUrls.length || frameCache.has(index)) {
+        return frameCache.get(index);
+      }
+
+      const preloadImage = new Image();
+      preloadImage.decoding = 'sync';
+      preloadImage.fetchPriority = index < 24 ? 'high' : 'auto';
+
+      const loadPromise = new Promise((resolve, reject) => {
+        preloadImage.onload = async () => {
+          try {
+            if (typeof preloadImage.decode === 'function') {
+              await preloadImage.decode();
+            }
+          } catch {
+            // decode can reject even when the image is usable
+          }
+
+          warmedFrames.add(index);
+          resolve(preloadImage);
+        };
+
+        preloadImage.onerror = reject;
+      });
+
+      preloadImage.src = frameUrls[index];
+      frameCache.set(index, loadPromise);
+      return loadPromise;
+    };
+
+    const preloadRange = (start, end) => {
+      for (let index = start; index <= end; index += 1) {
+        preloadFrame(index);
+      }
+    };
+
+    const startWarmup = () => {
+      if (warmupStarted) return;
+      warmupStarted = true;
+
+      preloadRange(0, frameUrls.length - 1);
+    };
+
+    const commitFrame = (nextFrame) => {
+      if (nextFrame === currentFrame) return;
+
+       if (!warmedFrames.has(nextFrame)) {
+        preloadRange(nextFrame, Math.min(nextFrame + 12, frameUrls.length - 1));
+        return;
+      }
+
+      currentFrame = nextFrame;
+      image.src = frameUrls[nextFrame];
+
+      preloadRange(nextFrame + 1, Math.min(nextFrame + 12, frameUrls.length - 1));
+    };
+
+    const updateTargetProgress = () => {
+      const trackRect = track.getBoundingClientRect();
+      const stickyTop = Number.parseFloat(window.getComputedStyle(sticky).top) || 0;
+      const stickyHeight = sticky.getBoundingClientRect().height;
+      const maxScroll = Math.max(trackRect.height - stickyHeight, 1);
+      const rawProgress = Math.min(Math.max((stickyTop - trackRect.top) / maxScroll, 0), 1);
+      const animationPortion = 1 - FINAL_FRAME_HOLD;
+
+      targetProgress = Math.min(rawProgress / animationPortion, 1);
+    };
+
+    const updateFrame = () => {
+      const delta = targetProgress - currentProgress;
+
+      if (Math.abs(delta) < 0.001) {
+        currentProgress = targetProgress;
+      } else {
+        currentProgress += delta * SMOOTHING;
+      }
+
+      const easedProgress = easeInOut(currentProgress);
+      const nextFrame = Math.min(frameUrls.length - 1, Math.round(easedProgress * (frameUrls.length - 1)));
+
+      commitFrame(nextFrame);
+
+      if (currentProgress !== targetProgress) {
+        rafId = window.requestAnimationFrame(updateFrame);
+      } else {
+        rafId = 0;
+      }
+    };
+
+    const requestUpdate = () => {
+      updateTargetProgress();
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(updateFrame);
+    };
+
+    const warmupObserver = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+
+        startWarmup();
+        warmupObserver.disconnect();
+      },
+      { rootMargin: '300px 0px' },
+    );
+
+    warmupObserver.observe(section);
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate, { passive: true });
+    requestUpdate();
+  })();
+</script>
