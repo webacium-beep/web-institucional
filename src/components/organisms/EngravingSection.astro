@@ -27,8 +27,8 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
         style="top: var(--header-height, 0px); min-height: calc(100vh - var(--header-height, 0px));"
         data-engraving-sequence-sticky
       >
-        <div class="grid w-full items-center gap-8 lg:grid-cols-[minmax(320px,430px)_minmax(0,1fr)] lg:gap-10 xl:gap-14">
-          <article class="order-2 flex w-full flex-col gap-5 bg-white p-6 sm:p-8 lg:order-1 lg:p-10">
+        <div class="relative flex w-full flex-col gap-8 lg:block">
+          <article class="order-2 flex w-full flex-col gap-5 bg-white p-6 sm:p-8 lg:absolute lg:left-0 lg:top-1/2 lg:z-10 lg:w-full lg:max-w-[430px] lg:-translate-y-1/2 lg:p-10" data-engraving-sequence-copy>
             <div class="flex flex-col gap-4">
               <span class="text-[16px] font-[300] uppercase tracking-[0.3em] text-[#B7B7B7]">
                 {t('engraving.card.eyebrow')}
@@ -56,11 +56,13 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
           </article>
 
           <figure
-            class="order-1 flex w-full items-center justify-center self-center lg:order-2"
+            class="order-1 flex w-full items-center justify-center self-center"
             style="height: calc(100vh - var(--header-height, 0px) - 4rem);"
+            data-engraving-sequence-figure
           >
             <div
               class="relative flex h-full w-full max-w-[420px] items-center justify-center bg-white sm:max-w-[460px] lg:max-w-[520px] xl:max-w-[560px]"
+              data-engraving-sequence-media
             >
               <img
                 src={firstFrameSrc}
@@ -87,8 +89,11 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
 
     const track = section.querySelector('[data-engraving-sequence-track]');
     const sticky = section.querySelector('[data-engraving-sequence-sticky]');
+    const figure = section.querySelector('[data-engraving-sequence-figure]');
+    const copy = section.querySelector('[data-engraving-sequence-copy]');
+    const media = section.querySelector('[data-engraving-sequence-media]');
     const image = section.querySelector('[data-engraving-sequence-image]');
-    if (!(track instanceof HTMLElement) || !(sticky instanceof HTMLElement) || !(image instanceof HTMLImageElement)) return;
+    if (!(track instanceof HTMLElement) || !(sticky instanceof HTMLElement) || !(figure instanceof HTMLElement) || !(copy instanceof HTMLElement) || !(media instanceof HTMLElement) || !(image instanceof HTMLImageElement)) return;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (prefersReducedMotion.matches) return;
@@ -109,6 +114,8 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
     const FINAL_FRAME_HOLD = 0.08;
     const MIN_SCALE = 0.92;
     const MAX_SCALE = 1.12;
+    const DESKTOP_BREAKPOINT = 1024;
+    const DESKTOP_COLUMN_GAP = 72;
 
     const easeInOut = (value) => value * value * (3 - 2 * value);
 
@@ -193,7 +200,16 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
       const easedProgress = easeInOut(currentProgress);
       const scale = MIN_SCALE + (MAX_SCALE - MIN_SCALE) * easedProgress;
       const nextFrame = Math.min(frameUrls.length - 1, Math.round(easedProgress * (frameUrls.length - 1)));
+      let mediaTranslateX = 0;
 
+      if (window.innerWidth >= DESKTOP_BREAKPOINT) {
+        const copyWidth = copy.getBoundingClientRect().width;
+        const finalOffsetX = (copyWidth + DESKTOP_COLUMN_GAP) / 2;
+
+        mediaTranslateX = easedProgress * finalOffsetX;
+      }
+
+      media.style.transform = `translate3d(${mediaTranslateX}px, 0, 0)`;
       image.style.transform = `scale(${scale})`;
 
       commitFrame(nextFrame);
