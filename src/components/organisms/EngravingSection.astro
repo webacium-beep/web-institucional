@@ -112,8 +112,7 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
 
     const SMOOTHING = 0.12;
     const FINAL_FRAME_HOLD = 0.08;
-    const MIN_SCALE = 0.92;
-    const MAX_SCALE = 1.12;
+    const FIXED_SCALE = 1.12;
     const DESKTOP_BREAKPOINT = 1024;
     const DESKTOP_COLUMN_GAP = 72;
 
@@ -198,7 +197,6 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
       }
 
       const easedProgress = easeInOut(currentProgress);
-      const scale = MIN_SCALE + (MAX_SCALE - MIN_SCALE) * easedProgress;
       const nextFrame = Math.min(frameUrls.length - 1, Math.round(easedProgress * (frameUrls.length - 1)));
       let mediaTranslateX = 0;
 
@@ -210,7 +208,7 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
       }
 
       media.style.transform = `translate3d(${mediaTranslateX}px, 0, 0)`;
-      image.style.transform = `scale(${scale})`;
+      image.style.transform = `scale(${FIXED_SCALE})`;
 
       commitFrame(nextFrame);
 
