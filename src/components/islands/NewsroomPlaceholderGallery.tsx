@@ -4,8 +4,8 @@ import {
   clampScrollProgress,
   getFadeState,
 } from '../../lib/about-visual';
+import { newsroomGalleryItems } from '../../data/newsroomGallery';
 
-const PLACEHOLDER_TONES = ['#d9d9d9', '#cfcfcf', '#c5c5c5', '#dbdbdb', '#c9c9c9'] as const;
 const DESKTOP_CARD_WIDTH = 500;
 const DESKTOP_CARD_HEIGHT = 380;
 const MOBILE_CARD_WIDTH = 240;
@@ -14,12 +14,6 @@ const MOBILE_CARD_HEIGHT = 320;
 export interface NewsroomPlaceholderGalleryProps {
   placeholderLabel: string;
 }
-
-const placeholderItems = PLACEHOLDER_TONES.map((tone, index) => ({
-  key: `newsroom-placeholder-${index + 1}`,
-  tone,
-  label: `${index + 1}`,
-}));
 
 export default function NewsroomPlaceholderGallery({
   placeholderLabel,
@@ -143,9 +137,9 @@ export default function NewsroomPlaceholderGallery({
 
   const track = (
     <div className="newsroom-gallery-track flex flex-row items-end gap-4">
-      {placeholderItems.map((item, index) => (
+      {newsroomGalleryItems.map((item, index) => (
         <article
-          key={item.key}
+          key={item.id}
           className={`newsroom-card newsroom-card--${(index % 4) + 1} relative shrink-0 overflow-hidden border border-[#B9B9B9] bg-transparent`}
           aria-label={`${placeholderLabel} ${index + 1}`}
           style={{
@@ -153,15 +147,13 @@ export default function NewsroomPlaceholderGallery({
             height: `${isDesktop ? DESKTOP_CARD_HEIGHT : MOBILE_CARD_HEIGHT}px`,
           }}
         >
-          <div
-            className="flex h-full w-full items-end justify-between p-5"
-            style={{ backgroundColor: item.tone }}
-          >
-            <span className="text-[10px] font-[600] uppercase tracking-[0.28em] text-[#6A6A6A]">
-              {placeholderLabel}
-            </span>
-            <span className="text-[12px] font-[600] text-[#787878]">{item.label}</span>
-          </div>
+          <img
+            src={item.imageSrc.src}
+            alt={`${placeholderLabel} ${index + 1}`}
+            className="block h-full w-full object-cover"
+            loading={index === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+          />
         </article>
       ))}
     </div>
