@@ -8,6 +8,7 @@ import FeaturedWorld from '../organisms/FeaturedWorld.astro';
 import WorldFormatsGallerySection from '../organisms/WorldFormatsGallerySection.astro';
 import FranchiseSection from '../organisms/FranchiseSection.astro';
 import NewsroomSection from '../organisms/NewsroomSection.astro';
+import FooterSection from '../organisms/FooterSection.astro';
 import Layout from '../../layouts/Layout.astro';
 import type { Locales } from '../../i18n/ui';
 import SeparadorOneImage from '../../assets/images/SeparadorOneImage.svg';
@@ -31,4 +32,5 @@ const { lang } = Astro.props;
   <FranchiseSection lang={lang} />
   <SectionDivider img={SeparadorTwoImage.src} />
   <NewsroomSection lang={lang} />
+  <FooterSection lang={lang} />
 </Layout>

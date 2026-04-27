@@ -115,6 +115,10 @@ src/
     └── global.css
 ```
 
+### Additional Documentation
+
+- [Footer data consumption](./footer-data-consumption.md) — explains how footer data, i18n labels, assets, and rendering are wired today.
+
 ---
 
 ## Scripts

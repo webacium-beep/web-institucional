@@ -1,0 +1,100 @@
+---
+import { getFooterData, FOOTER_ICON_NAME, FOOTER_LINK_KIND } from '../../lib/footer';
+import { useTranslations } from '../../i18n/utils';
+import footerLogo from '../../assets/icons/LOGO_FOOTER.svg';
+import linkedInIcon from '../../assets/icons/Íconos_linkedin.svg';
+import instagramIcon from '../../assets/icons/Íconos_instagram.svg';
+import whatsappIcon from '../../assets/icons/Ícono_Whatsapp.svg';
+import wechatIcon from '../../assets/icons/Íconos_wechat.svg';
+
+interface Props {
+  lang?: string | undefined | null;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const footerData = getFooterData();
+const homeHref = lang && lang !== 'es' ? `/${lang}#site-top` : '/#site-top';
+
+const footerLogoSrc = typeof footerLogo === 'string' ? footerLogo : footerLogo.src;
+
+const footerIconByName = {
+  [FOOTER_ICON_NAME.LINKEDIN]: typeof linkedInIcon === 'string' ? linkedInIcon : linkedInIcon.src,
+  [FOOTER_ICON_NAME.INSTAGRAM]: typeof instagramIcon === 'string' ? instagramIcon : instagramIcon.src,
+  [FOOTER_ICON_NAME.WHATSAPP]: typeof whatsappIcon === 'string' ? whatsappIcon : whatsappIcon.src,
+  [FOOTER_ICON_NAME.WECHAT]: typeof wechatIcon === 'string' ? wechatIcon : wechatIcon.src,
+} as const;
+---
+
+<footer class="w-full bg-black px-6 py-14 text-white sm:px-10 lg:px-16 lg:py-16 xl:px-24 font-avenir">
+  <div class="mx-auto flex w-full max-w-[1600px] flex-col gap-14 lg:flex-row lg:items-start lg:justify-between lg:gap-24">
+    <div class="flex w-full flex-col items-start gap-10 lg:max-w-[430px] lg:min-h-[220px] lg:justify-between">
+      <a href={homeHref} aria-label="Volver al inicio" class="inline-flex cursor-pointer">
+        <img src={footerLogoSrc} alt="ACIUM" class="h-auto w-[180px] cursor-pointer lg:w-[188px]" />
+      </a>
+
+      <div class="flex flex-col items-start gap-6">
+        <ul class="flex items-center gap-6" aria-label="ACIUM social links">
+          {footerData.social.map((item) => {
+            const iconSrc = footerIconByName[item.icon];
+            const isExternal = item.kind === FOOTER_LINK_KIND.EXTERNAL;
+
+            return (
+              <li>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    aria-label={item.label}
+                    target={isExternal ? '_blank' : undefined}
+                    rel={isExternal ? 'noreferrer' : undefined}
+                    class="inline-flex h-6 w-6 cursor-pointer items-center justify-center opacity-90 transition-opacity duration-200 hover:opacity-100"
+                  >
+                    <img src={iconSrc} alt={item.label} class="h-6 w-6 object-contain" />
+                  </a>
+                ) : (
+                  <span class="inline-flex h-6 w-6 cursor-pointer items-center justify-center opacity-90 transition-opacity duration-200 hover:opacity-100" aria-label={item.label}>
+                    <img src={iconSrc} alt="" aria-hidden="true" class="h-6 w-6 object-contain" />
+                  </span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+
+        {footerData.contact.href ? (
+          <a
+            href={footerData.contact.href}
+            class="cursor-pointer text-[0.92rem] uppercase tracking-[0.34em] text-white transition-opacity duration-200 hover:opacity-75"
+          >
+            {footerData.contact.email}
+          </a>
+        ) : (
+          <p class="cursor-pointer text-[0.92rem] uppercase tracking-[0.34em] text-white transition-opacity duration-200 hover:opacity-75">
+            {footerData.contact.email}
+          </p>
+        )}
+      </div>
+    </div>
+
+    <nav aria-label="Footer navigation" class="w-full lg:max-w-[430px]">
+      <ul class="flex flex-col items-start gap-5">
+        {footerData.navigation.map((item) => (
+          <li>
+            {item.href ? (
+              <a
+                href={item.href}
+                class="cursor-pointer text-[16px] font-[300] uppercase tracking-[0.34em] text-white transition-all duration-200 hover:opacity-75 hover:font-[500]"
+              >
+                {t(item.labelKey)}
+              </a>
+            ) : (
+              <span class="cursor-pointer text-[16px] font-[300] uppercase tracking-[0.34em] text-white transition-all duration-200 hover:opacity-75 hover:font-[500]">
+                {t(item.labelKey)}
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</footer>

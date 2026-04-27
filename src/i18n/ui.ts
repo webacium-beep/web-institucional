@@ -80,8 +80,11 @@ interface UIContent
   "nav.world": string;
   "nav.franchise": string;
   "nav.newsroom": string;
+  "footer.privacy": string;
   "selector.label": string;
 }
+
+export type UIKey = keyof UIContent;
 
 export const ui: Record<Locales, UIContent> = {
   es: {
@@ -91,6 +94,7 @@ export const ui: Record<Locales, UIContent> = {
     "nav.world": "ALREDEDOR DEL MUNDO",
     "nav.franchise": "OPORTUNIDADES DE FRANQUICIA",
     "nav.newsroom": "SALA DE PRENSA",
+    "footer.privacy": "POLÍTICA DE PRIVACIDAD",
     "selector.label": "IDIOMA",
     "about.badge": "#ACIUM",
     "about.titleLine1": "Sobre",
@@ -148,6 +152,7 @@ export const ui: Record<Locales, UIContent> = {
     "nav.world": "AROUND THE WORLD",
     "nav.franchise": "FRANCHISE OPPORTUNITIES",
     "nav.newsroom": "NEWSROOM",
+    "footer.privacy": "PRIVACY POLICY",
     "selector.label": "LANGUAGE",
     "about.badge": "#ACIUM",
     "about.titleLine1": "About",
@@ -205,6 +210,7 @@ export const ui: Record<Locales, UIContent> = {
     "nav.world": "NEL MONDO",
     "nav.franchise": "OPPORTUNITÀ DI FRANCHISING",
     "nav.newsroom": "NOTIZIE",
+    "footer.privacy": "POLITICA SULLA PRIVACY",
     "selector.label": "LINGUA",
     "about.badge": "#ACIUM",
     "about.titleLine1": "Chi",
@@ -262,6 +268,7 @@ export const ui: Record<Locales, UIContent> = {
     "nav.world": "AO REDOR DO MUNDO",
     "nav.franchise": "OPORTUNIDADES DE FRANQUIA",
     "nav.newsroom": "IMPRENSA",
+    "footer.privacy": "POLÍTICA DE PRIVACIDADE",
     "selector.label": "IDIOMA",
     "about.badge": "#ACIUM",
     "about.titleLine1": "Sobre",
@@ -319,6 +326,7 @@ export const ui: Record<Locales, UIContent> = {
     "nav.world": "RUND UM DIE WELT",
     "nav.franchise": "FRANCHISE-MÖGLICHKEITEN",
     "nav.newsroom": "NEUIGKEITEN",
+    "footer.privacy": "DATENSCHUTZERKLÄRUNG",
     "selector.label": "SPRACHE",
     "about.badge": "#ACIUM",
     "about.titleLine1": "Über",
@@ -376,6 +384,7 @@ export const ui: Record<Locales, UIContent> = {
     "nav.world": "遍布全球",
     "nav.franchise": "特许经营机会",
     "nav.newsroom": "新闻中心",
+    "footer.privacy": "隐私政策",
     "selector.label": "语言",
     "about.badge": "#ACIUM",
     "about.titleLine1": "关于",

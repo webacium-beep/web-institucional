@@ -14,7 +14,7 @@ const lang = normalizeLocale(Astro.currentLocale);
 		<meta name="generator" content={Astro.generator} />
 		<title>ACIUM</title>
 	</head>
-	<body style="padding-top: var(--header-height, 166px);">
+	<body id="site-top" style="padding-top: var(--header-height, 166px);">
 		<Header locale={lang} />
 		<slot />
 	</body>
