@@ -10,9 +10,10 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const ctaHref = '#';
 const mediaFallback = t('engraving.mediaFallback');
-const frameBasePath = '/FRAMES_FOTOGRAMA_GRABADOS/DIJE_GIRANDO_24fps';
-const frameCount = 181;
-const firstFrameSrc = `${frameBasePath}0000.webp`;
+const frameBasePath = '/V3/DIJE_GIRANDOrgb+alpha';
+const frameStart = 4;
+const frameEnd = 146;
+const firstFrameSrc = `${frameBasePath}${String(frameStart).padStart(4, '0')}.webp`;
 ---
 
 <section class="w-full bg-white px-6 pt-24 text-black sm:px-10 lg:px-16 lg:pt-20 xl:px-24 font-avenir" data-engraving-sequence>
@@ -61,13 +62,13 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
             data-engraving-sequence-figure
           >
             <div
-              class="relative flex h-full w-full max-w-[420px] items-center justify-center bg-white sm:max-w-[460px] lg:max-w-[520px] xl:max-w-[560px]"
+              class="relative flex h-full w-full max-w-[420px] items-center justify-center bg-white sm:max-w-[460px] lg:max-w-[535px] xl:max-w-[535px]"
               data-engraving-sequence-media
             >
               <img
                 src={firstFrameSrc}
                 alt={mediaFallback}
-                class="block h-full w-auto max-w-full object-contain will-change-transform"
+                class="block h-[530px] w-auto max-w-full object-contain will-change-transform"
                 loading="eager"
                 decoding="async"
                 fetchpriority="high"
@@ -82,7 +83,7 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
   </div>
 </section>
 
-<script is:inline define:vars={{ frameBasePath, frameCount }}>
+<script is:inline define:vars={{ frameBasePath, frameStart, frameEnd }}>
   (() => {
     const section = document.querySelector('[data-engraving-sequence]');
     if (!section) return;
@@ -98,8 +99,10 @@ const firstFrameSrc = `${frameBasePath}0000.webp`;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (prefersReducedMotion.matches) return;
 
+    const frameCount = frameEnd - frameStart + 1;
+
     const frameUrls = Array.from({ length: frameCount }, (_, index) =>
-      `${frameBasePath}${String(index).padStart(4, '0')}.webp`,
+      `${frameBasePath}${String(frameStart + index).padStart(4, '0')}.webp`,
     );
 
     const warmedFrames = new Set();
