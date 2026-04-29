@@ -62,6 +62,15 @@ describe('getFooterData', () => {
     expect(aboutItem).not.toHaveProperty('href');
   });
 
+  it('centralizes the world footer link through a route id', () => {
+    const worldItem = FOOTER_DATA.navigation.find((item) => item.id === 'world');
+
+    expect(worldItem).toEqual(
+      expect.objectContaining({ routeId: PAGE_ROUTE_ID.WORLD }),
+    );
+    expect(worldItem).not.toHaveProperty('href');
+  });
+
   it('resolves the about footer href for the default locale', () => {
     const aboutItem = getFooterData('es').navigation.find((item) => item.id === 'about');
 
@@ -72,6 +81,18 @@ describe('getFooterData', () => {
     const aboutItem = getFooterData('en').navigation.find((item) => item.id === 'about');
 
     expect(aboutItem?.href).toBe('/en/about');
+  });
+
+  it('resolves the world footer href for the default locale', () => {
+    const worldItem = getFooterData('es').navigation.find((item) => item.id === 'world');
+
+    expect(worldItem?.href).toBe('/world');
+  });
+
+  it('resolves the world footer href for non-default locales', () => {
+    const worldItem = getFooterData('zh').navigation.find((item) => item.id === 'world');
+
+    expect(worldItem?.href).toBe('/zh/world');
   });
 
   it('keeps non-routed footer links unchanged when no route id exists', () => {

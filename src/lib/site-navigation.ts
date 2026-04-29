@@ -4,6 +4,7 @@ import type { Locales } from '../i18n/ui';
 export const PAGE_ROUTE_ID = {
   HOME: 'home',
   ABOUT: 'about',
+  WORLD: 'world',
 } as const;
 
 export type PageRouteId = (typeof PAGE_ROUTE_ID)[keyof typeof PAGE_ROUTE_ID];
@@ -17,6 +18,10 @@ export function getLocalizedPageHref(page: PageRouteId, lang: string | null | un
 
   if (page === PAGE_ROUTE_ID.ABOUT) {
     return safeLang === 'es' ? '/about' : `/${safeLang}/about`;
+  }
+
+  if (page === PAGE_ROUTE_ID.WORLD) {
+    return safeLang === 'es' ? '/world' : `/${safeLang}/world`;
   }
 
   return '/';

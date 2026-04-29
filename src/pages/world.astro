@@ -1,0 +1,8 @@
+---
+import WorldPage from '../components/templates/WorldPage.astro';
+import { normalizeLocale } from '../i18n/utils';
+
+const lang = normalizeLocale(Astro.currentLocale);
+---
+
+<WorldPage lang={lang} />

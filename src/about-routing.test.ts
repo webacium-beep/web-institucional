@@ -5,7 +5,7 @@
  * 1. All 6 About localized route files exist and follow the correct pattern.
  * 2. Each route file imports AboutPage, uses normalizeLocale, and renders
  *    <AboutPage lang={lang}>.
- * 3. Header.astro nav.about href is locale-aware: /about for es, /{locale}/about for others.
+ * 3. Header.astro nav.about and nav.world hrefs are locale-aware.
  *
  * Strategy: Static file-content inspection via readFileSync.
  * Paths are relative to the project root (absolute paths used throughout).
@@ -90,14 +90,13 @@ describe('About localized route files', () => {
       expect(headerContent).toMatch(/\{t\(['"]nav\.about['"]\)\}/);
     });
 
-    it('other nav links (world, franchise, newsroom) remain href="#"', () => {
-      // Check that nav.world, nav.franchise, nav.newsroom still have href="#"
-      // by ensuring their anchor tags do NOT have the locale-aware ternary href
-      // and still have href="#"
+    it('nav.world also uses a locale-aware href while the remaining placeholders stay unchanged', () => {
       const worldLink = headerContent.match(/<a\s[^>]*data-text=\{t\(['"]nav\.world['"]\)\}[^>]*>/)?.[0];
       const franchiseLink = headerContent.match(/<a\s[^>]*data-text=\{t\(['"]nav\.franchise['"]\)\}[^>]*>/)?.[0];
       const newsroomLink = headerContent.match(/<a\s[^>]*data-text=\{t\(['"]nav\.newsroom['"]\)\}[^>]*>/)?.[0];
-      expect(worldLink).toContain('href="#"');
+
+      expect(headerContent).toMatch(/const\s+worldHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.WORLD,\s*safeLocale\)/);
+      expect(worldLink).toContain('href={worldHref}');
       expect(franchiseLink).toContain('href="#"');
       expect(newsroomLink).toContain('href="#"');
     });
@@ -125,14 +124,23 @@ describe('About localized route files', () => {
     });
   });
 
-  describe('site-navigation.ts — shared localized about route', () => {
+  describe('site-navigation.ts — shared localized page routes', () => {
     it('declares the ABOUT route id constant', () => {
       expect(navigationLibContent).toMatch(/ABOUT:\s*['"]about['"]/);
+    });
+
+    it('declares the WORLD route id constant', () => {
+      expect(navigationLibContent).toMatch(/WORLD:\s*['"]world['"]/);
     });
 
     it('maps ABOUT to /about for es and /{locale}/about otherwise', () => {
       expect(navigationLibContent).toMatch(/if\s*\(page\s*===\s*PAGE_ROUTE_ID\.ABOUT\)\s*\{/);
       expect(navigationLibContent).toMatch(/return\s+safeLang\s*===\s*['"]es['"]\s*\?\s*['"]\/about['"]\s*:\s*`\/\$\{safeLang\}\/about`/);
+    });
+
+    it('maps WORLD to /world for es and /{locale}/world otherwise', () => {
+      expect(navigationLibContent).toMatch(/if\s*\(page\s*===\s*PAGE_ROUTE_ID\.WORLD\)\s*\{/);
+      expect(navigationLibContent).toMatch(/return\s+safeLang\s*===\s*['"]es['"]\s*\?\s*['"]\/world['"]\s*:\s*`\/\$\{safeLang\}\/world`/);
     });
   });
 });

@@ -57,8 +57,8 @@ export const FOOTER_DATA: FooterData = {
     {
       id: 'world',
       labelKey: 'nav.world',
-      href: '',
       kind: FOOTER_LINK_KIND.PAGE,
+      routeId: PAGE_ROUTE_ID.WORLD,
     },
     {
       id: 'franchise',
