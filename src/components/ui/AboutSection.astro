@@ -28,6 +28,7 @@ import { sanityClient } from '../../lib/sanity/client';
 import { ABOUT_QUERY } from '../../lib/sanity/queries';
 import { buildAboutSanityStateFromPosts } from '../../lib/sanity/about.utils';
 import type { AboutPost } from '../../lib/sanity/types';
+import { getLocalizedPageHref, PAGE_ROUTE_ID } from '../../lib/site-navigation';
 import AboutScrollGallery from '../islands/AboutScrollGallery';
 
 const rawLocale = Astro.currentLocale;
@@ -36,6 +37,7 @@ const lang: Locales = (rawLocale === 'es' || rawLocale === 'en' || rawLocale ===
     : 'es';
 
 const t = useTranslations(lang);
+const aboutHref = getLocalizedPageHref(PAGE_ROUTE_ID.ABOUT, lang);
 
 // ─── Sanity SSR fetch ─────────────────────────────────────────────────────────
 // Story 9 / data-shape fix: ABOUT_QUERY now returns ALL aboutPost documents.
@@ -58,9 +60,9 @@ const { galleryItems } = buildAboutSanityStateFromPosts(aboutPosts ?? []);
         <span class="block">{t('about.titleLine2')}</span>
       </h2>
 
-      <button class="self-start border border-[#2F2F2F] px-4 py-2 text-[1.05rem] font-[600] leading-none text-black bg-white hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer">
+      <a href={aboutHref} class="self-start border border-[#2F2F2F] px-4 py-2 text-[1.05rem] font-[600] leading-none text-black bg-white hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer">
         {t('about.subtitle')}
-      </button>
+      </a>
 
       <p class="text-[1.15rem] leading-[1.55] text-[#2A2A2A] max-w-[430px] text-balance">
         {t('about.description')}

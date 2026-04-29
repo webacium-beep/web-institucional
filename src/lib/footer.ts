@@ -1,4 +1,5 @@
 import type { UIKey } from '../i18n/ui';
+import { getLocalizedPageHref, PAGE_ROUTE_ID, type PageRouteId } from './site-navigation';
 
 export const FOOTER_LINK_KIND = {
   PAGE: 'page',
@@ -20,8 +21,9 @@ export type FooterIconName = (typeof FOOTER_ICON_NAME)[keyof typeof FOOTER_ICON_
 export interface FooterNavigationItem {
   id: string;
   labelKey: UIKey;
-  href: string;
+  href?: string;
   kind: FooterLinkKind;
+  routeId?: PageRouteId;
 }
 
 export interface FooterSocialItem {
@@ -49,8 +51,8 @@ export const FOOTER_DATA: FooterData = {
     {
       id: 'about',
       labelKey: 'nav.about',
-      href: '',
       kind: FOOTER_LINK_KIND.PAGE,
+      routeId: PAGE_ROUTE_ID.ABOUT,
     },
     {
       id: 'world',
@@ -114,6 +116,12 @@ export const FOOTER_DATA: FooterData = {
   },
 };
 
-export function getFooterData() {
-  return FOOTER_DATA;
+export function getFooterData(lang?: string | null) {
+  return {
+    ...FOOTER_DATA,
+    navigation: FOOTER_DATA.navigation.map((item) => ({
+      ...item,
+      href: item.routeId ? getLocalizedPageHref(item.routeId, lang) : (item.href ?? ''),
+    })),
+  };
 }

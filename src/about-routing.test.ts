@@ -27,12 +27,21 @@ const ROUTES = [
 ] as const;
 
 const HEADER_PATH = resolve(ROOT, 'src/components/ui/Header.astro');
+const FOOTER_PATH = resolve(ROOT, 'src/components/organisms/FooterSection.astro');
+const ABOUT_SECTION_PATH = resolve(ROOT, 'src/components/ui/AboutSection.astro');
+const NAVIGATION_LIB_PATH = resolve(ROOT, 'src/lib/site-navigation.ts');
 
 describe('About localized route files', () => {
   let headerContent: string;
+  let footerContent: string;
+  let aboutSectionContent: string;
+  let navigationLibContent: string;
 
   beforeAll(() => {
     headerContent = readFileSync(HEADER_PATH, 'utf-8');
+    footerContent = readFileSync(FOOTER_PATH, 'utf-8');
+    aboutSectionContent = readFileSync(ABOUT_SECTION_PATH, 'utf-8');
+    navigationLibContent = readFileSync(NAVIGATION_LIB_PATH, 'utf-8');
   });
 
   describe.each(ROUTES)('src/pages$route.path', ({ file, locale, path }) => {
@@ -68,12 +77,13 @@ describe('About localized route files', () => {
       expect(headerContent).toMatch(/data-text=\{t\(['"]nav\.about['"]\)\}/);
     });
 
-    it('href is /about for Spanish (es) locale using ternary', () => {
-      expect(headerContent).toMatch(/safeLocale\s*===\s*['"]es['"]\s*\?\s*['"]\/about['"]\s*:/);
+    it('imports the shared localized navigation helper', () => {
+      expect(headerContent).toMatch(/import\s+\{\s*getLocalizedPageHref,\s*PAGE_ROUTE_ID\s*\}\s+from\s+['"][^'"]*site-navigation['"]/);
     });
 
-    it('href is /{locale}/about for non-default locales using template literal', () => {
-      expect(headerContent).toMatch(/`\/\$\{safeLocale\}\/about`/);
+    it('computes aboutHref via the shared helper', () => {
+      expect(headerContent).toMatch(/const\s+aboutHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.ABOUT,\s*safeLocale\)/);
+      expect(headerContent).toMatch(/href=\{aboutHref\}/);
     });
 
     it('nav.about anchor still uses t() for the visible label and aria text', () => {
@@ -90,6 +100,39 @@ describe('About localized route files', () => {
       expect(worldLink).toContain('href="#"');
       expect(franchiseLink).toContain('href="#"');
       expect(newsroomLink).toContain('href="#"');
+    });
+  });
+
+  describe('FooterSection.astro — nav.about href', () => {
+    it('gets localized footer data by passing lang into the footer data resolver', () => {
+      expect(footerContent).toMatch(/const\s+footerData\s*=\s*getFooterData\(lang\)/);
+    });
+
+    it('renders footer navigation from the resolved footerData navigation array', () => {
+      expect(footerContent).toMatch(/footerData\.navigation\.map\(\(item\)\s*=>/);
+    });
+  });
+
+  describe('AboutSection.astro — CTA href', () => {
+    it('uses the shared localized navigation helper', () => {
+      expect(aboutSectionContent).toMatch(/import\s+\{\s*getLocalizedPageHref,\s*PAGE_ROUTE_ID\s*\}\s+from\s+['"][^'"]*site-navigation['"]/);
+      expect(aboutSectionContent).toMatch(/const\s+aboutHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.ABOUT,\s*lang\)/);
+    });
+
+    it('renders the CTA as a link to aboutHref', () => {
+      expect(aboutSectionContent).toMatch(/<a\s+href=\{aboutHref\}/);
+      expect(aboutSectionContent).not.toMatch(/<button\s/);
+    });
+  });
+
+  describe('site-navigation.ts — shared localized about route', () => {
+    it('declares the ABOUT route id constant', () => {
+      expect(navigationLibContent).toMatch(/ABOUT:\s*['"]about['"]/);
+    });
+
+    it('maps ABOUT to /about for es and /{locale}/about otherwise', () => {
+      expect(navigationLibContent).toMatch(/if\s*\(page\s*===\s*PAGE_ROUTE_ID\.ABOUT\)\s*\{/);
+      expect(navigationLibContent).toMatch(/return\s+safeLang\s*===\s*['"]es['"]\s*\?\s*['"]\/about['"]\s*:\s*`\/\$\{safeLang\}\/about`/);
     });
   });
 });

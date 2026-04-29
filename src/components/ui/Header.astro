@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import logoParaLaNav from "../../assets/logos/logo-para-la-nav.png";
 import LanguageSelector from "../islands/LanguageSelector";
 import { normalizeLocale, useTranslations } from "../../i18n/utils";
+import { getLocalizedPageHref, PAGE_ROUTE_ID } from "../../lib/site-navigation";
 
 interface Props {
   locale: string;
@@ -11,6 +12,7 @@ interface Props {
 const { locale } = Astro.props;
 const safeLocale = normalizeLocale(locale);
 const t = useTranslations(safeLocale);
+const aboutHref = getLocalizedPageHref(PAGE_ROUTE_ID.ABOUT, safeLocale);
 ---
 
 <header id="site-header" class="fixed top-0 left-0 right-0 z-50 font-avenir w-full bg-black text-white">
@@ -46,7 +48,7 @@ const t = useTranslations(safeLocale);
   <div class="border-b border-[#6E6E6E]">
     <nav class="mx-auto flex max-w-[1180px] justify-between items-center gap-8 px-8 md:px-12 pt-6 pb-5">
       <a
-        href={safeLocale === 'es' ? '/about' : `/${safeLocale}/about`}
+        href={aboutHref}
         data-text={t('nav.about')}
         class="nav-link relative text-[13px] tracking-[0.18em] text-[#9B9B9B] font-[300] hover:text-white hover:font-[800] transition-none"
       >

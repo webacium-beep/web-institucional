@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { FOOTER_DATA, FOOTER_ICON_NAME, FOOTER_LINK_KIND, getFooterData } from './footer';
+import { PAGE_ROUTE_ID } from './site-navigation';
 
 describe('FOOTER_DATA', () => {
   it('reuses existing nav translation keys for core navigation items', () => {
@@ -44,7 +45,38 @@ describe('FOOTER_DATA', () => {
 });
 
 describe('getFooterData', () => {
-  it('returns the canonical footer data object', () => {
-    expect(getFooterData()).toBe(FOOTER_DATA);
+  it('returns footer data preserving the overall navigation shape', () => {
+    expect(getFooterData().navigation).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: 'about', labelKey: 'nav.about', kind: FOOTER_LINK_KIND.PAGE }),
+      ]),
+    );
+  });
+
+  it('centralizes the about footer link through a route id', () => {
+    const aboutItem = FOOTER_DATA.navigation.find((item) => item.id === 'about');
+
+    expect(aboutItem).toEqual(
+      expect.objectContaining({ routeId: PAGE_ROUTE_ID.ABOUT }),
+    );
+    expect(aboutItem).not.toHaveProperty('href');
+  });
+
+  it('resolves the about footer href for the default locale', () => {
+    const aboutItem = getFooterData('es').navigation.find((item) => item.id === 'about');
+
+    expect(aboutItem?.href).toBe('/about');
+  });
+
+  it('resolves the about footer href for non-default locales', () => {
+    const aboutItem = getFooterData('en').navigation.find((item) => item.id === 'about');
+
+    expect(aboutItem?.href).toBe('/en/about');
+  });
+
+  it('keeps non-routed footer links unchanged when no route id exists', () => {
+    const privacyItem = getFooterData('de').navigation.find((item) => item.id === 'privacy');
+
+    expect(privacyItem?.href).toBe('');
   });
 });

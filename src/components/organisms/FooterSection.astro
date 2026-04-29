@@ -13,7 +13,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const footerData = getFooterData();
+const footerData = getFooterData(lang);
 const homeHref = lang && lang !== 'es' ? `/${lang}#site-top` : '/#site-top';
 
 const footerLogoSrc = typeof footerLogo === 'string' ? footerLogo : footerLogo.src;
