@@ -1,0 +1,44 @@
+---
+import Header from "../components/ui/Header.astro";
+import FooterSection from "../components/organisms/FooterSection.astro";
+import "../styles/global.css";
+import { normalizeLocale } from "../i18n/utils";
+import type { Locales } from "../i18n/ui";
+
+interface Props {
+  lang: Locales;
+}
+
+const { lang } = Astro.props;
+const resolvedLang = normalizeLocale(lang);
+---
+
+<!doctype html>
+<html lang={resolvedLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>ACIUM</title>
+  </head>
+  <body id="site-top" style="padding-top: var(--header-height, 166px);">
+    <Header locale={lang} />
+    <main>
+      <slot />
+    </main>
+    <FooterSection lang={lang} />
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>

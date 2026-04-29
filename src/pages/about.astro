@@ -1,0 +1,8 @@
+---
+import AboutPage from '../components/templates/AboutPage.astro';
+import { normalizeLocale } from '../i18n/utils';
+
+const lang = normalizeLocale(Astro.currentLocale);
+---
+
+<AboutPage lang={lang} />
