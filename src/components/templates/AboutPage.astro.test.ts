@@ -4,8 +4,8 @@
  * Verifies:
  * 1. AboutPage imports and uses PageLayout.
  * 2. AboutPage accepts lang: Locales prop.
- * 3. AboutPage renders a hardcoded <h1>About Us</h1> inside PageLayout slot.
- * 4. AboutPage does NOT use i18n for the heading text (hardcoded English).
+ * 3. AboutPage imports and uses the page-owned aboutPage dictionary.
+ * 4. AboutPage resolves its heading through usePageTranslations and the aboutPage.heroTitle key.
  *
  * Strategy: Static template content inspection.
  */
@@ -32,6 +32,14 @@ describe('AboutPage.astro — template composition', () => {
       expect(templateContent).toMatch(/import\s+type\s+\{[^}]*Locales[^}]*\}\s+from\s+["']\.\.\/\.\.\/i18n\/ui["']/);
     });
 
+    it('imports the aboutPage dictionary from i18n/about-page', () => {
+      expect(templateContent).toMatch(/import\s+\{\s*aboutPage\s*\}\s+from\s+["']\.\.\/\.\.\/i18n\/about-page["']/);
+    });
+
+    it('imports usePageTranslations from i18n/utils', () => {
+      expect(templateContent).toMatch(/import\s+\{\s*usePageTranslations\s*\}\s+from\s+["']\.\.\/\.\.\/i18n\/utils["']/);
+    });
+
     it('declares Props interface with lang: Locales', () => {
       expect(templateContent).toMatch(/lang:\s*Locales/);
     });
@@ -43,18 +51,26 @@ describe('AboutPage.astro — template composition', () => {
 
   describe('PageLayout usage', () => {
     it('renders <PageLayout lang={lang}> wrapping slot content', () => {
-      expect(templateContent).toMatch(/<PageLayout\s[^>]*lang=\{lang\}[\s\S]*<h1>About Us<\/h1>[\s\S]*<\/PageLayout>/);
+      expect(templateContent).toMatch(/<PageLayout\s[^>]*lang=\{lang\}[\s\S]*<h1>\{t\('aboutPage\.heroTitle'\)\}<\/h1>[\s\S]*<\/PageLayout>/);
     });
   });
 
-  describe('placeholder content', () => {
-    it('renders <h1>About Us</h1> as hardcoded text (not i18n)', () => {
-      expect(templateContent).toContain('<h1>About Us</h1>');
+  describe('page-owned i18n content', () => {
+    it('creates a page-scoped translator using lang and aboutPage dictionary', () => {
+      expect(templateContent).toMatch(/const\s+t\s*=\s*usePageTranslations\(lang,\s*aboutPage\)/);
     });
 
-    it('does NOT use t() or i18n key for the heading', () => {
-      expect(templateContent).not.toContain("t('about");
-      expect(templateContent).not.toContain('about.title');
+    it('renders the heading through the aboutPage.heroTitle key', () => {
+      expect(templateContent).toContain("<h1>{t('aboutPage.heroTitle')}</h1>");
+    });
+
+    it('does NOT use the old hardcoded About Us placeholder', () => {
+      expect(templateContent).not.toContain('<h1>About Us</h1>');
+    });
+
+    it('does NOT use the Home about.* namespace for the About page heading', () => {
+      expect(templateContent).not.toContain("t('about.title");
+      expect(templateContent).not.toContain("t('about.badge");
     });
   });
 });

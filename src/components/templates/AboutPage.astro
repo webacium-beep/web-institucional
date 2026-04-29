@@ -1,14 +1,17 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import type { Locales } from "../../i18n/ui";
+import { usePageTranslations } from "../../i18n/utils";
+import { aboutPage } from "../../i18n/about-page";
 
 interface Props {
   lang: Locales;
 }
 
 const { lang } = Astro.props;
+const t = usePageTranslations(lang, aboutPage);
 ---
 
 <PageLayout lang={lang}>
-  <h1>About Us</h1>
+  <h1>{t('aboutPage.heroTitle')}</h1>
 </PageLayout>

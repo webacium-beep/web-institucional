@@ -1,4 +1,5 @@
-export type Locales = "es" | "en" | "it" | "pt" | "de" | "zh";
+import { type Locales } from './locales';
+export type { Locales };
 
 export interface AboutSectionData {
   "about.badge": string;

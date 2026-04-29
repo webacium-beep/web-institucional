@@ -47,6 +47,186 @@ Para mantener el desacoplamiento y la arquitectura limpia, el consumo del diccio
 *   **Átomos y Moléculas (Astro/React):** Tienen **estrictamente prohibido** importar diccionarios o utilidades de i18n. Son componentes "tontos" que deben recibir todos los textos de la interfaz exclusivamente como `strings` a través de sus `props`.
 *   **Islas (React):** Al igual que los átomos y moléculas, **no deben importar** el diccionario para evitar enviar el JSON completo de idiomas al bundle del cliente. Las páginas u organismos que instancian la isla deben inyectarle los textos ya traducidos mediante props (ej. `translations={{ title: "Hola" }}`).
 
+### 4.1. Principio de Ownership de Diccionarios
+
+Los diccionarios del proyecto se organizan por **ownership real del contenido**, no por nombres lindos de secciones ni por conveniencia momentánea.
+
+La regla es:
+
+*   **Shared** → copy transversal reutilizable por múltiples páginas (ej. navegación, footer, selector de idioma).
+*   **Page-owned** → copy que pertenece a una página concreta, aunque el nombre de la key parezca genérico.
+
+Ejemplo importante:
+
+*   Las keys actuales `about.*`, `world.*`, `franchise.*`, `engraving.*`, `newsroom.*`, etc. **hoy pertenecen a Home**, porque representan secciones del Home.
+*   **NO** deben reinterpretarse automáticamente como diccionarios globales o como dueñas de páginas futuras solo porque el nombre lo sugiera.
+
+### 4.2. Estado Actual y Transición Permitida
+
+Actualmente el proyecto convive con dos capas:
+
+1. `src/i18n/ui.ts`
+   * mantiene el diccionario monolítico histórico
+   * hoy contiene copy **shared + home**
+   * sigue siendo la fuente activa para Header, Footer y secciones actuales del Home
+
+2. Diccionarios de página nuevos
+   * se crean como módulos separados
+   * el primer caso ya introducido es `src/i18n/about-page.ts`
+   * se usan de forma aditiva, sin romper el comportamiento actual
+
+Esto significa que la transición es **progresiva**, no una reescritura masiva.
+
+### 4.3. Estructura Objetivo de Diccionarios
+
+La arquitectura objetivo para i18n es:
+
+*   `src/i18n/locales.ts`
+    * fuente única del tipo `Locales`
+    * fuente única de `SUPPORTED_LOCALES`
+
+*   `src/i18n/ui.ts`
+    * diccionario legado activo mientras Home/shared sigan allí
+    * no debe seguir creciendo indiscriminadamente con contenido de nuevas páginas
+
+*   `src/i18n/about-page.ts`
+    * diccionario exclusivo de la página About Us
+    * namespace propio: `aboutPage.*`
+
+*   futuros módulos page-owned:
+    * `src/i18n/world-page.ts`
+    * `src/i18n/franchise-page.ts`
+    * `src/i18n/newsroom-page.ts`
+    * etc.
+
+### 4.4. Reglas de Naming
+
+Las keys nuevas deben nombrarse de acuerdo al owner real del contenido.
+
+Reglas:
+
+*   contenido shared → prefijos compartidos como `nav.*`, `footer.*`, `selector.*`
+*   contenido de página About → `aboutPage.*`
+*   futuras páginas deben usar su propio namespace explícito
+
+Ejemplo correcto:
+
+```ts
+'aboutPage.heroTitle'
+```
+
+Ejemplo incorrecto para una página nueva:
+
+```ts
+'about.heroTitle'
+```
+
+Ese formato sería incorrecto porque colisiona semánticamente con el `about.*` actual del Home.
+
+### 4.5. Regla de Crecimiento
+
+Cuando aparezca una página nueva con contenido propio, el flujo correcto es:
+
+1. crear un diccionario dedicado para esa página
+2. definir un namespace propio y explícito
+3. agregar solo las keys de esa página
+4. resolver sus textos desde la página o template dueño del contenido
+5. evitar meter esas nuevas keys dentro de `ui.ts` salvo que realmente sean shared
+
+La regla general es:
+
+> `ui.ts` NO debe recibir contenido editorial nuevo de páginas nuevas si ese contenido tiene owner específico.
+
+### 4.6. Helpers Permitidos y Responsabilidades
+
+Actualmente existen dos niveles de helpers:
+
+#### `normalizeLocale(lang)`
+
+* vive en `src/i18n/utils.ts`
+* usa `SUPPORTED_LOCALES` de `src/i18n/locales.ts`
+* normaliza cualquier valor inválido a `es`
+
+#### `useTranslations(lang)`
+
+* helper legado/general
+* consume el diccionario de `ui.ts`
+* debe seguir usándose para:
+  * navegación shared
+  * footer shared
+  * selector shared
+  * Home mientras siga dependiendo del monolito actual
+
+#### `usePageTranslations(lang, dictionary)`
+
+* helper nuevo y genérico para diccionarios page-owned
+* recibe el `lang` actual y el diccionario específico de página
+* hace fallback a español
+* permite crecer página por página sin tocar el contrato legacy de `useTranslations()`
+
+### 4.7. Consumo Correcto por Tipo de Owner
+
+#### Shared
+
+Componentes como:
+
+* `Header.astro`
+* `FooterSection.astro`
+* selector de idioma
+
+deben seguir consumiendo `useTranslations(...)` mientras su copy viva en el diccionario shared/legacy.
+
+#### Home
+
+Las secciones actuales del Home siguen consumiendo `useTranslations(...)` porque su copy todavía vive dentro del monolito actual.
+
+Esto es válido y esperado hasta una migración específica de Home.
+
+#### About Page
+
+`src/components/templates/AboutPage.astro` debe consumir su diccionario propio vía:
+
+* `aboutPage`
+* `usePageTranslations(lang, aboutPage)`
+
+Regla: la página About **NO** debe volver a pedirle contenido de página a `ui.ts` si ese contenido ya es suyo.
+
+### 4.8. Qué Está Prohibido
+
+Está prohibido:
+
+*   seguir agregando contenido de páginas nuevas dentro de `ui.ts` por comodidad
+*   usar namespaces ambiguos que parezcan shared cuando el contenido no lo es
+*   mezclar en un mismo módulo copy de múltiples owners sin una razón arquitectónica real
+*   hacer que componentes bajos (átomos, moléculas, islas) importen diccionarios directamente
+*   crear un diccionario “genérico de secciones” si esas secciones en realidad pertenecen a una página específica
+
+### 4.9. Estrategia de Migración Futura
+
+La migración correcta es incremental:
+
+1. mantener Home/shared funcionando con `ui.ts`
+2. crear diccionarios nuevos page-owned para páginas nuevas
+3. migrar owners existentes solo mediante changes específicos y acotados
+4. recién cuando un owner deje de depender del monolito, remover sus keys del diccionario legado
+
+Esto evita:
+
+*   refactors gigantes sin red de seguridad
+*   pérdida de ownership semántico
+*   cambios masivos difíciles de verificar
+
+### 4.10. Objetivo Arquitectónico
+
+El sistema i18n debe escalar como un conjunto de **módulos con ownership claro**, no como una bolsa global de strings.
+
+La decisión actual busca:
+
+*   separar shared de page-owned content
+*   evitar que Home “se coma” el crecimiento de páginas nuevas
+*   permitir que About, y futuras páginas, evolucionen con sus propios contratos
+*   mantener compatibilidad con el sistema actual mientras la migración ocurre por fases
+
 ## 5. Navegación y Rutas Localizadas
 
 La navegación del proyecto **NO** debe resolverse con strings sueltos dispersos por componentes. La regla actual es que los enlaces internos localizados se definan mediante una **fuente de verdad compartida** y se consuman desde los componentes que renderizan navegación.
