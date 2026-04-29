@@ -36,12 +36,14 @@ describe('usePageTranslations', () => {
     const t = usePageTranslations('en', aboutPage);
 
     expect(t('aboutPage.heroTitle')).toBe('About Us');
+    expect(t('aboutPage.integratedModel.title')).toBe('Integrated model');
   });
 
   it('returns correct translation for Spanish locale', () => {
     const t = usePageTranslations('es', aboutPage);
 
     expect(t('aboutPage.heroTitle')).toBe('Sobre Nosotros');
+    expect(t('aboutPage.finalCta.label')).toBe('Descubre nuestros lanzamientos');
   });
 
   it('falls back to Spanish for null locale', () => {

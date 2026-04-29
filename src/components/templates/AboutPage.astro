@@ -10,8 +10,98 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = usePageTranslations(lang, aboutPage);
+const dnaCards = [
+  {
+    title: 'aboutPage.dna.values.eternity.title',
+    description: 'aboutPage.dna.values.eternity.description',
+  },
+  {
+    title: 'aboutPage.dna.values.emotion.title',
+    description: 'aboutPage.dna.values.emotion.description',
+  },
+  {
+    title: 'aboutPage.dna.values.versatility.title',
+    description: 'aboutPage.dna.values.versatility.description',
+  },
+] as const;
+
+const integratedModelFeatures = [
+  'aboutPage.integratedModel.features.product',
+  'aboutPage.integratedModel.features.pointOfSale',
+  'aboutPage.integratedModel.features.portfolio',
+  'aboutPage.integratedModel.features.retail',
+] as const;
 ---
 
 <PageLayout lang={lang}>
-  <h1>{t('aboutPage.heroTitle')}</h1>
+  <article class="mx-auto flex w-full max-w-6xl flex-col gap-16 px-6 py-12 md:gap-24 md:px-10 md:py-16">
+    <header class="flex justify-center">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em]">{t('aboutPage.heroTitle')}</p>
+    </header>
+
+    <section aria-labelledby="about-hero-title" class="grid gap-6 md:grid-cols-2 md:items-start">
+      <div class="space-y-3">
+        <p class="inline-block border border-current px-3 py-1 text-sm">{t('aboutPage.hero.eyebrow')}</p>
+        <h1 id="about-hero-title" class="max-w-xl text-4xl font-semibold leading-tight md:text-5xl">
+          {t('aboutPage.hero.title')}
+        </h1>
+      </div>
+
+      <p class="max-w-xl text-base leading-7">
+        {t('aboutPage.hero.description')}
+      </p>
+    </section>
+
+    <section aria-labelledby="about-dna-title" class="space-y-8">
+      <h2 id="about-dna-title" class="text-3xl font-semibold md:text-4xl">{t('aboutPage.dna.title')}</h2>
+
+      <ul class="grid gap-6 md:grid-cols-3" aria-label={t('aboutPage.dna.title')}>
+        {dnaCards.map((card) => (
+          <li class="space-y-2 border border-neutral-200 p-6">
+            <h3 class="text-xl font-semibold uppercase tracking-wide">{t(card.title)}</h3>
+            <p class="text-base leading-6">{t(card.description)}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="about-legacy-title" class="grid gap-6 md:grid-cols-2 md:items-start">
+      <div class="space-y-4">
+        <h2 id="about-legacy-title" class="text-3xl font-semibold md:text-4xl">{t('aboutPage.legacy.title')}</h2>
+        <p class="inline-block border border-current px-3 py-1 text-sm font-medium">{t('aboutPage.legacy.eyebrow')}</p>
+      </div>
+
+      <div class="space-y-3 text-base leading-7">
+        <p>{t('aboutPage.legacy.paragraph1')}</p>
+        <p>{t('aboutPage.legacy.paragraph2')}</p>
+        <p>{t('aboutPage.legacy.paragraph3')}</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="about-integrated-model-title" class="grid gap-6 md:grid-cols-[minmax(0,18rem)_1fr] md:items-start">
+      <div class="space-y-3">
+        <h2 id="about-integrated-model-title" class="text-3xl font-semibold md:text-4xl">
+          {t('aboutPage.integratedModel.title')}
+        </h2>
+        <p class="max-w-sm text-base leading-7">{t('aboutPage.integratedModel.description')}</p>
+      </div>
+
+      <ul class="grid gap-4 sm:grid-cols-2" aria-label={t('aboutPage.integratedModel.title')}>
+        {integratedModelFeatures.map((featureKey) => (
+          <li class="border border-neutral-200 p-4 text-base leading-6">{t(featureKey)}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="about-final-cta-title" class="space-y-6 border-t border-neutral-200 pt-12">
+      <h2 id="about-final-cta-title" class="text-3xl font-semibold leading-tight md:text-5xl">
+        <span class="block">{t('aboutPage.finalCta.titleLine1')}</span>
+        <span class="block">{t('aboutPage.finalCta.titleLine2')}</span>
+      </h2>
+
+      <p class="inline-block border border-current px-4 py-2 text-sm font-semibold uppercase tracking-wide">
+        {t('aboutPage.finalCta.label')}
+      </p>
+    </section>
+  </article>
 </PageLayout>

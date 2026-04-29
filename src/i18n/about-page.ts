@@ -2,25 +2,193 @@ import { type Locales } from './locales';
 
 export interface AboutPageContent {
   'aboutPage.heroTitle': string;
+  'aboutPage.hero.title': string;
+  'aboutPage.hero.eyebrow': string;
+  'aboutPage.hero.description': string;
+  'aboutPage.dna.title': string;
+  'aboutPage.dna.values.eternity.title': string;
+  'aboutPage.dna.values.eternity.description': string;
+  'aboutPage.dna.values.emotion.title': string;
+  'aboutPage.dna.values.emotion.description': string;
+  'aboutPage.dna.values.versatility.title': string;
+  'aboutPage.dna.values.versatility.description': string;
+  'aboutPage.legacy.title': string;
+  'aboutPage.legacy.eyebrow': string;
+  'aboutPage.legacy.paragraph1': string;
+  'aboutPage.legacy.paragraph2': string;
+  'aboutPage.legacy.paragraph3': string;
+  'aboutPage.integratedModel.title': string;
+  'aboutPage.integratedModel.description': string;
+  'aboutPage.integratedModel.features.product': string;
+  'aboutPage.integratedModel.features.pointOfSale': string;
+  'aboutPage.integratedModel.features.portfolio': string;
+  'aboutPage.integratedModel.features.retail': string;
+  'aboutPage.finalCta.titleLine1': string;
+  'aboutPage.finalCta.titleLine2': string;
+  'aboutPage.finalCta.label': string;
 }
 
 export const aboutPage: Record<Locales, AboutPageContent> = {
   es: {
     'aboutPage.heroTitle': 'Sobre Nosotros',
+    'aboutPage.hero.title': 'Momentos que se convierten en joyas',
+    'aboutPage.hero.eyebrow': 'Un modelo que se convierte en crecimiento',
+    'aboutPage.hero.description': 'Con un portafolio de más de 2.400 joyas, logramos conectar con todo tipo de cliente en distintos mercados del mundo. ACIUM transforma recuerdos en piezas eternas y esa conexión emocional en una oportunidad de negocio global. A través de tecnología de micrograbado, convertimos recuerdos en joyas únicas.',
+    'aboutPage.dna.title': 'Nuestro ADN',
+    'aboutPage.dna.values.eternity.title': 'Eternidad',
+    'aboutPage.dna.values.eternity.description': 'Joyas diseñadas para durar.',
+    'aboutPage.dna.values.emotion.title': 'Emoción',
+    'aboutPage.dna.values.emotion.description': 'Cada joya cuenta una historia.',
+    'aboutPage.dna.values.versatility.title': 'Versatilidad',
+    'aboutPage.dna.values.versatility.description': 'Más de 2.400 modelos para todos los estilos.',
+    'aboutPage.legacy.title': 'Nuestro legado',
+    'aboutPage.legacy.eyebrow': 'No vendemos joyas. Creamos significado.',
+    'aboutPage.legacy.paragraph1': 'Cada pieza nace de una emoción.',
+    'aboutPage.legacy.paragraph2': 'Cada punto de venta, de una oportunidad.',
+    'aboutPage.legacy.paragraph3': 'ACIUM combina producto, experiencia y modelo de negocio para crear una marca que conecta profundamente y crece de forma sostenible.',
+    'aboutPage.integratedModel.title': 'Modelo integrado',
+    'aboutPage.integratedModel.description': 'Diseñado para emocionar. Construido para escalar.',
+    'aboutPage.integratedModel.features.product': 'Producto altamente emocional',
+    'aboutPage.integratedModel.features.pointOfSale': 'Experiencia única en punto de venta',
+    'aboutPage.integratedModel.features.portfolio': 'Portafolio amplio y adaptable',
+    'aboutPage.integratedModel.features.retail': 'Sistema optimizado para retail',
+    'aboutPage.finalCta.titleLine1': 'Eternizamos momentos.',
+    'aboutPage.finalCta.titleLine2': 'Expandimos oportunidades.',
+    'aboutPage.finalCta.label': 'Descubre nuestros lanzamientos',
   },
   en: {
     'aboutPage.heroTitle': 'About Us',
+    'aboutPage.hero.title': 'Moments that become jewelry',
+    'aboutPage.hero.eyebrow': 'A model that turns into growth',
+    'aboutPage.hero.description': 'With a portfolio of more than 2,400 pieces, we connect with every type of customer across different markets around the world. ACIUM transforms memories into timeless pieces and that emotional connection into a global business opportunity. Through micro-engraving technology, we turn memories into unique jewelry.',
+    'aboutPage.dna.title': 'Our DNA',
+    'aboutPage.dna.values.eternity.title': 'Eternity',
+    'aboutPage.dna.values.eternity.description': 'Jewelry designed to last.',
+    'aboutPage.dna.values.emotion.title': 'Emotion',
+    'aboutPage.dna.values.emotion.description': 'Every piece of jewelry tells a story.',
+    'aboutPage.dna.values.versatility.title': 'Versatility',
+    'aboutPage.dna.values.versatility.description': 'More than 2,400 designs for every style.',
+    'aboutPage.legacy.title': 'Our legacy',
+    'aboutPage.legacy.eyebrow': 'We do not sell jewelry. We create meaning.',
+    'aboutPage.legacy.paragraph1': 'Every piece is born from an emotion.',
+    'aboutPage.legacy.paragraph2': 'Every point of sale begins with an opportunity.',
+    'aboutPage.legacy.paragraph3': 'ACIUM brings together product, experience, and a business model to build a brand that connects deeply and grows sustainably.',
+    'aboutPage.integratedModel.title': 'Integrated model',
+    'aboutPage.integratedModel.description': 'Designed to move people. Built to scale.',
+    'aboutPage.integratedModel.features.product': 'Highly emotional product',
+    'aboutPage.integratedModel.features.pointOfSale': 'Unique point-of-sale experience',
+    'aboutPage.integratedModel.features.portfolio': 'Broad and adaptable portfolio',
+    'aboutPage.integratedModel.features.retail': 'Retail-optimized system',
+    'aboutPage.finalCta.titleLine1': 'We make moments last forever.',
+    'aboutPage.finalCta.titleLine2': 'We expand opportunities.',
+    'aboutPage.finalCta.label': 'Discover our launches',
   },
   it: {
     'aboutPage.heroTitle': 'Chi Siamo',
+    'aboutPage.hero.title': 'Momenti che diventano gioielli',
+    'aboutPage.hero.eyebrow': 'Un modello che si trasforma in crescita',
+    'aboutPage.hero.description': "Con un portafoglio di oltre 2.400 gioielli, riusciamo a entrare in contatto con ogni tipo di cliente in diversi mercati del mondo. ACIUM trasforma i ricordi in pezzi senza tempo e questo legame emotivo in un'opportunità di business globale. Attraverso la tecnologia di microincisione, trasformiamo i ricordi in gioielli unici.",
+    'aboutPage.dna.title': 'Il nostro DNA',
+    'aboutPage.dna.values.eternity.title': 'Eternità',
+    'aboutPage.dna.values.eternity.description': 'Gioielli progettati per durare.',
+    'aboutPage.dna.values.emotion.title': 'Emozione',
+    'aboutPage.dna.values.emotion.description': 'Ogni gioiello racconta una storia.',
+    'aboutPage.dna.values.versatility.title': 'Versatilità',
+    'aboutPage.dna.values.versatility.description': 'Oltre 2.400 modelli per tutti gli stili.',
+    'aboutPage.legacy.title': 'La nostra eredità',
+    'aboutPage.legacy.eyebrow': 'Non vendiamo gioielli. Creiamo significato.',
+    'aboutPage.legacy.paragraph1': "Ogni pezzo nasce da un'emozione.",
+    'aboutPage.legacy.paragraph2': "Ogni punto vendita nasce da un'opportunità.",
+    'aboutPage.legacy.paragraph3': 'ACIUM unisce prodotto, esperienza e modello di business per creare un marchio che connette in profondità e cresce in modo sostenibile.',
+    'aboutPage.integratedModel.title': 'Modello integrato',
+    'aboutPage.integratedModel.description': 'Progettato per emozionare. Costruito per scalare.',
+    'aboutPage.integratedModel.features.product': 'Prodotto ad alto impatto emotivo',
+    'aboutPage.integratedModel.features.pointOfSale': 'Esperienza unica nel punto vendita',
+    'aboutPage.integratedModel.features.portfolio': 'Portafoglio ampio e adattabile',
+    'aboutPage.integratedModel.features.retail': 'Sistema ottimizzato per il retail',
+    'aboutPage.finalCta.titleLine1': 'Rendiamo eterni i momenti.',
+    'aboutPage.finalCta.titleLine2': 'Espandiamo le opportunità.',
+    'aboutPage.finalCta.label': 'Scopri i nostri lanci',
   },
   pt: {
     'aboutPage.heroTitle': 'Sobre Nós',
+    'aboutPage.hero.title': 'Momentos que se tornam joias',
+    'aboutPage.hero.eyebrow': 'Um modelo que se transforma em crescimento',
+    'aboutPage.hero.description': 'Com um portfólio de mais de 2.400 joias, conseguimos nos conectar com todo tipo de cliente em diferentes mercados ao redor do mundo. ACIUM transforma lembranças em peças eternas e essa conexão emocional em uma oportunidade global de negócio. Por meio da tecnologia de microgravação, transformamos lembranças em joias únicas.',
+    'aboutPage.dna.title': 'Nosso DNA',
+    'aboutPage.dna.values.eternity.title': 'Eternidade',
+    'aboutPage.dna.values.eternity.description': 'Joias desenhadas para durar.',
+    'aboutPage.dna.values.emotion.title': 'Emoção',
+    'aboutPage.dna.values.emotion.description': 'Cada joia conta uma história.',
+    'aboutPage.dna.values.versatility.title': 'Versatilidade',
+    'aboutPage.dna.values.versatility.description': 'Mais de 2.400 modelos para todos os estilos.',
+    'aboutPage.legacy.title': 'Nosso legado',
+    'aboutPage.legacy.eyebrow': 'Não vendemos joias. Criamos significado.',
+    'aboutPage.legacy.paragraph1': 'Cada peça nasce de uma emoção.',
+    'aboutPage.legacy.paragraph2': 'Cada ponto de venda nasce de uma oportunidade.',
+    'aboutPage.legacy.paragraph3': 'A ACIUM combina produto, experiência e modelo de negócio para criar uma marca que se conecta profundamente e cresce de forma sustentável.',
+    'aboutPage.integratedModel.title': 'Modelo integrado',
+    'aboutPage.integratedModel.description': 'Desenhado para emocionar. Construído para escalar.',
+    'aboutPage.integratedModel.features.product': 'Produto altamente emocional',
+    'aboutPage.integratedModel.features.pointOfSale': 'Experiência única no ponto de venda',
+    'aboutPage.integratedModel.features.portfolio': 'Portfólio amplo e adaptável',
+    'aboutPage.integratedModel.features.retail': 'Sistema otimizado para varejo',
+    'aboutPage.finalCta.titleLine1': 'Eternizamos momentos.',
+    'aboutPage.finalCta.titleLine2': 'Expandimos oportunidades.',
+    'aboutPage.finalCta.label': 'Descubra nossos lançamentos',
   },
   de: {
     'aboutPage.heroTitle': 'Über Uns',
+    'aboutPage.hero.title': 'Momente, die zu Schmuck werden',
+    'aboutPage.hero.eyebrow': 'Ein Modell, das zu Wachstum wird',
+    'aboutPage.hero.description': 'Mit einem Portfolio von mehr als 2.400 Schmuckstücken erreichen wir jede Art von Kundschaft in verschiedenen Märkten weltweit. ACIUM verwandelt Erinnerungen in zeitlose Stücke und diese emotionale Verbindung in eine globale Geschäftschance. Durch Mikrogravur-Technologie verwandeln wir Erinnerungen in einzigartigen Schmuck.',
+    'aboutPage.dna.title': 'Unsere DNA',
+    'aboutPage.dna.values.eternity.title': 'Ewigkeit',
+    'aboutPage.dna.values.eternity.description': 'Schmuck, der auf Beständigkeit ausgelegt ist.',
+    'aboutPage.dna.values.emotion.title': 'Emotion',
+    'aboutPage.dna.values.emotion.description': 'Jedes Schmuckstück erzählt eine Geschichte.',
+    'aboutPage.dna.values.versatility.title': 'Vielseitigkeit',
+    'aboutPage.dna.values.versatility.description': 'Mehr als 2.400 Modelle für jeden Stil.',
+    'aboutPage.legacy.title': 'Unser Erbe',
+    'aboutPage.legacy.eyebrow': 'Wir verkaufen keinen Schmuck. Wir schaffen Bedeutung.',
+    'aboutPage.legacy.paragraph1': 'Jedes Stück entsteht aus einer Emotion.',
+    'aboutPage.legacy.paragraph2': 'Jeder Verkaufspunkt beginnt mit einer Chance.',
+    'aboutPage.legacy.paragraph3': 'ACIUM vereint Produkt, Erlebnis und Geschäftsmodell, um eine Marke zu schaffen, die tief verbindet und nachhaltig wächst.',
+    'aboutPage.integratedModel.title': 'Integriertes Modell',
+    'aboutPage.integratedModel.description': 'Dafur gemacht, zu bewegen. Gebaut, um zu skalieren.',
+    'aboutPage.integratedModel.features.product': 'Produkt mit hoher emotionaler Wirkung',
+    'aboutPage.integratedModel.features.pointOfSale': 'Einzigartiges Erlebnis am Point of Sale',
+    'aboutPage.integratedModel.features.portfolio': 'Breites und anpassungsfähiges Portfolio',
+    'aboutPage.integratedModel.features.retail': 'Für den Einzelhandel optimiertes System',
+    'aboutPage.finalCta.titleLine1': 'Wir verewigen Momente.',
+    'aboutPage.finalCta.titleLine2': 'Wir erweitern Chancen.',
+    'aboutPage.finalCta.label': 'Entdecke unsere Neuheiten',
   },
   zh: {
     'aboutPage.heroTitle': '关于我们',
+    'aboutPage.hero.title': '让瞬间化为珠宝',
+    'aboutPage.hero.eyebrow': '一种能够转化为增长的商业模式',
+    'aboutPage.hero.description': '凭借超过 2,400 款珠宝作品的产品组合，我们能够与全球不同市场中的各类客户建立连接。ACIUM 将回忆化为恒久的作品，并把这种情感连接转化为全球性的商业机会。通过微雕刻技术，我们把回忆变成独一无二的珠宝。',
+    'aboutPage.dna.title': '我们的 DNA',
+    'aboutPage.dna.values.eternity.title': '永恒',
+    'aboutPage.dna.values.eternity.description': '为长久陪伴而设计的珠宝。',
+    'aboutPage.dna.values.emotion.title': '情感',
+    'aboutPage.dna.values.emotion.description': '每一件珠宝都讲述一个故事。',
+    'aboutPage.dna.values.versatility.title': '多样性',
+    'aboutPage.dna.values.versatility.description': '超过 2,400 款设计，适配各种风格。',
+    'aboutPage.legacy.title': '我们的传承',
+    'aboutPage.legacy.eyebrow': '我们卖的不是珠宝，而是意义。',
+    'aboutPage.legacy.paragraph1': '每一件作品都始于一种情感。',
+    'aboutPage.legacy.paragraph2': '每一个销售点都始于一次机会。',
+    'aboutPage.legacy.paragraph3': 'ACIUM 将产品、体验与商业模式结合，打造一个能够深度连接并实现可持续增长的品牌。',
+    'aboutPage.integratedModel.title': '一体化模式',
+    'aboutPage.integratedModel.description': '为打动人心而设计。为规模化而打造。',
+    'aboutPage.integratedModel.features.product': '高度情感化的产品',
+    'aboutPage.integratedModel.features.pointOfSale': '独特的销售点体验',
+    'aboutPage.integratedModel.features.portfolio': '丰富且灵活的产品组合',
+    'aboutPage.integratedModel.features.retail': '为零售优化的系统',
+    'aboutPage.finalCta.titleLine1': '让瞬间成为永恒。',
+    'aboutPage.finalCta.titleLine2': '拓展更多机会。',
+    'aboutPage.finalCta.label': '探索我们的新品发布',
   },
 };
