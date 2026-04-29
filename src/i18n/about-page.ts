@@ -6,6 +6,8 @@ export interface AboutPageContent {
   'aboutPage.hero.eyebrow': string;
   'aboutPage.hero.description': string;
   'aboutPage.dna.title': string;
+  'aboutPage.dna.titleLine1': string;
+  'aboutPage.dna.titleLine2': string;
   'aboutPage.dna.values.eternity.title': string;
   'aboutPage.dna.values.eternity.description': string;
   'aboutPage.dna.values.emotion.title': string;
@@ -35,6 +37,8 @@ export const aboutPage: Record<Locales, AboutPageContent> = {
     'aboutPage.hero.eyebrow': 'Un modelo que se convierte en crecimiento',
     'aboutPage.hero.description': 'Con un portafolio de más de 2.400 joyas, logramos conectar con todo tipo de cliente en distintos mercados del mundo. ACIUM transforma recuerdos en piezas eternas y esa conexión emocional en una oportunidad de negocio global. A través de tecnología de micrograbado, convertimos recuerdos en joyas únicas.',
     'aboutPage.dna.title': 'Nuestro ADN',
+    'aboutPage.dna.titleLine1': 'Nuestro',
+    'aboutPage.dna.titleLine2': 'ADN',
     'aboutPage.dna.values.eternity.title': 'Eternidad',
     'aboutPage.dna.values.eternity.description': 'Joyas diseñadas para durar.',
     'aboutPage.dna.values.emotion.title': 'Emoción',
@@ -62,6 +66,8 @@ export const aboutPage: Record<Locales, AboutPageContent> = {
     'aboutPage.hero.eyebrow': 'A model that turns into growth',
     'aboutPage.hero.description': 'With a portfolio of more than 2,400 pieces, we connect with every type of customer across different markets around the world. ACIUM transforms memories into timeless pieces and that emotional connection into a global business opportunity. Through micro-engraving technology, we turn memories into unique jewelry.',
     'aboutPage.dna.title': 'Our DNA',
+    'aboutPage.dna.titleLine1': 'Our',
+    'aboutPage.dna.titleLine2': 'DNA',
     'aboutPage.dna.values.eternity.title': 'Eternity',
     'aboutPage.dna.values.eternity.description': 'Jewelry designed to last.',
     'aboutPage.dna.values.emotion.title': 'Emotion',
@@ -89,6 +95,8 @@ export const aboutPage: Record<Locales, AboutPageContent> = {
     'aboutPage.hero.eyebrow': 'Un modello che si trasforma in crescita',
     'aboutPage.hero.description': "Con un portafoglio di oltre 2.400 gioielli, riusciamo a entrare in contatto con ogni tipo di cliente in diversi mercati del mondo. ACIUM trasforma i ricordi in pezzi senza tempo e questo legame emotivo in un'opportunità di business globale. Attraverso la tecnologia di microincisione, trasformiamo i ricordi in gioielli unici.",
     'aboutPage.dna.title': 'Il nostro DNA',
+    'aboutPage.dna.titleLine1': 'Il nostro',
+    'aboutPage.dna.titleLine2': 'DNA',
     'aboutPage.dna.values.eternity.title': 'Eternità',
     'aboutPage.dna.values.eternity.description': 'Gioielli progettati per durare.',
     'aboutPage.dna.values.emotion.title': 'Emozione',
@@ -116,6 +124,8 @@ export const aboutPage: Record<Locales, AboutPageContent> = {
     'aboutPage.hero.eyebrow': 'Um modelo que se transforma em crescimento',
     'aboutPage.hero.description': 'Com um portfólio de mais de 2.400 joias, conseguimos nos conectar com todo tipo de cliente em diferentes mercados ao redor do mundo. ACIUM transforma lembranças em peças eternas e essa conexão emocional em uma oportunidade global de negócio. Por meio da tecnologia de microgravação, transformamos lembranças em joias únicas.',
     'aboutPage.dna.title': 'Nosso DNA',
+    'aboutPage.dna.titleLine1': 'Nosso',
+    'aboutPage.dna.titleLine2': 'DNA',
     'aboutPage.dna.values.eternity.title': 'Eternidade',
     'aboutPage.dna.values.eternity.description': 'Joias desenhadas para durar.',
     'aboutPage.dna.values.emotion.title': 'Emoção',
@@ -143,6 +153,8 @@ export const aboutPage: Record<Locales, AboutPageContent> = {
     'aboutPage.hero.eyebrow': 'Ein Modell, das zu Wachstum wird',
     'aboutPage.hero.description': 'Mit einem Portfolio von mehr als 2.400 Schmuckstücken erreichen wir jede Art von Kundschaft in verschiedenen Märkten weltweit. ACIUM verwandelt Erinnerungen in zeitlose Stücke und diese emotionale Verbindung in eine globale Geschäftschance. Durch Mikrogravur-Technologie verwandeln wir Erinnerungen in einzigartigen Schmuck.',
     'aboutPage.dna.title': 'Unsere DNA',
+    'aboutPage.dna.titleLine1': 'Unsere',
+    'aboutPage.dna.titleLine2': 'DNA',
     'aboutPage.dna.values.eternity.title': 'Ewigkeit',
     'aboutPage.dna.values.eternity.description': 'Schmuck, der auf Beständigkeit ausgelegt ist.',
     'aboutPage.dna.values.emotion.title': 'Emotion',
@@ -170,6 +182,8 @@ export const aboutPage: Record<Locales, AboutPageContent> = {
     'aboutPage.hero.eyebrow': '一种能够转化为增长的商业模式',
     'aboutPage.hero.description': '凭借超过 2,400 款珠宝作品的产品组合，我们能够与全球不同市场中的各类客户建立连接。ACIUM 将回忆化为恒久的作品，并把这种情感连接转化为全球性的商业机会。通过微雕刻技术，我们把回忆变成独一无二的珠宝。',
     'aboutPage.dna.title': '我们的 DNA',
+    'aboutPage.dna.titleLine1': '我们的',
+    'aboutPage.dna.titleLine2': 'DNA',
     'aboutPage.dna.values.eternity.title': '永恒',
     'aboutPage.dna.values.eternity.description': '为长久陪伴而设计的珠宝。',
     'aboutPage.dna.values.emotion.title': '情感',

@@ -10,6 +10,8 @@ const aboutPageKeys = [
   'aboutPage.hero.eyebrow',
   'aboutPage.hero.description',
   'aboutPage.dna.title',
+  'aboutPage.dna.titleLine1',
+  'aboutPage.dna.titleLine2',
   'aboutPage.dna.values.eternity.title',
   'aboutPage.dna.values.eternity.description',
   'aboutPage.dna.values.emotion.title',
@@ -65,6 +67,8 @@ describe('about-page i18n dictionary', () => {
     expect(aboutPage.es['aboutPage.hero.title']).toBe('Momentos que se convierten en joyas');
     expect(aboutPage.es['aboutPage.hero.eyebrow']).toBe('Un modelo que se convierte en crecimiento');
     expect(aboutPage.es['aboutPage.dna.title']).toBe('Nuestro ADN');
+    expect(aboutPage.es['aboutPage.dna.titleLine1']).toBe('Nuestro');
+    expect(aboutPage.es['aboutPage.dna.titleLine2']).toBe('ADN');
     expect(aboutPage.es['aboutPage.legacy.eyebrow']).toBe('No vendemos joyas. Creamos significado.');
     expect(aboutPage.es['aboutPage.integratedModel.description']).toBe('Diseñado para emocionar. Construido para escalar.');
     expect(aboutPage.es['aboutPage.finalCta.label']).toBe('Descubre nuestros lanzamientos');
