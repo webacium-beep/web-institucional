@@ -20,10 +20,15 @@ describe('WorldPage.astro - template composition', () => {
       expect(templateContent).toMatch(/import\s+type\s+\{[^}]*Locales[^}]*\}\s+from\s+["']\.\.\/\.\.\/i18n\/ui["']/);
     });
 
-    it('imports the worldPage dictionary, translator helper, and world logo asset', () => {
+    it('imports the worldPage dictionary, translator helper, media assets, and support icons', () => {
       expect(templateContent).toMatch(/import\s+\{\s*usePageTranslations\s*\}\s+from\s+["']\.\.\/\.\.\/i18n\/utils["']/);
       expect(templateContent).toMatch(/import\s+\{\s*worldPage\s*\}\s+from\s+["']\.\.\/\.\.\/i18n\/world-page["']/);
-      expect(templateContent).toMatch(/import\s+logoAciumWorld\s+from\s+["']\.\.\/\.\.\/assets\/logoaciumworld\.svg["']/);
+      expect(templateContent).toMatch(/import\s+worldHeroImage\s+from\s+["']\.\.\/\.\.\/assets\/worldppage\/secciononeworld\.webp["']/);
+      expect(templateContent).toMatch(/import\s+worldPresenceVideo\s+from\s+["']\.\.\/\.\.\/assets\/worldppage\/DONDE_ESTAMOS\.mp4["']/);
+      expect(templateContent).toMatch(/import\s+worldMapImage\s+from\s+["']\.\.\/\.\.\/assets\/worldppage\/SECCION_MAPA_MUNDO\.webp["']/);
+      expect(templateContent).toMatch(/import\s+headquartersIcon\s+from\s+["']\.\.\/\.\.\/assets\/worldppage\/icons\/head_icon\.svg["']/);
+      expect(templateContent).toMatch(/import\s+showroomIcon\s+from\s+["']\.\.\/\.\.\/assets\/worldppage\/icons\/showroom_icon\.svg["']/);
+      expect(templateContent).toMatch(/import\s+supportNetworkIcon\s+from\s+["']\.\.\/\.\.\/assets\/worldppage\/icons\/red_icon\.svg["']/);
     });
 
     it('declares Props interface with lang: Locales and reads Astro.props', () => {
@@ -33,12 +38,14 @@ describe('WorldPage.astro - template composition', () => {
 
     it('creates a page-scoped translator and derives the semantic content collections from worldPage keys', () => {
       expect(templateContent).toMatch(/const\s+t\s*=\s*usePageTranslations\(lang,\s*worldPage\)/);
+      expect(templateContent).toContain("const heroParagraph1 = t('worldPage.hero.paragraph1');");
+      expect(templateContent).toContain("const [heroParagraph1BeforeBrand, heroParagraph1AfterBrand = ''] = heroParagraph1.split('ACIUM');");
       expect(templateContent).toContain("const countryKeys = [");
       expect(templateContent).toContain("'worldPage.expansion.countries.ireland'");
       expect(templateContent).toContain("'worldPage.expansion.countries.japan'");
-      expect(templateContent).toContain("const supportLegendKeys = [");
-      expect(templateContent).toContain("'worldPage.supportStructure.legend.headquarters'");
-      expect(templateContent).toContain("'worldPage.supportStructure.legend.supportNetwork'");
+      expect(templateContent).toContain('const supportLegendItems = [');
+      expect(templateContent).toContain("label: 'worldPage.supportStructure.legend.headquarters'");
+      expect(templateContent).toContain("label: 'worldPage.supportStructure.legend.supportNetwork'");
     });
   });
 
@@ -52,21 +59,25 @@ describe('WorldPage.astro - template composition', () => {
       expect(templateContent).toContain("{t('worldPage.title')}");
       expect(templateContent).toContain('text-[30px] font-black');
       expect(templateContent).toContain('max-w-6xl');
-      expect(templateContent).not.toContain('ACIUM');
+      expect(templateContent).toMatch(/<header class="flex justify-center text-center">[\s\S]*\{t\('worldPage\.title'\)\}[\s\S]*<\/header>/);
     });
 
     it('renders semantic sections for hero, global presence, expansion, support structure, and final CTA', () => {
       expect(templateContent).toContain('aria-labelledby="world-hero-title"');
       expect(templateContent).toContain('aria-labelledby="world-global-presence-title"');
       expect(templateContent).toContain('aria-labelledby="world-expansion-title"');
-      expect(templateContent).toContain('aria-labelledby="world-support-structure-title"');
+      expect(templateContent).toContain("aria-label={t('worldPage.supportStructure.title')}");
       expect(templateContent).toContain('aria-labelledby="world-final-cta-title"');
+      expect(templateContent).toContain('ml-[-50vw] mr-[-50vw] w-screen');
+      expect(templateContent).toContain('flex h-[458px] w-screen items-center justify-center');
     });
 
     it('uses the expected hero and global presence translation keys', () => {
       expect(templateContent).toContain("{t('worldPage.hero.badge')}");
       expect(templateContent).toContain("{t('worldPage.hero.title')}");
-      expect(templateContent).toContain("{t('worldPage.hero.paragraph1')}");
+      expect(templateContent).toContain("const heroParagraph1 = t('worldPage.hero.paragraph1');");
+      expect(templateContent).toContain('{heroParagraph1BeforeBrand}');
+      expect(templateContent).toContain('{heroParagraph1AfterBrand}');
       expect(templateContent).toContain("{t('worldPage.hero.paragraph2')}");
       expect(templateContent).toContain("{t('worldPage.globalPresence.title')}");
       expect(templateContent).toContain("{t('worldPage.globalPresence.descriptionLine1')}");
@@ -81,9 +92,9 @@ describe('WorldPage.astro - template composition', () => {
       expect(templateContent).toContain('{countryKeys.map((countryKey) => (');
       expect(templateContent).toContain('{t(countryKey)}');
       expect(templateContent).toContain("{t('worldPage.supportStructure.title')}");
-      expect(templateContent).toContain('{supportLegendKeys.map((legendKey) => (');
-      expect(templateContent).toContain('{t(legendKey)}');
-      expect(templateContent).toContain("{t('worldPage.finalCta.titleLine1')}");
+      expect(templateContent).toContain('{supportLegendItems.map((item) => (');
+      expect(templateContent).toContain('{t(item.label)}');
+    expect(templateContent).toContain("{t('worldPage.finalCta.titleLine1')}");
       expect(templateContent).toContain("{t('worldPage.finalCta.titleLine2')}");
       expect(templateContent).toContain("{t('worldPage.finalCta.label')}");
     });

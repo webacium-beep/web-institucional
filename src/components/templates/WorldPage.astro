@@ -3,7 +3,12 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import type { Locales } from '../../i18n/ui';
 import { usePageTranslations } from '../../i18n/utils';
 import { worldPage } from '../../i18n/world-page';
-import logoAciumWorld from '../../assets/logoaciumworld.svg';
+import worldHeroImage from '../../assets/worldppage/secciononeworld.webp';
+import worldPresenceVideo from '../../assets/worldppage/DONDE_ESTAMOS.mp4';
+import worldMapImage from '../../assets/worldppage/SECCION_MAPA_MUNDO.webp';
+import headquartersIcon from '../../assets/worldppage/icons/head_icon.svg';
+import showroomIcon from '../../assets/worldppage/icons/showroom_icon.svg';
+import supportNetworkIcon from '../../assets/worldppage/icons/red_icon.svg';
 
 interface Props {
   lang: Locales;
@@ -11,7 +16,14 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = usePageTranslations(lang, worldPage);
-const worldLogoSrc = typeof logoAciumWorld === 'string' ? logoAciumWorld : logoAciumWorld.src;
+const worldHeroImageSrc = typeof worldHeroImage === 'string' ? worldHeroImage : worldHeroImage.src;
+const worldPresenceVideoSrc = typeof worldPresenceVideo === 'string' ? worldPresenceVideo : worldPresenceVideo.src;
+const worldMapImageSrc = typeof worldMapImage === 'string' ? worldMapImage : worldMapImage.src;
+const headquartersIconSrc = typeof headquartersIcon === 'string' ? headquartersIcon : headquartersIcon.src;
+const showroomIconSrc = typeof showroomIcon === 'string' ? showroomIcon : showroomIcon.src;
+const supportNetworkIconSrc = typeof supportNetworkIcon === 'string' ? supportNetworkIcon : supportNetworkIcon.src;
+const heroParagraph1 = t('worldPage.hero.paragraph1');
+const [heroParagraph1BeforeBrand, heroParagraph1AfterBrand = ''] = heroParagraph1.split('ACIUM');
 const countryKeys = [
   'worldPage.expansion.countries.ireland',
   'worldPage.expansion.countries.paraguay',
@@ -23,10 +35,22 @@ const countryKeys = [
   'worldPage.expansion.countries.singapore',
   'worldPage.expansion.countries.japan',
 ] as const;
-const supportLegendKeys = [
-  'worldPage.supportStructure.legend.headquarters',
-  'worldPage.supportStructure.legend.showroom',
-  'worldPage.supportStructure.legend.supportNetwork',
+const supportLegendItems = [
+  {
+    iconSrc: headquartersIconSrc,
+    iconAlt: 'Ícono de headquarters',
+    label: 'worldPage.supportStructure.legend.headquarters',
+  },
+  {
+    iconSrc: showroomIconSrc,
+    iconAlt: 'Ícono de showroom internacional',
+    label: 'worldPage.supportStructure.legend.showroom',
+  },
+  {
+    iconSrc: supportNetworkIconSrc,
+    iconAlt: 'Ícono de red global de soporte',
+    label: 'worldPage.supportStructure.legend.supportNetwork',
+  },
 ] as const;
 ---
 
@@ -38,85 +62,126 @@ const supportLegendKeys = [
       </h1>
     </header>
 
-    <section aria-labelledby="world-hero-title" class="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-12">
-      <div class="flex min-h-[280px] items-center justify-center rounded-[28px] border border-black/10 bg-neutral-100 p-8" aria-hidden="true">
-        <img src={worldLogoSrc} alt="" class="h-auto w-full max-w-[260px] object-contain opacity-80" />
+    <section aria-labelledby="world-hero-title" class="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-stretch lg:gap-[100px]">
+      <div class="flex justify-center lg:justify-start">
+        <img
+          src={worldHeroImageSrc}
+          alt="ACIUM World global expansion visual"
+          class="h-auto w-full max-w-[640px] object-contain lg:h-full"
+        />
       </div>
 
-      <div class="space-y-5">
-        <p class="inline-flex w-fit border border-black/15 px-4 py-2 text-[14px] font-medium text-black/80">
-          {t('worldPage.hero.badge')}
-        </p>
-        <h2 id="world-hero-title" class="max-w-[18ch] text-[32px] font-black leading-[1.1] text-black lg:text-[40px]">
+      <div class="flex h-full flex-col justify-between space-y-8 lg:max-w-[384px] lg:py-2">
+        <h2 id="world-hero-title" class="max-w-[18ch] text-[35px] font-black leading-[1.1] text-black">
           {t('worldPage.hero.title')}
         </h2>
-        <div class="space-y-4 text-[18px] leading-[1.55] text-black/80">
-          <p>{t('worldPage.hero.paragraph1')}</p>
-          <p>{t('worldPage.hero.paragraph2')}</p>
+
+        <button
+          type="button"
+          class="inline-flex h-[45px] w-auto shrink-0 cursor-pointer items-center self-start border border-neutral-300 bg-white px-4 text-left text-[16px] font-medium leading-none text-black transition-colors duration-300 hover:bg-black hover:text-white"
+        >
+          {t('worldPage.hero.badge')}
+        </button>
+
+        <div class="w-full space-y-7 text-[18px] font-light leading-[1.6] text-black/85">
+          <p class="w-full">
+            {heroParagraph1BeforeBrand}
+            <span class="font-medium tracking-[0.22em] text-black">A C I U M</span>
+            {heroParagraph1AfterBrand}
+          </p>
+          <p class="w-full">{t('worldPage.hero.paragraph2')}</p>
         </div>
       </div>
     </section>
 
-    <section aria-labelledby="world-global-presence-title" class="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-start lg:gap-12">
-      <div class="space-y-4">
-        <h2 id="world-global-presence-title" class="text-[28px] font-black uppercase tracking-[0.08em] text-black lg:text-[32px]">
+    <section aria-labelledby="world-global-presence-title" class="grid gap-10 py-[72px] lg:grid-cols-[minmax(0,292px)_minmax(0,1fr)] lg:items-center lg:gap-[100px]">
+      <div class="space-y-8 lg:max-w-[292px]">
+        <h2 id="world-global-presence-title" class="max-w-[7ch] text-[35px] font-black uppercase leading-[0.95] tracking-[-0.03em] text-black">
           {t('worldPage.globalPresence.title')}
         </h2>
-        <div class="space-y-2 text-[18px] leading-[1.45] text-black/80">
+
+        <div class="space-y-1 text-[18px] font-medium leading-[1.4] text-black">
           <p>{t('worldPage.globalPresence.descriptionLine1')}</p>
           <p>{t('worldPage.globalPresence.descriptionLine2')}</p>
         </div>
       </div>
 
-      <div class="flex min-h-[260px] items-center justify-center rounded-[28px] border border-dashed border-black/20 bg-neutral-50 p-8" role="img" aria-label={t('worldPage.globalPresence.videoLabel')}>
-        <span class="text-[18px] font-medium uppercase tracking-[0.2em] text-black/55">
+      <div class="w-full overflow-hidden bg-neutral-300 lg:h-[464px] lg:w-[730px]">
+        <video
+          class="h-auto w-full object-cover lg:h-[464px] lg:w-[730px]"
+          aria-label={t('worldPage.globalPresence.videoLabel')}
+          autoplay
+          muted
+          loop
+          playsinline
+        >
+          <source src={worldPresenceVideoSrc} type="video/mp4" />
           {t('worldPage.globalPresence.videoLabel')}
-        </span>
+        </video>
       </div>
     </section>
 
-    <section aria-labelledby="world-expansion-title" class="space-y-6">
-      <div class="space-y-3">
-        <h2 id="world-expansion-title" class="text-[28px] font-black uppercase tracking-[0.08em] text-black lg:text-[32px]">
-          {t('worldPage.expansion.title')}
-        </h2>
-        <p class="max-w-[34ch] text-[18px] leading-[1.45] text-black/80">{t('worldPage.expansion.subtitle')}</p>
+    <section aria-labelledby="world-expansion-title" class="grid gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_292px] lg:items-center lg:gap-[100px]">
+      <div class="flex justify-center lg:justify-start">
+        <img
+          src={worldMapImageSrc}
+          alt="Mapa global de expansión ACIUM"
+          class="h-auto w-full max-w-[730px] object-contain"
+        />
       </div>
 
-      <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label={t('worldPage.expansion.title')}>
-        {countryKeys.map((countryKey) => (
-          <li class="rounded-full border border-black/10 px-4 py-3 text-[16px] font-medium text-black/80">
-            {t(countryKey)}
-          </li>
-        ))}
-      </ul>
+      <div class="space-y-8 lg:max-w-[292px]">
+        <div class="space-y-4">
+          <h2 id="world-expansion-title" class="text-[35px] font-black uppercase leading-[0.95] tracking-[-0.03em] text-black">
+            {t('worldPage.expansion.title')}
+          </h2>
+          <p class="max-w-[18ch] text-[18px] font-medium leading-[1.35] text-black">
+            {t('worldPage.expansion.subtitle')}
+          </p>
+        </div>
+
+        <ul class="space-y-2" aria-label={t('worldPage.expansion.title')}>
+          {countryKeys.map((countryKey) => (
+            <li class="flex items-center gap-8">
+              <span class="block h-px w-10 shrink-0 bg-neutral-300" aria-hidden="true"></span>
+              <span class="text-[16px] font-normal leading-[1.45] text-black">{t(countryKey)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
 
-    <section aria-labelledby="world-support-structure-title" class="space-y-6 border-t border-black/10 pt-10">
-      <h2 id="world-support-structure-title" class="max-w-[24ch] text-[28px] font-black leading-[1.15] text-black lg:text-[32px]">
+    <section aria-label={t('worldPage.supportStructure.title')} class="grid gap-10 py-12 lg:grid-cols-[292px_minmax(0,1fr)] lg:items-center lg:gap-[100px]">
+      <p class="max-w-[14ch] text-[20px] font-black leading-[1.15] text-black">
         {t('worldPage.supportStructure.title')}
-      </h2>
+      </p>
 
-      <ul class="grid gap-3 md:grid-cols-3" aria-label={t('worldPage.supportStructure.title')}>
-        {supportLegendKeys.map((legendKey) => (
-          <li class="rounded-[20px] bg-neutral-100 px-5 py-4 text-[16px] font-medium leading-[1.4] text-black/80">
-            {t(legendKey)}
+      <ul class="grid gap-10 md:grid-cols-3 md:gap-14" aria-label={t('worldPage.supportStructure.title')}>
+        {supportLegendItems.map((item) => (
+          <li class="flex items-start gap-5">
+            <img src={item.iconSrc} alt={item.iconAlt} class="mt-1 h-9 w-9 shrink-0 object-contain opacity-70" />
+            <p class="text-[16px] font-normal leading-[1.35] text-black">{t(item.label)}</p>
           </li>
         ))}
       </ul>
     </section>
 
-    <section aria-labelledby="world-final-cta-title" class="rounded-[32px] bg-neutral-100 px-6 py-10 text-center md:px-10 md:py-14">
-      <div class="mx-auto flex max-w-[30rem] flex-col items-center gap-6">
-        <h2 id="world-final-cta-title" class="text-[30px] font-black leading-[1.15] text-black lg:text-[36px]">
-          <span class="block">{t('worldPage.finalCta.titleLine1')}</span>
-          <span class="block">{t('worldPage.finalCta.titleLine2')}</span>
-        </h2>
+    <div class="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-screen">
+      <section aria-labelledby="world-final-cta-title" class="flex h-[458px] w-screen items-center justify-center bg-neutral-100 px-6 text-center">
+        <div class="flex max-w-[520px] flex-col items-center justify-center gap-12">
+          <h2 id="world-final-cta-title" class="text-[35px] font-black leading-[1.35] text-black">
+            <span class="block">{t('worldPage.finalCta.titleLine1')}</span>
+            <span class="mt-2 block">{t('worldPage.finalCta.titleLine2')}</span>
+          </h2>
 
-        <button type="button" class="inline-flex items-center border border-black px-5 py-3 text-[14px] font-medium uppercase tracking-[0.12em] text-black">
-          {t('worldPage.finalCta.label')}
-        </button>
-      </div>
-    </section>
+          <button
+            type="button"
+            class="inline-flex h-[45px] w-auto cursor-pointer items-center border border-neutral-500 bg-white px-5 text-[14px] font-medium uppercase tracking-[0.12em] text-black transition-colors duration-300 hover:bg-black hover:text-white"
+          >
+            {t('worldPage.finalCta.label')}
+          </button>
+        </div>
+      </section>
+    </div>
   </article>
 </PageLayout>
