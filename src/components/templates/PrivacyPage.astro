@@ -1,0 +1,244 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import type { Locales } from '../../i18n/ui';
+import { usePageTranslations } from '../../i18n/utils';
+import { privacyPage } from '../../i18n/privacy-page';
+import responderIcon from '../../assets/PrivacyPageassets/icons/responder.svg';
+import gestionarIcon from '../../assets/PrivacyPageassets/icons/gestionar.svg';
+import mejorarIcon from '../../assets/PrivacyPageassets/icons/mejorar.svg';
+
+interface Props {
+  lang: Locales;
+}
+
+const { lang } = Astro.props;
+const t = usePageTranslations(lang, privacyPage);
+
+const informationCollectedItems = [
+  'privacyPage.collection.item1',
+  'privacyPage.collection.item2',
+  'privacyPage.collection.item3',
+  'privacyPage.collection.item4',
+  'privacyPage.collection.item5',
+] as const;
+
+const usageItems = [
+  {
+    icon: typeof responderIcon === 'string' ? responderIcon : responderIcon.src,
+    iconAlt: 'privacyPage.usage.item1',
+    label: 'privacyPage.usage.item1',
+  },
+  {
+    icon: typeof gestionarIcon === 'string' ? gestionarIcon : gestionarIcon.src,
+    iconAlt: 'privacyPage.usage.item2',
+    label: 'privacyPage.usage.item2',
+  },
+  {
+    icon: typeof mejorarIcon === 'string' ? mejorarIcon : mejorarIcon.src,
+    iconAlt: 'privacyPage.usage.item3',
+    label: 'privacyPage.usage.item3',
+  },
+] as const;
+
+const legalBasisItems = [
+  'privacyPage.legalBasis.item1',
+  'privacyPage.legalBasis.item2',
+  'privacyPage.legalBasis.item3',
+] as const;
+
+const rightsItems = [
+  'privacyPage.rights.item1',
+  'privacyPage.rights.item2',
+  'privacyPage.rights.item3',
+  'privacyPage.rights.item4',
+] as const;
+
+const legalBasisItem3 = t('privacyPage.legalBasis.item3');
+const [legalBasisItem3BeforeBrand, legalBasisItem3AfterBrand = ''] = legalBasisItem3.split('ACIUM');
+const dataSharingDescription = t('privacyPage.dataSharing.description');
+const [dataSharingBeforeBrand, dataSharingAfterBrand = ''] = dataSharingDescription.split('ACIUM');
+---
+
+<PageLayout lang={lang}>
+  <article class="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-12 md:gap-16 md:px-10 md:py-16 lg:px-14">
+    <header class="space-y-6 text-center">
+      <h1 class="text-[30px] font-black uppercase tracking-[0.16em] text-black">
+        {t('privacyPage.title')}
+      </h1>
+    </header>
+
+    <section aria-labelledby="privacy-intro-title" class="mx-auto flex w-full max-w-4xl flex-col gap-5 text-left">
+      <h2 id="privacy-intro-title" class="text-[20px] font-medium leading-[1.1] text-black">
+        {t('privacyPage.intro.title')}
+      </h2>
+      <p class="text-[18px] font-light leading-[1.8] text-black/80">
+        {t('privacyPage.intro.description')}
+      </p>
+    </section>
+
+    <section aria-labelledby="privacy-collection-title" class="mx-auto flex w-full max-w-4xl flex-col gap-6 text-left">
+      <h2 id="privacy-collection-title" class="text-[20px] font-black leading-[1.1] text-black">
+        {t('privacyPage.collection.title')}
+      </h2>
+      <p class="text-[18px] font-light leading-[1.7] text-black/80">
+        {t('privacyPage.collection.intro')}
+      </p>
+      <ul class="flex max-w-[700px] flex-col gap-2 text-[18px] font-light leading-[1.6] text-black">
+        {informationCollectedItems.map((item) => (
+          <li class="flex items-start gap-12">
+            <span aria-hidden="true" class="mt-[0.7em] block h-px w-16 shrink-0 bg-neutral-300"></span>
+            <span>{t(item)}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="privacy-usage-title" class="mx-auto grid w-full max-w-4xl gap-10 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-center lg:gap-12">
+      <div class="space-y-4 text-left">
+        <h2 id="privacy-usage-title" class="text-[20px] font-medium leading-[1.1] text-black">
+          {t('privacyPage.usage.title')}
+        </h2>
+        <p class="text-[18px] font-light leading-[1.8] text-black/80">
+          {t('privacyPage.usage.description')}
+        </p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-3 md:gap-10">
+        {usageItems.map((item) => (
+          <article class="flex items-start gap-5 text-left">
+            <img src={item.icon} alt={t(item.iconAlt)} class="h-12 w-12 shrink-0 object-contain opacity-70" />
+            <h3 class="text-[18px] font-light leading-[1.4] text-black">
+              {t(item.label)}
+            </h3>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section aria-labelledby="privacy-consent-title" class="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] flex h-[219px] w-screen items-center justify-center bg-neutral-100 px-6 text-center md:px-10">
+      <div class="mx-auto flex max-w-4xl flex-col gap-4 text-center">
+        <h2 id="privacy-consent-title" class="text-[20px] font-medium leading-[1.1] text-black">
+          {t('privacyPage.consent.title')}
+        </h2>
+        <p class="text-[18px] font-light leading-[1.8] text-black/80">
+          {t('privacyPage.consent.description')}
+        </p>
+      </div>
+    </section>
+
+    <section aria-labelledby="privacy-legal-title" class="space-y-6">
+      <h2 id="privacy-legal-title" class="sr-only">
+        {t('privacyPage.legalBasis.title')}
+      </h2>
+
+      <div class="grid gap-10 lg:grid-cols-3 lg:gap-[130px]">
+        <section class="space-y-5">
+          <h3 class="text-center text-[20px] font-medium leading-[1.25] text-black">
+            {t('privacyPage.legalBasis.title')}
+          </h3>
+          <p class="text-left text-[18px] font-light leading-[1.7] text-black/80">
+            {t('privacyPage.legalBasis.intro')}
+          </p>
+          <ul class="space-y-3 text-[18px] font-light leading-[1.65] text-black/80">
+            {legalBasisItems.map((item, index) => (
+              <li class="flex items-start gap-3">
+                <span aria-hidden="true" class="mt-[0.6em] h-2 w-2 shrink-0 rounded-full bg-black"></span>
+                <span>
+                  {index === 2 ? (
+                    <>
+                      {legalBasisItem3BeforeBrand}
+                      <span class="tracking-[0.12em] uppercase">A C I U M</span>
+                      {legalBasisItem3AfterBrand}
+                    </>
+                  ) : (
+                    t(item)
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="space-y-5">
+          <h3 class="text-center text-[20px] font-medium leading-[1.25] text-black">
+            {t('privacyPage.dataSharing.title')}
+          </h3>
+          <p class="text-left text-[18px] font-light leading-[1.7] text-black/80">
+            {dataSharingBeforeBrand}
+            <span class="tracking-[0.12em] uppercase">A C I U M</span>
+            {dataSharingAfterBrand}
+          </p>
+        </section>
+
+        <section class="space-y-5">
+          <h3 class="text-center text-[20px] font-medium leading-[1.25] text-black">
+            {t('privacyPage.transfer.title')}
+          </h3>
+          <p class="text-left text-[18px] font-light leading-[1.7] text-black/80">
+            {t('privacyPage.transfer.description')}
+          </p>
+        </section>
+      </div>
+    </section>
+
+    <section aria-labelledby="privacy-closing-title" class="space-y-6">
+      <h2 id="privacy-closing-title" class="sr-only">
+        {t('privacyPage.rights.title')}
+      </h2>
+
+      <div class="grid gap-10 lg:grid-cols-3 lg:gap-[130px]">
+        <section class="space-y-5">
+          <h3 class="text-center text-[20px] font-medium leading-[1.25] text-black">
+            {t('privacyPage.retention.title')}
+          </h3>
+          <p class="text-left text-[18px] font-light leading-[1.7] text-black/80">
+            {t('privacyPage.retention.description')}
+          </p>
+        </section>
+
+        <section class="space-y-5">
+          <h3 class="text-center text-[20px] font-medium leading-[1.25] text-black">
+            {t('privacyPage.rights.title')}
+          </h3>
+          <p class="text-left text-[18px] font-light leading-[1.7] text-black/80">
+            {t('privacyPage.rights.intro')}
+          </p>
+          <ul class="space-y-3 text-left text-[18px] font-light leading-[1.65] text-black/80">
+            {rightsItems.map((item) => (
+              <li class="flex items-start gap-3">
+                <span aria-hidden="true" class="mt-[0.6em] h-2 w-2 shrink-0 rounded-full bg-black"></span>
+                <span>{t(item)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="space-y-5">
+          <h3 class="text-center text-[20px] font-medium leading-[1.25] text-black">
+            {t('privacyPage.protection.title')}
+          </h3>
+          <p class="text-left text-[18px] font-light leading-[1.7] text-black/80">
+            {t('privacyPage.protection.description')}
+          </p>
+        </section>
+      </div>
+    </section>
+
+    <section aria-labelledby="privacy-contact-title" class="flex justify-center px-6 py-12 md:px-10">
+      <div class="flex max-w-[520px] flex-col items-center gap-5 text-center">
+        <h2 id="privacy-contact-title" class="text-[20px] font-medium leading-[1.1] text-black">
+          {t('privacyPage.contact.title')}
+        </h2>
+        <p class="text-[18px] font-light leading-[1.8] text-black/80">
+          {t('privacyPage.contact.description')}
+        </p>
+        <a
+          href={`mailto:${t('privacyPage.contact.email')}`}
+          class="inline-flex text-[18px] font-light uppercase text-black"
+        >
+          {t('privacyPage.contact.email')}
+        </a>
+      </div>
+    </section>
+  </article>
+</PageLayout>

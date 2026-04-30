@@ -80,6 +80,15 @@ describe('getFooterData', () => {
     expect(newsroomItem).not.toHaveProperty('href');
   });
 
+  it('centralizes the privacy footer link through a route id', () => {
+    const privacyItem = FOOTER_DATA.navigation.find((item) => item.id === 'privacy');
+
+    expect(privacyItem).toEqual(
+      expect.objectContaining({ routeId: PAGE_ROUTE_ID.PRIVACY }),
+    );
+    expect(privacyItem).not.toHaveProperty('href');
+  });
+
   it('resolves the about footer href for the default locale', () => {
     const aboutItem = getFooterData('es').navigation.find((item) => item.id === 'about');
 
@@ -116,9 +125,15 @@ describe('getFooterData', () => {
     expect(newsroomItem?.href).toBe('/it/newsroom');
   });
 
-  it('keeps non-routed footer links unchanged when no route id exists', () => {
+  it('resolves the privacy footer href for the default locale', () => {
+    const privacyItem = getFooterData('es').navigation.find((item) => item.id === 'privacy');
+
+    expect(privacyItem?.href).toBe('/privacy');
+  });
+
+  it('resolves the privacy footer href for non-default locales', () => {
     const privacyItem = getFooterData('de').navigation.find((item) => item.id === 'privacy');
 
-    expect(privacyItem?.href).toBe('');
+    expect(privacyItem?.href).toBe('/de/privacy');
   });
 });

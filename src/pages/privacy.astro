@@ -1,0 +1,8 @@
+---
+import PrivacyPage from '../components/templates/PrivacyPage.astro';
+import { normalizeLocale } from '../i18n/utils';
+
+const lang = normalizeLocale(Astro.currentLocale);
+---
+
+<PrivacyPage lang={lang} />

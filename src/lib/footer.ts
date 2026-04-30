@@ -75,8 +75,8 @@ export const FOOTER_DATA: FooterData = {
     {
       id: 'privacy',
       labelKey: 'footer.privacy',
-      href: '',
       kind: FOOTER_LINK_KIND.PAGE,
+      routeId: PAGE_ROUTE_ID.PRIVACY,
     },
   ],
   social: [
