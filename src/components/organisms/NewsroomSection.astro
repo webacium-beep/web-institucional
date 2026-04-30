@@ -1,6 +1,7 @@
 ---
 import type { Locales } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
+import { getLocalizedPageHref, PAGE_ROUTE_ID } from '../../lib/site-navigation';
 import NewsroomPlaceholderGallery from '../islands/NewsroomPlaceholderGallery';
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const ctaHref = '#';
+const ctaHref = getLocalizedPageHref(PAGE_ROUTE_ID.NEWSROOM, lang);
 ---
 
 <section class="w-full bg-white px-6 py-20 text-black sm:px-10 lg:px-16 xl:px-24 font-avenir">

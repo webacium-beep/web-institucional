@@ -29,18 +29,24 @@ const ROUTES = [
 const HEADER_PATH = resolve(ROOT, 'src/components/ui/Header.astro');
 const FOOTER_PATH = resolve(ROOT, 'src/components/organisms/FooterSection.astro');
 const ABOUT_SECTION_PATH = resolve(ROOT, 'src/components/ui/AboutSection.astro');
+const FEATURED_WORLD_PATH = resolve(ROOT, 'src/components/organisms/FeaturedWorld.astro');
+const NEWSROOM_SECTION_PATH = resolve(ROOT, 'src/components/organisms/NewsroomSection.astro');
 const NAVIGATION_LIB_PATH = resolve(ROOT, 'src/lib/site-navigation.ts');
 
 describe('About localized route files', () => {
   let headerContent: string;
   let footerContent: string;
   let aboutSectionContent: string;
+  let featuredWorldContent: string;
+  let newsroomSectionContent: string;
   let navigationLibContent: string;
 
   beforeAll(() => {
     headerContent = readFileSync(HEADER_PATH, 'utf-8');
     footerContent = readFileSync(FOOTER_PATH, 'utf-8');
     aboutSectionContent = readFileSync(ABOUT_SECTION_PATH, 'utf-8');
+    featuredWorldContent = readFileSync(FEATURED_WORLD_PATH, 'utf-8');
+    newsroomSectionContent = readFileSync(NEWSROOM_SECTION_PATH, 'utf-8');
     navigationLibContent = readFileSync(NAVIGATION_LIB_PATH, 'utf-8');
   });
 
@@ -122,6 +128,19 @@ describe('About localized route files', () => {
     it('renders the CTA as a link to aboutHref', () => {
       expect(aboutSectionContent).toMatch(/<a\s+href=\{aboutHref\}/);
       expect(aboutSectionContent).not.toMatch(/<button\s/);
+    });
+  });
+
+  describe('Home CTAs — world and newsroom', () => {
+    it('FeaturedWorld uses the shared localized navigation helper for its CTA', () => {
+      expect(featuredWorldContent).toMatch(/import\s+\{\s*getLocalizedPageHref,\s*PAGE_ROUTE_ID\s*\}\s+from\s+['"][^'"]*site-navigation['"]/);
+      expect(featuredWorldContent).toMatch(/const\s+ctaHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.WORLD,\s*lang\)/);
+    });
+
+    it('NewsroomSection uses the shared localized navigation helper for its CTA', () => {
+      expect(newsroomSectionContent).toMatch(/import\s+\{\s*getLocalizedPageHref,\s*PAGE_ROUTE_ID\s*\}\s+from\s+['"][^'"]*site-navigation['"]/);
+      expect(newsroomSectionContent).toMatch(/const\s+ctaHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.NEWSROOM,\s*lang\)/);
+      expect(newsroomSectionContent).toMatch(/<a\s[\s\S]*href=\{ctaHref\}/);
     });
   });
 

@@ -5,6 +5,7 @@ import FeaturedWorldMedia from '../molecules/FeaturedWorldMedia.astro';
 import { useTranslations } from '../../i18n/utils';
 import logo from '../../assets/logoaciumworld.svg';
 import videoPlaneta from '../../assets/PLANETA_ACIUM.mp4';
+import { getLocalizedPageHref, PAGE_ROUTE_ID } from '../../lib/site-navigation';
 
 
 interface Props {
@@ -17,7 +18,7 @@ const taglineOnetext = t("world.hero.subtitle");
 const taglineTwotext = t("world.hero.title")
 const description = t("world.hero.description");
 const ctaText = t("world.hero.cta");
-const ctaHref = '/lanzamientos';
+const ctaHref = getLocalizedPageHref(PAGE_ROUTE_ID.WORLD, lang);
 const worldVideoSrc = videoPlaneta;
 
 
