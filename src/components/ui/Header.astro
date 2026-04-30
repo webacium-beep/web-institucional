@@ -14,6 +14,7 @@ const safeLocale = normalizeLocale(locale);
 const t = useTranslations(safeLocale);
 const aboutHref = getLocalizedPageHref(PAGE_ROUTE_ID.ABOUT, safeLocale);
 const worldHref = getLocalizedPageHref(PAGE_ROUTE_ID.WORLD, safeLocale);
+const newsroomHref = getLocalizedPageHref(PAGE_ROUTE_ID.NEWSROOM, safeLocale);
 ---
 
 <header id="site-header" class="fixed top-0 left-0 right-0 z-50 font-avenir w-full bg-black text-white">
@@ -73,7 +74,7 @@ const worldHref = getLocalizedPageHref(PAGE_ROUTE_ID.WORLD, safeLocale);
         <span class="nav-ghost" aria-hidden="true">{t('nav.franchise')}</span>
       </a>
       <a
-        href="#"
+        href={newsroomHref}
         data-text={t('nav.newsroom')}
         class="nav-link relative text-[13px] tracking-[0.18em] text-[#9B9B9B] font-[300] hover:text-white hover:font-[800] transition-none"
       >

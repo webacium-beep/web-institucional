@@ -71,6 +71,15 @@ describe('getFooterData', () => {
     expect(worldItem).not.toHaveProperty('href');
   });
 
+  it('centralizes the newsroom footer link through a route id', () => {
+    const newsroomItem = FOOTER_DATA.navigation.find((item) => item.id === 'newsroom');
+
+    expect(newsroomItem).toEqual(
+      expect.objectContaining({ routeId: PAGE_ROUTE_ID.NEWSROOM }),
+    );
+    expect(newsroomItem).not.toHaveProperty('href');
+  });
+
   it('resolves the about footer href for the default locale', () => {
     const aboutItem = getFooterData('es').navigation.find((item) => item.id === 'about');
 
@@ -93,6 +102,18 @@ describe('getFooterData', () => {
     const worldItem = getFooterData('zh').navigation.find((item) => item.id === 'world');
 
     expect(worldItem?.href).toBe('/zh/world');
+  });
+
+  it('resolves the newsroom footer href for the default locale', () => {
+    const newsroomItem = getFooterData('es').navigation.find((item) => item.id === 'newsroom');
+
+    expect(newsroomItem?.href).toBe('/newsroom');
+  });
+
+  it('resolves the newsroom footer href for non-default locales', () => {
+    const newsroomItem = getFooterData('it').navigation.find((item) => item.id === 'newsroom');
+
+    expect(newsroomItem?.href).toBe('/it/newsroom');
   });
 
   it('keeps non-routed footer links unchanged when no route id exists', () => {

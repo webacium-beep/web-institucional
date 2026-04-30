@@ -1,0 +1,8 @@
+---
+import NewsroomPage from '../../components/templates/NewsroomPage.astro';
+import { normalizeLocale } from '../../i18n/utils';
+
+const lang = normalizeLocale(Astro.currentLocale);
+---
+
+<NewsroomPage lang={lang} />

@@ -1,0 +1,287 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import type { Locales } from '../../i18n/ui';
+import { usePageTranslations } from '../../i18n/utils';
+import { newsroomPage } from '../../i18n/newsroom-page';
+import comingSoonImage from '../../assets/section_new_room_images/NOWROOM_1.jpg';
+import comingSoonFeatureImage from '../../assets/section_new_room_images/commingsoon.svg';
+import brazilEventImage from '../../assets/section_new_room_images/NOWROOM_2.jpg';
+import foreverImage from '../../assets/section_new_room_images/NOWROOM_3.jpg';
+import chinaRunwayImage from '../../assets/section_new_room_images/NEWROOM_4.jpg';
+import editorialTeamImage from '../../assets/section_new_room_images/NOWROOM_05.jpg';
+import newsroomHeroImage from '../../assets/section_new_room_images/section_one_newsroom.svg';
+import launchesCategoryImage from '../../assets/section_new_room_images/lanzamientos.webp';
+import campaignsCategoryImage from '../../assets/section_new_room_images/campanas.webp';
+import eventsCategoryImage from '../../assets/section_new_room_images/eventos.jpg';
+import franchisesCategoryImage from '../../assets/section_new_room_images/franquicias.webp';
+
+interface Props {
+  lang: Locales;
+}
+
+const { lang } = Astro.props;
+const t = usePageTranslations(lang, newsroomPage);
+const comingSoonImageSrc = typeof comingSoonImage === 'string' ? comingSoonImage : comingSoonImage.src;
+const comingSoonFeatureImageSrc = typeof comingSoonFeatureImage === 'string' ? comingSoonFeatureImage : comingSoonFeatureImage.src;
+const brazilEventImageSrc = typeof brazilEventImage === 'string' ? brazilEventImage : brazilEventImage.src;
+const foreverImageSrc = typeof foreverImage === 'string' ? foreverImage : foreverImage.src;
+const chinaRunwayImageSrc = typeof chinaRunwayImage === 'string' ? chinaRunwayImage : chinaRunwayImage.src;
+const editorialTeamImageSrc = typeof editorialTeamImage === 'string' ? editorialTeamImage : editorialTeamImage.src;
+const newsroomHeroImageSrc = typeof newsroomHeroImage === 'string' ? newsroomHeroImage : newsroomHeroImage.src;
+const launchesCategoryImageSrc = typeof launchesCategoryImage === 'string' ? launchesCategoryImage : launchesCategoryImage.src;
+const campaignsCategoryImageSrc = typeof campaignsCategoryImage === 'string' ? campaignsCategoryImage : campaignsCategoryImage.src;
+const eventsCategoryImageSrc = typeof eventsCategoryImage === 'string' ? eventsCategoryImage : eventsCategoryImage.src;
+const franchisesCategoryImageSrc = typeof franchisesCategoryImage === 'string' ? franchisesCategoryImage : franchisesCategoryImage.src;
+const heroParagraph1 = t('newsroomPage.hero.paragraph1');
+const [heroParagraph1BeforeBrand, heroParagraph1AfterBrand = ''] = heroParagraph1.split('ACIUM');
+const featuredDescription = t('newsroomPage.featured.description');
+const [featuredDescriptionBeforeBrand, featuredDescriptionAfterBrand = ''] = featuredDescription.split('ACIUM');
+const featuredTitle = t('newsroomPage.featured.title');
+const [featuredTitleBrand = 'ACIUM', ...featuredTitleRestParts] = featuredTitle.split(' ');
+const featuredTitleRest = featuredTitleRestParts.join(' ');
+const categories = [
+  {
+    imageSrc: launchesCategoryImageSrc,
+    imageAlt: 'newsroomPage.categories.items.launches.imageAlt',
+    title: 'newsroomPage.categories.items.launches.title',
+  },
+  {
+    imageSrc: campaignsCategoryImageSrc,
+    imageAlt: 'newsroomPage.categories.items.campaigns.imageAlt',
+    title: 'newsroomPage.categories.items.campaigns.title',
+  },
+  {
+    imageSrc: eventsCategoryImageSrc,
+    imageAlt: 'newsroomPage.categories.items.events.imageAlt',
+    title: 'newsroomPage.categories.items.events.title',
+  },
+  {
+    imageSrc: franchisesCategoryImageSrc,
+    imageAlt: 'newsroomPage.categories.items.franchises.imageAlt',
+    title: 'newsroomPage.categories.items.franchises.title',
+  },
+] as const;
+const articleCards = [
+  {
+    imageSrc: brazilEventImageSrc,
+    imageAlt: 'newsroomPage.articles.items.brazil.imageAlt',
+    title: 'newsroomPage.articles.items.brazil.title',
+    description: 'newsroomPage.articles.items.brazil.description',
+  },
+  {
+    imageSrc: foreverImageSrc,
+    imageAlt: 'newsroomPage.articles.items.forever.imageAlt',
+    title: 'newsroomPage.articles.items.forever.title',
+    description: 'newsroomPage.articles.items.forever.description',
+  },
+  {
+    imageSrc: chinaRunwayImageSrc,
+    imageAlt: 'newsroomPage.articles.items.china.imageAlt',
+    title: 'newsroomPage.articles.items.china.title',
+    description: 'newsroomPage.articles.items.china.description',
+  },
+  {
+    imageSrc: editorialTeamImageSrc,
+    imageAlt: 'newsroomPage.articles.items.abf.imageAlt',
+    title: 'newsroomPage.articles.items.abf.title',
+    description: 'newsroomPage.articles.items.abf.description',
+  },
+] as const;
+
+const resolvedArticleCards = articleCards.map((articleCard) => {
+  const title = t(articleCard.title);
+  const titleParts = title.split('ACIUM');
+  const hasBrand = titleParts.length > 1;
+  const [titleBeforeBrand, titleAfterBrand = ''] = titleParts;
+
+  return {
+    ...articleCard,
+    resolvedTitle: title,
+    titleHasBrand: hasBrand,
+    titleBeforeBrand,
+    titleAfterBrand,
+  };
+});
+---
+
+<PageLayout lang={lang}>
+  <article class="mx-auto flex w-full max-w-6xl flex-col gap-16 px-6 pt-12 md:gap-20 md:px-10 md:pt-16">
+    <header class="flex justify-center text-center">
+      <h1 class="text-[30px] font-black uppercase tracking-[0.18em] text-black">
+        {t('newsroomPage.title')}
+      </h1>
+    </header>
+
+    <section aria-labelledby="newsroom-hero-title" class="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.8fr)] lg:items-center lg:gap-[100px]">
+      <div class="flex justify-center lg:justify-start">
+        <img
+          src={newsroomHeroImageSrc}
+          alt={t('newsroomPage.hero.imageAlt')}
+          class="h-auto w-full max-w-[620px] object-cover"
+        />
+      </div>
+
+      <div class="space-y-5 lg:max-w-[360px]">
+        <h2 id="newsroom-hero-title" class="text-[28px] font-black leading-[1.15] text-black">
+          {t('newsroomPage.hero.title')}
+        </h2>
+
+        <div class="space-y-3 text-[18px] font-light leading-[1.6] text-black/85">
+          <p>
+            {heroParagraph1BeforeBrand}
+            <span class="font-medium tracking-[0.22em] text-black">A C I U M</span>
+            {heroParagraph1AfterBrand}
+          </p>
+          <p>{t('newsroomPage.hero.paragraph2')}</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="newsroom-categories-title" class="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center lg:gap-[100px]">
+      <div class="flex justify-center lg:justify-start">
+        <h2 id="newsroom-categories-title" class="text-[30px] font-black uppercase leading-none text-black">
+          {t('newsroomPage.categories.title')}
+        </h2>
+      </div>
+
+      <section aria-label={t('newsroomPage.categories.title')} role="region" class="relative w-full">
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-y-0 right-0 z-[1] hidden w-16 lg:block"
+          style="background: linear-gradient(to left, rgba(255,255,255,0.92), transparent);"
+        ></div>
+
+        <div data-newsroom-categories-scroll class="w-full overflow-x-scroll overflow-y-hidden pb-3" style="scrollbar-width: none;">
+          <ul class="flex min-w-max flex-row items-end gap-4" aria-label={t('newsroomPage.categories.title')}>
+        {categories.map((category) => (
+          <li class="w-[299px] shrink-0 space-y-4 text-center">
+            <div class="h-[343px] w-[299px] overflow-hidden border border-neutral-200 bg-white">
+              <img src={category.imageSrc} alt={t(category.imageAlt)} class="h-[343px] w-[299px] object-cover" />
+            </div>
+            <p class="text-[12px] font-normal text-black">{t(category.title)}</p>
+          </li>
+        ))}
+          </ul>
+        </div>
+      </section>
+    </section>
+
+    <section aria-labelledby="newsroom-featured-title" class="space-y-8">
+      <div class="flex justify-center px-6 py-8 md:px-10">
+        <img
+          src={comingSoonFeatureImageSrc}
+          alt={t('newsroomPage.featured.imageAlt')}
+          class="h-full w-auto max-w-full object-contain"
+        />
+      </div>
+
+      <div class="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
+        <h2 id="newsroom-featured-title" class="text-[25px] font-black leading-[1.2] text-black">
+          <span class="tracking-[0.22em]">{featuredTitleBrand.split('').join(' ')}</span>
+          {featuredTitleRest ? <span>{` ${featuredTitleRest}`}</span> : null}
+        </h2>
+
+        <button
+          type="button"
+          class="inline-flex h-[45px] w-auto cursor-pointer items-center border border-neutral-300 bg-white px-4 text-[14px] font-medium text-black transition-colors duration-300 hover:bg-black hover:text-white"
+        >
+          {t('newsroomPage.featured.badge')}
+        </button>
+
+        <p class="text-[17px] font-light leading-[1.7] text-black/85">
+          {featuredDescriptionBeforeBrand}
+          <span class="font-medium tracking-[0.22em] text-black">A C I U M</span>
+          {featuredDescriptionAfterBrand}
+        </p>
+      </div>
+    </section>
+
+    <section aria-label={t('newsroomPage.articles.ariaLabel')}>
+      <div class="grid gap-x-[267px] gap-y-14 md:grid-cols-2">
+        {resolvedArticleCards.map((articleCard) => (
+          <article class="w-full max-w-[476px] space-y-5">
+            <img src={articleCard.imageSrc} alt={t(articleCard.imageAlt)} class="h-[304px] w-full object-cover" />
+
+            <div class="w-full space-y-3">
+              <h2 class="w-full text-[25px] font-medium leading-[1.2] text-black">
+                {articleCard.titleHasBrand ? (
+                  <>
+                    <span>{articleCard.titleBeforeBrand}</span>
+                    <span class="tracking-[0.12em]">A C I U M</span>
+                    <span>{articleCard.titleAfterBrand}</span>
+                  </>
+                ) : (
+                  articleCard.resolvedTitle
+                )}
+              </h2>
+              <p class="w-full text-[17px] font-light leading-[1.65] text-black/85">
+                {t(articleCard.description)}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section aria-labelledby="newsroom-closing-title" class="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] flex h-[458px] w-screen items-center justify-center bg-neutral-100 px-6 text-center md:px-10">
+      <div class="mx-auto flex max-w-3xl flex-col items-center justify-center gap-6">
+        <h2 id="newsroom-closing-title" class="w-[482px] max-w-full text-[35px] font-black leading-[1.2] text-black">
+          {t('newsroomPage.closing.title')}
+        </h2>
+        <p class="max-w-2xl text-[17px] font-light leading-[1.7] text-black/85">
+          {t('newsroomPage.closing.description')}
+        </p>
+      </div>
+    </section>
+  </article>
+</PageLayout>
+
+<script>
+  const desktopQuery = window.matchMedia('(min-width: 1024px)');
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const setupNewsroomCategoriesWheel = () => {
+    const container = document.querySelector('[data-newsroom-categories-scroll]');
+
+    if (!(container instanceof HTMLElement)) return;
+
+    const previousHandler = container.__newsroomWheelHandler;
+    if (previousHandler) {
+      container.removeEventListener('wheel', previousHandler);
+    }
+
+    if (!desktopQuery.matches || motionQuery.matches) {
+      container.__newsroomWheelHandler = undefined;
+      return;
+    }
+
+    let rafId = null;
+    let pendingDelta = 0;
+
+    const onWheel = (event) => {
+      event.preventDefault();
+      pendingDelta += event.deltaY + event.deltaX;
+
+      if (rafId !== null) return;
+
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        container.scrollLeft += pendingDelta;
+        pendingDelta = 0;
+      });
+    };
+
+    container.addEventListener('wheel', onWheel, { passive: false });
+    container.__newsroomWheelHandler = onWheel;
+  };
+
+  setupNewsroomCategoriesWheel();
+  desktopQuery.addEventListener('change', setupNewsroomCategoriesWheel);
+  motionQuery.addEventListener('change', setupNewsroomCategoriesWheel);
+</script>
+
+<style>
+  [data-newsroom-categories-scroll]::-webkit-scrollbar {
+    display: none;
+  }
+</style>

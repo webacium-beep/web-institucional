@@ -69,8 +69,8 @@ export const FOOTER_DATA: FooterData = {
     {
       id: 'newsroom',
       labelKey: 'nav.newsroom',
-      href: '',
       kind: FOOTER_LINK_KIND.PAGE,
+      routeId: PAGE_ROUTE_ID.NEWSROOM,
     },
     {
       id: 'privacy',

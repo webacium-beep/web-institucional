@@ -90,15 +90,16 @@ describe('About localized route files', () => {
       expect(headerContent).toMatch(/\{t\(['"]nav\.about['"]\)\}/);
     });
 
-    it('nav.world also uses a locale-aware href while the remaining placeholders stay unchanged', () => {
+    it('nav.world and nav.newsroom use locale-aware hrefs while franchise stays a placeholder', () => {
       const worldLink = headerContent.match(/<a\s[^>]*data-text=\{t\(['"]nav\.world['"]\)\}[^>]*>/)?.[0];
       const franchiseLink = headerContent.match(/<a\s[^>]*data-text=\{t\(['"]nav\.franchise['"]\)\}[^>]*>/)?.[0];
       const newsroomLink = headerContent.match(/<a\s[^>]*data-text=\{t\(['"]nav\.newsroom['"]\)\}[^>]*>/)?.[0];
 
       expect(headerContent).toMatch(/const\s+worldHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.WORLD,\s*safeLocale\)/);
+      expect(headerContent).toMatch(/const\s+newsroomHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.NEWSROOM,\s*safeLocale\)/);
       expect(worldLink).toContain('href={worldHref}');
       expect(franchiseLink).toContain('href="#"');
-      expect(newsroomLink).toContain('href="#"');
+      expect(newsroomLink).toContain('href={newsroomHref}');
     });
   });
 
@@ -133,6 +134,10 @@ describe('About localized route files', () => {
       expect(navigationLibContent).toMatch(/WORLD:\s*['"]world['"]/);
     });
 
+    it('declares the NEWSROOM route id constant', () => {
+      expect(navigationLibContent).toMatch(/NEWSROOM:\s*['"]newsroom['"]/);
+    });
+
     it('maps ABOUT to /about for es and /{locale}/about otherwise', () => {
       expect(navigationLibContent).toMatch(/if\s*\(page\s*===\s*PAGE_ROUTE_ID\.ABOUT\)\s*\{/);
       expect(navigationLibContent).toMatch(/return\s+safeLang\s*===\s*['"]es['"]\s*\?\s*['"]\/about['"]\s*:\s*`\/\$\{safeLang\}\/about`/);
@@ -141,6 +146,11 @@ describe('About localized route files', () => {
     it('maps WORLD to /world for es and /{locale}/world otherwise', () => {
       expect(navigationLibContent).toMatch(/if\s*\(page\s*===\s*PAGE_ROUTE_ID\.WORLD\)\s*\{/);
       expect(navigationLibContent).toMatch(/return\s+safeLang\s*===\s*['"]es['"]\s*\?\s*['"]\/world['"]\s*:\s*`\/\$\{safeLang\}\/world`/);
+    });
+
+    it('maps NEWSROOM to /newsroom for es and /{locale}/newsroom otherwise', () => {
+      expect(navigationLibContent).toMatch(/if\s*\(page\s*===\s*PAGE_ROUTE_ID\.NEWSROOM\)\s*\{/);
+      expect(navigationLibContent).toMatch(/return\s+safeLang\s*===\s*['"]es['"]\s*\?\s*['"]\/newsroom['"]\s*:\s*`\/\$\{safeLang\}\/newsroom`/);
     });
   });
 });
