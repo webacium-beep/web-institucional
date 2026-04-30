@@ -80,6 +80,15 @@ describe('getFooterData', () => {
     expect(newsroomItem).not.toHaveProperty('href');
   });
 
+  it('centralizes the franchise footer link through a route id', () => {
+    const franchiseItem = FOOTER_DATA.navigation.find((item) => item.id === 'franchise');
+
+    expect(franchiseItem).toEqual(
+      expect.objectContaining({ routeId: PAGE_ROUTE_ID.FRANCHISE }),
+    );
+    expect(franchiseItem).not.toHaveProperty('href');
+  });
+
   it('centralizes the privacy footer link through a route id', () => {
     const privacyItem = FOOTER_DATA.navigation.find((item) => item.id === 'privacy');
 
@@ -123,6 +132,18 @@ describe('getFooterData', () => {
     const newsroomItem = getFooterData('it').navigation.find((item) => item.id === 'newsroom');
 
     expect(newsroomItem?.href).toBe('/it/newsroom');
+  });
+
+  it('resolves the franchise footer href for the default locale', () => {
+    const franchiseItem = getFooterData('es').navigation.find((item) => item.id === 'franchise');
+
+    expect(franchiseItem?.href).toBe('/franchise');
+  });
+
+  it('resolves the franchise footer href for non-default locales', () => {
+    const franchiseItem = getFooterData('pt').navigation.find((item) => item.id === 'franchise');
+
+    expect(franchiseItem?.href).toBe('/pt/franchise');
   });
 
   it('resolves the privacy footer href for the default locale', () => {

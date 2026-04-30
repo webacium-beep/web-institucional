@@ -5,6 +5,7 @@ export const PAGE_ROUTE_ID = {
   HOME: 'home',
   ABOUT: 'about',
   WORLD: 'world',
+  FRANCHISE: 'franchise',
   NEWSROOM: 'newsroom',
   PRIVACY: 'privacy',
 } as const;
@@ -24,6 +25,10 @@ export function getLocalizedPageHref(page: PageRouteId, lang: string | null | un
 
   if (page === PAGE_ROUTE_ID.WORLD) {
     return safeLang === 'es' ? '/world' : `/${safeLang}/world`;
+  }
+
+  if (page === PAGE_ROUTE_ID.FRANCHISE) {
+    return safeLang === 'es' ? '/franchise' : `/${safeLang}/franchise`;
   }
 
   if (page === PAGE_ROUTE_ID.NEWSROOM) {

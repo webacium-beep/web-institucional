@@ -14,6 +14,7 @@ const safeLocale = normalizeLocale(locale);
 const t = useTranslations(safeLocale);
 const aboutHref = getLocalizedPageHref(PAGE_ROUTE_ID.ABOUT, safeLocale);
 const worldHref = getLocalizedPageHref(PAGE_ROUTE_ID.WORLD, safeLocale);
+const franchiseHref = getLocalizedPageHref(PAGE_ROUTE_ID.FRANCHISE, safeLocale);
 const newsroomHref = getLocalizedPageHref(PAGE_ROUTE_ID.NEWSROOM, safeLocale);
 ---
 
@@ -66,7 +67,7 @@ const newsroomHref = getLocalizedPageHref(PAGE_ROUTE_ID.NEWSROOM, safeLocale);
         <span class="nav-ghost" aria-hidden="true">{t('nav.world')}</span>
       </a>
       <a
-        href="#"
+        href={franchiseHref}
         data-text={t('nav.franchise')}
         class="nav-link relative text-[13px] tracking-[0.18em] text-[#9B9B9B] font-[300] hover:text-white hover:font-[800] transition-none"
       >

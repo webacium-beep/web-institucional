@@ -30,6 +30,7 @@ const HEADER_PATH = resolve(ROOT, 'src/components/ui/Header.astro');
 const FOOTER_PATH = resolve(ROOT, 'src/components/organisms/FooterSection.astro');
 const ABOUT_SECTION_PATH = resolve(ROOT, 'src/components/ui/AboutSection.astro');
 const FEATURED_WORLD_PATH = resolve(ROOT, 'src/components/organisms/FeaturedWorld.astro');
+const FRANCHISE_SECTION_PATH = resolve(ROOT, 'src/components/organisms/FranchiseSection.astro');
 const NEWSROOM_SECTION_PATH = resolve(ROOT, 'src/components/organisms/NewsroomSection.astro');
 const NAVIGATION_LIB_PATH = resolve(ROOT, 'src/lib/site-navigation.ts');
 
@@ -38,6 +39,7 @@ describe('About localized route files', () => {
   let footerContent: string;
   let aboutSectionContent: string;
   let featuredWorldContent: string;
+  let franchiseSectionContent: string;
   let newsroomSectionContent: string;
   let navigationLibContent: string;
 
@@ -46,6 +48,7 @@ describe('About localized route files', () => {
     footerContent = readFileSync(FOOTER_PATH, 'utf-8');
     aboutSectionContent = readFileSync(ABOUT_SECTION_PATH, 'utf-8');
     featuredWorldContent = readFileSync(FEATURED_WORLD_PATH, 'utf-8');
+    franchiseSectionContent = readFileSync(FRANCHISE_SECTION_PATH, 'utf-8');
     newsroomSectionContent = readFileSync(NEWSROOM_SECTION_PATH, 'utf-8');
     navigationLibContent = readFileSync(NAVIGATION_LIB_PATH, 'utf-8');
   });
@@ -96,15 +99,16 @@ describe('About localized route files', () => {
       expect(headerContent).toMatch(/\{t\(['"]nav\.about['"]\)\}/);
     });
 
-    it('nav.world and nav.newsroom use locale-aware hrefs while franchise stays a placeholder', () => {
+    it('nav.world, nav.franchise, and nav.newsroom use locale-aware hrefs', () => {
       const worldLink = headerContent.match(/<a\s[^>]*data-text=\{t\(['"]nav\.world['"]\)\}[^>]*>/)?.[0];
       const franchiseLink = headerContent.match(/<a\s[^>]*data-text=\{t\(['"]nav\.franchise['"]\)\}[^>]*>/)?.[0];
       const newsroomLink = headerContent.match(/<a\s[^>]*data-text=\{t\(['"]nav\.newsroom['"]\)\}[^>]*>/)?.[0];
 
       expect(headerContent).toMatch(/const\s+worldHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.WORLD,\s*safeLocale\)/);
+      expect(headerContent).toMatch(/const\s+franchiseHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.FRANCHISE,\s*safeLocale\)/);
       expect(headerContent).toMatch(/const\s+newsroomHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.NEWSROOM,\s*safeLocale\)/);
       expect(worldLink).toContain('href={worldHref}');
-      expect(franchiseLink).toContain('href="#"');
+      expect(franchiseLink).toContain('href={franchiseHref}');
       expect(newsroomLink).toContain('href={newsroomHref}');
     });
   });
@@ -142,6 +146,12 @@ describe('About localized route files', () => {
       expect(newsroomSectionContent).toMatch(/const\s+ctaHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.NEWSROOM,\s*lang\)/);
       expect(newsroomSectionContent).toMatch(/<a\s[\s\S]*href=\{ctaHref\}/);
     });
+
+    it('FranchiseSection uses the shared localized navigation helper for its CTA', () => {
+      expect(franchiseSectionContent).toMatch(/import\s+\{\s*getLocalizedPageHref,\s*PAGE_ROUTE_ID\s*\}\s+from\s+['"][^'"]*site-navigation['"]/);
+      expect(franchiseSectionContent).toMatch(/const\s+ctaHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.FRANCHISE,\s*lang\)/);
+      expect(franchiseSectionContent).toMatch(/<a\s[\s\S]*href=\{ctaHref\}/);
+    });
   });
 
   describe('site-navigation.ts — shared localized page routes', () => {
@@ -157,6 +167,10 @@ describe('About localized route files', () => {
       expect(navigationLibContent).toMatch(/NEWSROOM:\s*['"]newsroom['"]/);
     });
 
+    it('declares the FRANCHISE route id constant', () => {
+      expect(navigationLibContent).toMatch(/FRANCHISE:\s*['"]franchise['"]/);
+    });
+
     it('maps ABOUT to /about for es and /{locale}/about otherwise', () => {
       expect(navigationLibContent).toMatch(/if\s*\(page\s*===\s*PAGE_ROUTE_ID\.ABOUT\)\s*\{/);
       expect(navigationLibContent).toMatch(/return\s+safeLang\s*===\s*['"]es['"]\s*\?\s*['"]\/about['"]\s*:\s*`\/\$\{safeLang\}\/about`/);
@@ -165,6 +179,11 @@ describe('About localized route files', () => {
     it('maps WORLD to /world for es and /{locale}/world otherwise', () => {
       expect(navigationLibContent).toMatch(/if\s*\(page\s*===\s*PAGE_ROUTE_ID\.WORLD\)\s*\{/);
       expect(navigationLibContent).toMatch(/return\s+safeLang\s*===\s*['"]es['"]\s*\?\s*['"]\/world['"]\s*:\s*`\/\$\{safeLang\}\/world`/);
+    });
+
+    it('maps FRANCHISE to /franchise for es and /{locale}/franchise otherwise', () => {
+      expect(navigationLibContent).toMatch(/if\s*\(page\s*===\s*PAGE_ROUTE_ID\.FRANCHISE\)\s*\{/);
+      expect(navigationLibContent).toMatch(/return\s+safeLang\s*===\s*['"]es['"]\s*\?\s*['"]\/franchise['"]\s*:\s*`\/\$\{safeLang\}\/franchise`/);
     });
 
     it('maps NEWSROOM to /newsroom for es and /{locale}/newsroom otherwise', () => {

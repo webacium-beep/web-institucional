@@ -1,0 +1,8 @@
+---
+import FranchisePage from '../components/templates/FranchisePage.astro';
+import { normalizeLocale } from '../i18n/utils';
+
+const lang = normalizeLocale(Astro.currentLocale);
+---
+
+<FranchisePage lang={lang} />
