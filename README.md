@@ -42,6 +42,98 @@ While the Sanity access layer is in place, existing pages still use local/static
 
 ---
 
+## Franchise Lead Email Flow (Resend)
+
+The franchise page sends each lead to a different internal recipient depending on the country selected in the form. The UI stays in Astro; the email delivery runs server-side through Resend.
+
+### Quick path
+
+1. The visitor selects a country in the franchise form.
+2. The browser sends `countryCode` plus the form fields to `POST /api/franchise-contact`.
+3. The Astro endpoint resolves the internal recipient from `src/data/franchise-contacts.ts`.
+4. Resend sends the email using the verified sender domain.
+
+### Files involved
+
+| File | Responsibility |
+|------|----------------|
+| `src/components/templates/FranchisePage.astro` | Renders the form, client-side validation, submit, and success state |
+| `src/pages/api/franchise-contact.ts` | Validates payload, resolves recipient by `countryCode`, sends email via Resend |
+| `src/data/franchise-contacts.ts` | Source of truth for per-country routing (`email`, `whatsappLink`, `pdv`, etc.) |
+| `src/i18n/franchise-market-info.ts` | Translated “Información de MASTER” copy |
+
+### Environment variables
+
+Add these to local `.env` and to Netlify:
+
+| Variable | Required | Secret | Description |
+|----------|----------|--------|-------------|
+| `RESEND_API_KEY` | ✅ Yes | ✅ Yes | Server-side Resend API key |
+| `RESEND_FROM_EMAIL` | ✅ Yes | No | Verified sender address, e.g. `franchise@acium.global` |
+
+> **Important:** `RESEND_API_KEY` must stay server-only. Never prefix it with `PUBLIC_` and mark it as a secret in Netlify.
+
+### Domain verification
+
+Resend will reject production sends until the sender domain is verified.
+
+Current working pattern:
+
+- Verified domain in Resend: `acium.global`
+- Sender used by the endpoint: `franchise@acium.global`
+- Recipient resolved dynamically from the selected country row
+- User email goes into `reply_to`, not `from`
+
+That means a lead from Colombia is sent like this:
+
+- `from`: `franchise@acium.global`
+- `to`: country-specific internal email from `franchiseContacts`
+- `reply_to`: the visitor's own email
+
+### How country routing works
+
+Every row in `src/data/franchise-contacts.ts` represents one market.
+
+Relevant fields:
+
+- `countryCode`
+- `dialCode`
+- `email`
+- `whatsappLink`
+- `pdv`
+- `masterInfoKey`
+
+The endpoint only trusts `countryCode` from the client. It resolves the real recipient server-side, which prevents tampering with the destination email in the browser.
+
+### Input validation
+
+The franchise form currently applies two layers of validation:
+
+- **Client-side:** regex patterns + real-time sanitization in `FranchisePage.astro`
+- **Server-side:** the same whitelist validation in `src/pages/api/franchise-contact.ts`
+
+Current rules:
+
+- Text inputs allow letters, numbers, spaces, commas, dots, and `@`
+- Phone input allows numbers only
+
+### Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|--------|--------------|-----|
+| `403 validation_error` from Resend | Unverified sender or using `onboarding@resend.dev` to email real recipients | Verify domain and use `RESEND_FROM_EMAIL=franchise@acium.global` |
+| `502 Failed to send email` | Resend rejected the downstream send | Check `/api/franchise-contact` response body and Resend dashboard event details |
+| Resend shows `Bounce` | Recipient or `reply_to` address is invalid or blocked | Retry with a real visitor email; inspect bounce details in Resend |
+| Success CTA WhatsApp button disabled | Selected country has `whatsappLink: null` | Add a real WhatsApp link for that country in `franchise-contacts.ts` |
+
+### Netlify setup notes
+
+- Add `RESEND_API_KEY` as a **secret** environment variable.
+- Add `RESEND_FROM_EMAIL` as a normal environment variable.
+- Redeploy after changing either value.
+
+---
+
 ## Tech Stack
 
 | Layer | Technology | Version |
