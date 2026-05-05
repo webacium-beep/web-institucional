@@ -43,7 +43,7 @@ const newsroomHref = getLocalizedPageHref(PAGE_ROUTE_ID.NEWSROOM, safeLocale);
 
     {/* Right: Language Selector */}
     <div class="flex-1 flex justify-end items-center text-[#9B9B9B]">
-      <LanguageSelector client:load currentLocale={safeLocale} selectorLabel={t('selector.label')} />
+      <LanguageSelector client:only="react" currentLocale={safeLocale} selectorLabel={t('selector.label')} />
     </div>
   </div>
 

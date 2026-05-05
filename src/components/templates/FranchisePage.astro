@@ -3,6 +3,17 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import type { Locales } from '../../i18n/ui';
 import { usePageTranslations } from '../../i18n/utils';
 import { franchisePage } from '../../i18n/franchise-page';
+import { franchiseMarketInfo } from '../../i18n/franchise-market-info';
+import { franchiseContacts } from '../../data/franchise-contacts';
+import bannerFranquicia from '../../assets/franquicia_ppage/banner_franquicia.png';
+import masterFranquiciadoImage from '../../assets/franquicia_ppage/master_franquiciado.png';
+import franquiciadoImage from '../../assets/franquicia_ppage/franquicia.png';
+import solicitudEnviadaImage from '../../assets/franquicia_ppage/solicitud_enviada.png';
+import iconoAnalisis from '../../assets/franquicia_ppage/icons/analisis.png';
+import iconoConexion from '../../assets/franquicia_ppage/icons/conexion.png';
+import iconoDesarrollo from '../../assets/franquicia_ppage/icons/desarrollo.png';
+import iconoSolicitud from '../../assets/franquicia_ppage/icons/solicitud.png';
+import worldMapImage from '../../assets/worldppage/SECCION_MAPA_MUNDO.webp';
 
 interface Props {
   lang: Locales;
@@ -10,102 +21,596 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = usePageTranslations(lang, franchisePage);
+const marketInfoT = usePageTranslations(lang, franchiseMarketInfo);
 
-const benefits = [
-  'franchisePage.benefits.item1',
-  'franchisePage.benefits.item2',
-  'franchisePage.benefits.item3',
+const bannerFranquiciaSrc = typeof bannerFranquicia === 'string' ? bannerFranquicia : bannerFranquicia.src;
+const masterFranquiciadoImageSrc = typeof masterFranquiciadoImage === 'string' ? masterFranquiciadoImage : masterFranquiciadoImage.src;
+const franquiciadoImageSrc = typeof franquiciadoImage === 'string' ? franquiciadoImage : franquiciadoImage.src;
+const solicitudEnviadaImageSrc = typeof solicitudEnviadaImage === 'string' ? solicitudEnviadaImage : solicitudEnviadaImage.src;
+const worldMapImageSrc = typeof worldMapImage === 'string' ? worldMapImage : worldMapImage.src;
+const iconoSolicitudSrc = typeof iconoSolicitud === 'string' ? iconoSolicitud : iconoSolicitud.src;
+const iconoAnalisisSrc = typeof iconoAnalisis === 'string' ? iconoAnalisis : iconoAnalisis.src;
+const iconoConexionSrc = typeof iconoConexion === 'string' ? iconoConexion : iconoConexion.src;
+const iconoDesarrolloSrc = typeof iconoDesarrollo === 'string' ? iconoDesarrollo : iconoDesarrollo.src;
+
+const whyTitle = t('franchisePage.why.title');
+const whyTitlePrefix = whyTitle.replace(/\s*A C I U M\?$/, '');
+const whyParagraph1 = t('franchisePage.why.paragraph1');
+const whyParagraph1WithoutBrand = whyParagraph1.replace(/^A\s*C\s*I\s*U\s*M\s+/, '').replace(/^ACIUM\s+/, '');
+const statsDescription = t('franchisePage.stats.description');
+const statsDescriptionWithoutBrand = statsDescription.replace(/^A\s*C\s*I\s*U\s*M\s+/, '').replace(/^ACIUM\s+/, '');
+const successParagraph1 = t('franchisePage.success.paragraph1');
+const successParagraph1WithoutBrand = successParagraph1.replace(/^A\s*C\s*I\s*U\s*M\s+/, '').replace(/^ACIUM\s+/, '').replace(/\s+A\s*C\s*I\s*U\s*M$/, '');
+
+const buildBrandSplit = (text: string) => {
+  if (text.startsWith('A C I U M ')) {
+    return { hasBrand: true, body: text.replace(/^A C I U M\s+/, '') };
+  }
+
+  if (text.startsWith('ACIUM ')) {
+    return { hasBrand: true, body: text.replace(/^ACIUM\s+/, '') };
+  }
+
+  return { hasBrand: false, body: text };
+};
+
+const localizedFranchiseContacts = franchiseContacts.map((row) => ({
+  countryCode: row.countryCode,
+  countryName: t(row.countryKey),
+  dialCode: row.dialCode,
+  pdv: row.pdv,
+  pdvStatus: row.pdvStatus,
+  pdvLabel: row.pdvStatus === 'coming_soon' ? t('franchisePage.stats.comingSoon') : t('franchisePage.stats.pointLabel'),
+  masterInfo: marketInfoT(row.masterInfoKey),
+  whatsappLink: row.whatsappLink,
+}));
+
+const defaultFranchiseContact = localizedFranchiseContacts[0];
+const defaultStatsMasterInfo = buildBrandSplit(defaultFranchiseContact.masterInfo);
+const localizedFranchiseContactsJson = JSON.stringify(localizedFranchiseContacts);
+
+const americaCountries = localizedFranchiseContacts.filter((row) => ['US', 'MX', 'CR', 'PA', 'EC', 'CO', 'BR', 'AR', 'PY', 'UY', 'CL'].includes(row.countryCode));
+const europeCountries = localizedFranchiseContacts.filter((row) => ['PT', 'GB', 'DE', 'ES', 'IE', 'FR', 'TR'].includes(row.countryCode));
+const asiaCountries = localizedFranchiseContacts.filter((row) => ['CN', 'TH', 'MY', 'ID', 'SG', 'JP'].includes(row.countryCode));
+
+const countryDialOptions = [
+  { value: 'US', label: '🇺🇸', code: '+1', countryKey: 'franchisePage.expansion.america1' },
+  { value: 'MX', label: '🇲🇽', code: '+52', countryKey: 'franchisePage.expansion.america2' },
+  { value: 'CR', label: '🇨🇷', code: '+506', countryKey: 'franchisePage.expansion.america3' },
+  { value: 'PA', label: '🇵🇦', code: '+507', countryKey: 'franchisePage.expansion.america4' },
+  { value: 'EC', label: '🇪🇨', code: '+593', countryKey: 'franchisePage.expansion.america5' },
+  { value: 'CO', label: '🇨🇴', code: '+57', countryKey: 'franchisePage.expansion.america6' },
+  { value: 'BR', label: '🇧🇷', code: '+55', countryKey: 'franchisePage.expansion.america7' },
+  { value: 'AR', label: '🇦🇷', code: '+54', countryKey: 'franchisePage.expansion.america8' },
+  { value: 'PY', label: '🇵🇾', code: '+595', countryKey: 'franchisePage.expansion.america9' },
+  { value: 'UY', label: '🇺🇾', code: '+598', countryKey: 'franchisePage.expansion.america10' },
+  { value: 'CL', label: '🇨🇱', code: '+56', countryKey: 'franchisePage.expansion.america11' },
+  { value: 'PT', label: '🇵🇹', code: '+351', countryKey: 'franchisePage.expansion.europe1' },
+  { value: 'GB', label: '🇬🇧', code: '+44', countryKey: 'franchisePage.expansion.europe2' },
+  { value: 'DE', label: '🇩🇪', code: '+49', countryKey: 'franchisePage.expansion.europe3' },
+  { value: 'ES', label: '🇪🇸', code: '+34', countryKey: 'franchisePage.expansion.europe4' },
+  { value: 'IE', label: '🇮🇪', code: '+353', countryKey: 'franchisePage.expansion.europe5' },
+  { value: 'FR', label: '🇫🇷', code: '+33', countryKey: 'franchisePage.expansion.europe6' },
+  { value: 'TR', label: '🇹🇷', code: '+90', countryKey: 'franchisePage.expansion.europe7' },
+  { value: 'CN', label: '🇨🇳', code: '+86', countryKey: 'franchisePage.expansion.asia1' },
+  { value: 'TH', label: '🇹🇭', code: '+66', countryKey: 'franchisePage.expansion.asia2' },
+  { value: 'MY', label: '🇲🇾', code: '+60', countryKey: 'franchisePage.expansion.asia3' },
+  { value: 'ID', label: '🇮🇩', code: '+62', countryKey: 'franchisePage.expansion.asia4' },
+  { value: 'SG', label: '🇸🇬', code: '+65', countryKey: 'franchisePage.expansion.asia5' },
+  { value: 'JP', label: '🇯🇵', code: '+81', countryKey: 'franchisePage.expansion.asia6' },
 ] as const;
 
-const requirements = [
-  'franchisePage.requirements.item1',
-  'franchisePage.requirements.item2',
-  'franchisePage.requirements.item3',
+const nextSteps = [
+  {
+    iconSrc: iconoSolicitudSrc,
+    titleKey: 'franchisePage.next.step1.title',
+    descriptionKey: 'franchisePage.next.step1.description',
+  },
+  {
+    iconSrc: iconoAnalisisSrc,
+    titleKey: 'franchisePage.next.step2.title',
+    descriptionKey: 'franchisePage.next.step2.description',
+  },
+  {
+    iconSrc: iconoConexionSrc,
+    titleKey: 'franchisePage.next.step3.title',
+    descriptionKey: 'franchisePage.next.step3.description',
+  },
+  {
+    iconSrc: iconoDesarrolloSrc,
+    titleKey: 'franchisePage.next.step4.title',
+    descriptionKey: 'franchisePage.next.step4.description',
+  },
 ] as const;
 ---
 
 <PageLayout lang={lang}>
-  <article class="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-12 text-black md:gap-16 md:px-10 md:py-16 lg:px-14">
-    <header class="space-y-6 border-b border-neutral-200 pb-10 text-center md:space-y-7 md:pb-12">
-      <p class="text-[12px] font-[700] uppercase tracking-[0.34em] text-neutral-500">
-        {t('franchisePage.hero.eyebrow')}
-      </p>
-      <h1 class="mx-auto max-w-4xl text-[30px] font-black uppercase leading-[1.02] tracking-[-0.03em] md:text-[40px]">
-        {t('franchisePage.title')}
-      </h1>
-      <p class="mx-auto max-w-3xl text-[22px] font-medium leading-[1.25] text-black md:text-[28px]">
-        {t('franchisePage.hero.title')}
-      </p>
-      <p class="mx-auto max-w-3xl text-[18px] font-light leading-[1.8] text-black/80">
-        {t('franchisePage.hero.description')}
-      </p>
-    </header>
-
-    <section aria-labelledby="franchise-intro-title" class="mx-auto flex w-full max-w-4xl flex-col gap-5 text-left">
-      <h2 id="franchise-intro-title" class="text-[22px] font-medium leading-[1.15] text-black">
-        {t('franchisePage.intro.title')}
-      </h2>
-      <p class="text-[18px] font-light leading-[1.8] text-black/80">
-        {t('franchisePage.intro.description')}
-      </p>
+  <article class="flex w-full flex-col bg-white text-black">
+    <section aria-label={t('franchisePage.hero.title')} class="w-full">
+      <img src={bannerFranquiciaSrc} alt={t('franchisePage.hero.title')} class="h-auto w-full object-cover" />
     </section>
 
-    <section aria-labelledby="franchise-foundation-title" class="grid gap-8 lg:grid-cols-2 lg:gap-10">
-      <h2 id="franchise-foundation-title" class="sr-only">
-        {t('franchisePage.title')}
-      </h2>
+    <section aria-labelledby="franchise-why-title" class="bg-neutral-100 px-6 py-16 md:px-10 md:py-24">
+      <div class="mx-auto flex max-w-[788px] flex-col items-start text-left">
+        <h2 id="franchise-why-title" class="w-full text-center text-[26px] font-black uppercase tracking-[0.08em] text-black md:text-[30px]">
+          {whyTitlePrefix}{' '}
+          <span class="font-medium tracking-[0.24em]">A C I U M</span>?
+        </h2>
+        <div class="mt-8 space-y-8 text-[18px] leading-[1.55] font-medium text-black/80">
+          <p>
+            <span class="font-medium tracking-[0.24em] text-black">A C I U M</span>{' '}
+            {whyParagraph1WithoutBrand}
+          </p>
+          <p>{t('franchisePage.why.paragraph2')}</p>
+          <p>{t('franchisePage.why.paragraph3')}</p>
+        </div>
+      </div>
+    </section>
 
-      <section class="rounded-[28px] border border-neutral-200 bg-neutral-50 p-8 text-left">
-        <h3 class="text-[20px] font-black uppercase tracking-[0.08em] text-black">
-          {t('franchisePage.benefits.title')}
-        </h3>
-        <ul class="mt-6 flex flex-col gap-4 text-[18px] font-light leading-[1.7] text-black/80">
-          {benefits.map((item) => (
-            <li class="flex items-start gap-3">
-              <span aria-hidden="true" class="mt-[0.7em] h-2 w-2 shrink-0 rounded-full bg-black"></span>
-              <span>{t(item)}</span>
-            </li>
+    <section aria-labelledby="franchise-types-title" class="py-16 md:py-24">
+      <div class="flex w-full flex-col gap-[191px]">
+        <h2 id="franchise-types-title" class="text-center text-[26px] font-black uppercase tracking-[0.08em] text-black md:text-[30px]">
+          {t('franchisePage.types.title')}
+        </h2>
+
+        <div class="flex w-full lg:justify-start">
+          <div class="grid gap-10 lg:ml-[130px] lg:max-w-[1162px] lg:grid-cols-[638px_minmax(0,1fr)] lg:items-center lg:gap-[105px]">
+            <img
+              src={masterFranquiciadoImageSrc}
+              alt={t('franchisePage.types.master.label')}
+              class="h-[407px] w-[638px] object-cover"
+            />
+
+            <div class="space-y-8 lg:max-w-[420px]">
+              <h3 class="w-[300px] text-[28px] font-black uppercase leading-[1.1] text-black md:text-[30px]">
+                {t('franchisePage.types.master.label')}
+              </h3>
+              <p class="text-[16px] leading-[1.8] text-black/80 md:text-[18px]">
+                {t('franchisePage.types.master.description')}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex w-full lg:justify-end">
+          <div class="grid gap-10 lg:mr-[130px] lg:max-w-[1176px] lg:grid-cols-[minmax(0,1fr)_638px] lg:items-center lg:gap-[105px]">
+            <div class="order-2 space-y-8 text-left lg:order-1 lg:max-w-[433px] lg:justify-self-end lg:text-right">
+              <h3 class="ml-auto w-[300px] text-[28px] font-black uppercase leading-[1.1] text-right text-black md:text-[30px]">
+                {t('franchisePage.types.design.label')}
+              </h3>
+              <p class="text-[16px] leading-[1.8] text-black/80 md:text-[18px]">
+                {t('franchisePage.types.design.description')}
+              </p>
+            </div>
+
+            <img
+              src={franquiciadoImageSrc}
+              alt={t('franchisePage.types.design.label')}
+              class="order-1 h-[407px] w-[638px] object-cover lg:order-2"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="franchise-map-title" class="px-6 py-10 md:px-10 md:py-16">
+      <div class="mx-auto grid max-w-[1320px] gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center lg:gap-16">
+        <img src={worldMapImageSrc} alt="Mapa global de expansión ACIUM" class="h-auto w-full object-contain" />
+
+        <div class="space-y-5 text-[14px] leading-[1.8] text-black/80 md:text-[15px]">
+          <h2 id="franchise-map-title" class="sr-only">{t('franchisePage.map.title')}</h2>
+          <p>{t('franchisePage.map.description')}</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="franchise-expansion-title" class="bg-neutral-100 px-6 py-12 md:px-10 md:py-16">
+      <div class="mx-auto max-w-[1427px]">
+        <div class="mx-auto mb-[75px] flex h-[23px] w-[852px] max-w-full items-center justify-center bg-neutral-300 px-4 text-center text-[18px] font-light leading-none text-black">
+          <h2 id="franchise-expansion-title" class="font-light normal-case">
+            {t('franchisePage.expansion.title')}
+          </h2>
+        </div>
+
+        <div class="grid gap-10 border-neutral-300 md:grid-cols-3 md:gap-14">
+          <section class="space-y-4 md:border-r md:border-neutral-300 md:pr-10">
+            <h3 class="flex items-center gap-4 text-[15px] font-medium text-black md:text-[16px]">
+              <span class="block h-px w-[42px] shrink-0 opacity-0" aria-hidden="true"></span>
+              <span>{t('franchisePage.expansion.regionAmerica')}</span>
+            </h3>
+            <ul class="grid grid-cols-2 gap-x-8 gap-y-3 text-[14px] text-black/80 md:text-[15px]">
+              {americaCountries.map((country) => (
+                <li class="flex items-center gap-4">
+                  <span class="block h-px w-[42px] shrink-0 bg-neutral-300" aria-hidden="true"></span>
+                  <button type="button" class="cursor-pointer text-left transition-opacity duration-200 hover:opacity-70" data-franchise-country={country.countryCode} data-franchise-country-active={country.countryCode === defaultFranchiseContact.countryCode ? 'true' : 'false'}>{country.countryName}</button>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section class="space-y-4 md:border-r md:border-neutral-300 md:px-10">
+            <h3 class="flex items-center gap-4 text-[15px] font-medium text-black md:text-[16px]">
+              <span class="block h-px w-[42px] shrink-0 opacity-0" aria-hidden="true"></span>
+              <span>{t('franchisePage.expansion.regionEurope')}</span>
+            </h3>
+            <ul class="grid grid-cols-2 gap-x-8 gap-y-3 text-[14px] text-black/80 md:text-[15px]">
+              {europeCountries.map((country) => (
+                <li class="flex items-center gap-4">
+                  <span class="block h-px w-[42px] shrink-0 bg-neutral-300" aria-hidden="true"></span>
+                  <button type="button" class="cursor-pointer text-left transition-opacity duration-200 hover:opacity-70" data-franchise-country={country.countryCode} data-franchise-country-active={country.countryCode === defaultFranchiseContact.countryCode ? 'true' : 'false'}>{country.countryName}</button>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section class="space-y-4 md:pl-10">
+            <h3 class="flex items-center gap-4 text-[15px] font-medium text-black md:text-[16px]">
+              <span class="block h-px w-[42px] shrink-0 opacity-0" aria-hidden="true"></span>
+              <span>{t('franchisePage.expansion.regionAsia')}</span>
+            </h3>
+            <ul class="grid grid-cols-2 gap-x-8 gap-y-3 text-[14px] text-black/80 md:text-[15px]">
+              {asiaCountries.map((country) => (
+                <li class="flex items-center gap-4">
+                  <span class="block h-px w-[42px] shrink-0 bg-neutral-300" aria-hidden="true"></span>
+                  <button type="button" class="cursor-pointer text-left transition-opacity duration-200 hover:opacity-70" data-franchise-country={country.countryCode} data-franchise-country-active={country.countryCode === defaultFranchiseContact.countryCode ? 'true' : 'false'}>{country.countryName}</button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        <div class="mt-[77px] flex justify-center">
+          <div class="flex h-[54px] w-[812px] max-w-full items-center text-black">
+            <div class="flex items-center gap-9">
+              <span class="text-[34px] font-black uppercase leading-none">{t('franchisePage.stats.countryLabel')}</span>
+              <span class="block h-[47px] w-px bg-neutral-300" aria-hidden="true"></span>
+            </div>
+
+            <div class="ml-[48px] flex items-center gap-4">
+              <span id="franchise-stats-pdv-value" class="text-[34px] font-black leading-none">{defaultFranchiseContact.pdv ?? ''}</span>
+              <span id="franchise-stats-pdv-label" class="text-[15px] font-medium uppercase leading-[1.1] tracking-[0.12em]">{defaultFranchiseContact.pdvLabel}</span>
+              <span class="ml-4 block h-[47px] w-px bg-neutral-300" aria-hidden="true"></span>
+            </div>
+
+            <p class="ml-[46px] w-[396px] text-left text-[15px] leading-[1.45] text-black/80">
+              <span id="franchise-stats-master-brand" class:list={["font-medium tracking-[0.24em] text-black", !defaultStatsMasterInfo.hasBrand && 'hidden']}>A C I U M</span>
+              <span id="franchise-stats-master-space" class:list={[!defaultStatsMasterInfo.hasBrand && 'hidden']}>{' '}</span>
+              <span id="franchise-stats-master-text">{defaultStatsMasterInfo.body}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="franchise-form-section" aria-labelledby="franchise-form-title" class="bg-neutral-100 px-6 py-16 md:px-10 md:py-24">
+      <div class="mx-auto max-w-[1180px]">
+        <h2 id="franchise-form-title" class="mb-14 text-center text-[26px] font-black uppercase tracking-[0.08em] text-black md:text-[30px]">
+          {t('franchisePage.form.title')}
+        </h2>
+
+        <form id="franchise-form" action="#" method="POST" aria-label={t('franchisePage.form.title')} class="grid gap-x-14 gap-y-8 md:grid-cols-2">
+          <div class="flex items-center gap-4 md:col-span-2">
+            <label for="franchise-name" class="shrink-0 text-[13px] font-medium uppercase tracking-[0.02em] text-black">
+              {t('franchisePage.form.fieldName')}
+            </label>
+            <input id="franchise-name" name="name" type="text" required pattern="[A-Za-zÀ-ÿ0-9.,@ ]+" title="Solo letras, números, espacios, puntos, comas y arrobas" data-regex-text="true" class="h-10 w-full border-0 border-b border-neutral-500 bg-transparent px-0 text-[15px] text-black focus:border-black focus:outline-none" />
+          </div>
+
+          <div class="flex items-center gap-4 md:col-span-1">
+            <label for="franchise-country" class="shrink-0 text-[13px] font-medium uppercase tracking-[0.02em] text-black">
+              {t('franchisePage.form.fieldCountry')}
+            </label>
+            <div class="flex w-full items-center gap-4 border-b border-neutral-500">
+              <select
+                id="franchise-country-code"
+                name="countryCode"
+                class="h-10 shrink-0 bg-transparent text-[22px] text-black focus:outline-none"
+                aria-label="Country code selector"
+              >
+                {countryDialOptions.map((option) => (
+                  <option
+                    value={option.value}
+                    data-code={option.code}
+                    data-country-name={t(option.countryKey)}
+                    title={t(option.countryKey)}
+                    selected={option.value === 'CO'}
+                  >{option.label}</option>
+                ))}
+              </select>
+              <input id="franchise-country" name="country" type="text" pattern="[A-Za-zÀ-ÿ0-9.,@ ]+" title="Solo letras, números, espacios, puntos, comas y arrobas" data-regex-text="true" class="h-10 w-full border-0 bg-transparent px-0 text-[15px] text-black focus:outline-none" />
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 md:col-span-1">
+            <label for="franchise-city" class="shrink-0 text-[13px] font-medium uppercase tracking-[0.02em] text-black">
+              {t('franchisePage.form.fieldCity')}
+            </label>
+            <input id="franchise-city" name="city" type="text" pattern="[A-Za-zÀ-ÿ0-9.,@ ]+" title="Solo letras, números, espacios, puntos, comas y arrobas" data-regex-text="true" class="h-10 w-full border-0 border-b border-neutral-500 bg-transparent px-0 text-[15px] text-black focus:border-black focus:outline-none" />
+          </div>
+
+          <div class="flex items-center gap-4 md:col-span-1">
+            <label for="franchise-email" class="shrink-0 text-[13px] font-medium uppercase tracking-[0.02em] text-black">
+              {t('franchisePage.form.fieldEmail')}
+            </label>
+            <input id="franchise-email" name="email" type="email" required pattern="[A-Za-zÀ-ÿ0-9.,@ ]+" title="Solo letras, números, espacios, puntos, comas y arrobas" data-regex-text="true" class="h-10 w-full border-0 border-b border-neutral-500 bg-transparent px-0 text-[15px] text-black focus:border-black focus:outline-none" />
+          </div>
+
+          <div class="flex items-center gap-4 md:col-span-1">
+            <label for="franchise-phone" class="shrink-0 text-[13px] font-medium uppercase tracking-[0.02em] text-black">
+              {t('franchisePage.form.fieldPhone')}
+            </label>
+            <div class="flex w-full items-center gap-3 border-b border-neutral-500">
+              <span id="franchise-phone-prefix" class="shrink-0 text-[15px] text-black">+57</span>
+              <input id="franchise-phone" name="phone" type="tel" inputmode="numeric" pattern="[0-9]+" title="Solo números" data-regex-phone="true" class="h-10 w-full border-0 bg-transparent px-0 text-[15px] text-black focus:outline-none" />
+            </div>
+          </div>
+
+          <div class="flex items-end justify-center pt-6 md:col-span-2">
+            <button type="submit" class="inline-flex min-h-[45px] items-center justify-center border border-neutral-400 px-8 text-[18px] font-black text-black transition-colors duration-200 hover:bg-black hover:text-white">
+              {t('franchisePage.form.submit')}
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="franchise-success-section" aria-labelledby="franchise-success-title" class="hidden bg-white py-16 md:py-24" aria-hidden="true">
+      <div class="flex w-full justify-center px-6 md:px-10">
+        <div class="grid w-full max-w-[1290px] gap-10 md:grid-cols-[690px_minmax(0,1fr)] md:items-center md:gap-[160px]">
+          <img src={solicitudEnviadaImageSrc} alt={t('franchisePage.success.title')} class="h-[378px] w-[690px] object-contain" />
+
+          <div class="flex max-w-[414px] flex-col items-center text-center">
+            <h2 id="franchise-success-title" class="max-w-[414px] text-[28px] font-medium uppercase leading-[1.15] text-black md:text-[30px]">
+              {t('franchisePage.success.title')}
+            </h2>
+            <p class="mt-[38px] w-[440px] text-center text-[18px] font-light leading-[1.85] text-black/80">
+              {successParagraph1WithoutBrand}{' '}
+              <span class="font-medium tracking-[0.18em] text-black">A C I U M</span>
+            </p>
+            <p class="mt-[24px] w-[440px] text-center text-[18px] font-light leading-[1.85] text-black/80">
+              {t('franchisePage.success.paragraph2')}
+            </p>
+            <a id="franchise-success-advisor-link" href={defaultFranchiseContact.whatsappLink ?? '#'} target="_blank" rel="noreferrer noopener" class="mt-[48px] inline-flex min-h-[45px] items-center justify-center border border-neutral-400 px-6 text-[18px] font-medium text-black transition-colors duration-200 hover:bg-black hover:text-white">
+              {t('franchisePage.success.cta')}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script is:inline define:vars={{ localizedFranchiseContactsJson }}>
+      const franchiseContactsData = JSON.parse(localizedFranchiseContactsJson);
+      const countrySelect = document.getElementById('franchise-country-code');
+      const countryInput = document.getElementById('franchise-country');
+      const phonePrefix = document.getElementById('franchise-phone-prefix');
+      const regexTextInputs = Array.from(document.querySelectorAll('[data-regex-text="true"]'));
+      const regexPhoneInputs = Array.from(document.querySelectorAll('[data-regex-phone="true"]'));
+      const franchiseForm = document.getElementById('franchise-form');
+      const franchiseFormSection = document.getElementById('franchise-form-section');
+      const franchiseSuccessSection = document.getElementById('franchise-success-section');
+      const franchiseCountryButtons = Array.from(document.querySelectorAll('[data-franchise-country]'));
+      const franchiseStatsPdvValue = document.getElementById('franchise-stats-pdv-value');
+      const franchiseStatsPdvLabel = document.getElementById('franchise-stats-pdv-label');
+      const franchiseStatsMasterBrand = document.getElementById('franchise-stats-master-brand');
+      const franchiseStatsMasterSpace = document.getElementById('franchise-stats-master-space');
+      const franchiseStatsMasterText = document.getElementById('franchise-stats-master-text');
+      const franchiseSuccessAdvisorLink = document.getElementById('franchise-success-advisor-link');
+      let franchiseSuccessTimeout;
+
+      const splitLeadingBrand = (text) => {
+        if (text.startsWith('A C I U M ')) {
+          return { hasBrand: true, body: text.replace(/^A C I U M\s+/, '') };
+        }
+
+        if (text.startsWith('ACIUM ')) {
+          return { hasBrand: true, body: text.replace(/^ACIUM\s+/, '') };
+        }
+
+        return { hasBrand: false, body: text };
+      };
+
+      const updateMarketSummary = (countryCode) => {
+        const selectedRow = franchiseContactsData.find((row) => row.countryCode === countryCode);
+
+        if (!selectedRow) {
+          return;
+        }
+
+        if (franchiseStatsPdvValue instanceof HTMLElement) {
+          franchiseStatsPdvValue.textContent = selectedRow.pdv ?? '';
+        }
+
+        if (franchiseStatsPdvLabel instanceof HTMLElement) {
+          franchiseStatsPdvLabel.textContent = selectedRow.pdvLabel;
+        }
+
+        const masterInfo = splitLeadingBrand(selectedRow.masterInfo);
+
+        if (
+          franchiseStatsMasterBrand instanceof HTMLElement &&
+          franchiseStatsMasterSpace instanceof HTMLElement &&
+          franchiseStatsMasterText instanceof HTMLElement
+        ) {
+          franchiseStatsMasterBrand.classList.toggle('hidden', !masterInfo.hasBrand);
+          franchiseStatsMasterSpace.classList.toggle('hidden', !masterInfo.hasBrand);
+          franchiseStatsMasterText.textContent = masterInfo.body;
+        }
+
+        if (franchiseSuccessAdvisorLink instanceof HTMLAnchorElement) {
+          franchiseSuccessAdvisorLink.href = selectedRow.whatsappLink ?? '#';
+          franchiseSuccessAdvisorLink.classList.toggle('pointer-events-none', !selectedRow.whatsappLink);
+          franchiseSuccessAdvisorLink.classList.toggle('opacity-50', !selectedRow.whatsappLink);
+        }
+
+        franchiseCountryButtons.forEach((button) => {
+          if (!(button instanceof HTMLButtonElement)) {
+            return;
+          }
+
+          const isActive = button.dataset.franchiseCountry === countryCode;
+          button.dataset.franchiseCountryActive = isActive ? 'true' : 'false';
+          button.classList.toggle('font-bold', isActive);
+          button.classList.toggle('text-black', isActive);
+          button.classList.toggle('text-black/80', !isActive);
+        });
+      };
+
+      franchiseCountryButtons.forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        if (button.dataset.franchiseCountryActive === 'true') {
+          button.classList.add('font-bold', 'text-black');
+        } else {
+          button.classList.add('text-black/80');
+        }
+
+        button.addEventListener('click', () => {
+          const selectedCountryCode = button.dataset.franchiseCountry;
+
+          if (!selectedCountryCode) {
+            return;
+          }
+
+          updateMarketSummary(selectedCountryCode);
+        });
+      });
+
+      regexTextInputs.forEach((input) => {
+        if (!(input instanceof HTMLInputElement)) {
+          return;
+        }
+
+          input.addEventListener('input', () => {
+          input.value = input.value.replace(/[^0-9A-Za-zÀ-ÿ.,@ ]/g, '');
+        });
+      });
+
+      regexPhoneInputs.forEach((input) => {
+        if (!(input instanceof HTMLInputElement)) {
+          return;
+        }
+
+        input.addEventListener('input', () => {
+          input.value = input.value.replace(/[^0-9]/g, '');
+        });
+      });
+
+      if (
+        countrySelect instanceof HTMLSelectElement &&
+        countryInput instanceof HTMLInputElement &&
+        phonePrefix instanceof HTMLElement
+      ) {
+        const syncCountrySelection = () => {
+          const selectedOption = countrySelect.selectedOptions[0];
+          phonePrefix.textContent = selectedOption?.dataset.code ?? '+57';
+          countryInput.value = selectedOption?.dataset.countryName ?? '';
+        };
+
+        syncCountrySelection();
+        countrySelect.addEventListener('change', syncCountrySelection);
+      }
+
+      if (
+        franchiseForm instanceof HTMLFormElement &&
+        franchiseFormSection instanceof HTMLElement &&
+        franchiseSuccessSection instanceof HTMLElement
+      ) {
+        const resetFormState = () => {
+          franchiseSuccessSection.classList.add('hidden');
+          franchiseSuccessSection.setAttribute('aria-hidden', 'true');
+          franchiseFormSection.classList.remove('hidden');
+          franchiseFormSection.setAttribute('aria-hidden', 'false');
+          franchiseForm.reset();
+
+          if (
+            countrySelect instanceof HTMLSelectElement &&
+            countryInput instanceof HTMLInputElement &&
+            phonePrefix instanceof HTMLElement
+          ) {
+            countrySelect.value = 'CO';
+            const selectedOption = countrySelect.selectedOptions[0];
+            phonePrefix.textContent = selectedOption?.dataset.code ?? '+57';
+            countryInput.value = selectedOption?.dataset.countryName ?? '';
+          }
+        };
+
+        const showSuccessState = () => {
+          franchiseFormSection.classList.add('hidden');
+          franchiseFormSection.setAttribute('aria-hidden', 'true');
+          franchiseSuccessSection.classList.remove('hidden');
+          franchiseSuccessSection.setAttribute('aria-hidden', 'false');
+
+          if (franchiseSuccessTimeout) {
+            window.clearTimeout(franchiseSuccessTimeout);
+          }
+
+          franchiseSuccessTimeout = window.setTimeout(() => {
+            resetFormState();
+          }, 10000);
+        };
+
+        const handleFranchiseFormTestSubmit = async (event) => {
+          if (event) {
+            event.preventDefault();
+          }
+
+          const formData = new FormData(franchiseForm);
+
+          const payload = {
+            countryCode: countrySelect instanceof HTMLSelectElement ? countrySelect.value : 'CO',
+            country: countryInput instanceof HTMLInputElement ? countryInput.value : '',
+            name: String(formData.get('name') ?? ''),
+            city: String(formData.get('city') ?? ''),
+            email: String(formData.get('email') ?? ''),
+            phone: String(formData.get('phone') ?? ''),
+          };
+
+          const response = await fetch('/api/franchise-contact', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            const result = await response.json().catch(() => null);
+            console.error('Franchise form submit failed', result);
+            window.alert(result?.details ?? result?.error ?? 'No se pudo enviar el formulario');
+            return;
+          }
+
+          updateMarketSummary(payload.countryCode);
+
+          showSuccessState();
+        };
+
+        window.handleFranchiseFormTestSubmit = handleFranchiseFormTestSubmit;
+
+        franchiseForm.addEventListener('submit', async (event) => {
+          await handleFranchiseFormTestSubmit(event);
+        });
+      }
+    </script>
+
+    <section aria-labelledby="franchise-next-steps-title" class="mt-[90px] mb-[90px] px-6 py-16 md:px-10 md:py-24">
+      <div class="mx-auto max-w-[1388px]">
+        <h2 id="franchise-next-steps-title" class="mb-14 text-center text-[26px] font-black uppercase tracking-[0.08em] text-black md:text-[30px]">
+          {t('franchisePage.next.title')}
+        </h2>
+
+        <div class="grid gap-10 md:grid-cols-4 md:gap-0">
+          {nextSteps.map((step, index) => (
+            <div class={`flex flex-col items-center px-6 text-center ${index < nextSteps.length - 1 ? 'md:border-r md:border-neutral-300' : ''}`}>
+              <img src={step.iconSrc} alt={t(step.titleKey)} class="mb-8 h-[55px] w-[55px] object-contain opacity-60" />
+              <h3 class="text-[18px] font-black text-black">{t(step.titleKey)}</h3>
+              <p class="mt-4 max-w-[173px] text-[14px] leading-[1.7] text-black/80">{t(step.descriptionKey)}</p>
+            </div>
           ))}
-        </ul>
-      </section>
-
-      <section class="rounded-[28px] border border-neutral-200 bg-white p-8 text-left">
-        <h3 class="text-[20px] font-black uppercase tracking-[0.08em] text-black">
-          {t('franchisePage.requirements.title')}
-        </h3>
-        <ul class="mt-6 flex flex-col gap-4 text-[18px] font-light leading-[1.7] text-black/80">
-          {requirements.map((item) => (
-            <li class="flex items-start gap-3">
-              <span aria-hidden="true" class="mt-[0.7em] h-2 w-2 shrink-0 rounded-full bg-black"></span>
-              <span>{t(item)}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </section>
-
-    <section aria-labelledby="franchise-support-title" class="mx-auto flex w-full max-w-4xl flex-col gap-5 rounded-[32px] bg-black px-8 py-10 text-white md:px-10">
-      <h2 id="franchise-support-title" class="text-[22px] font-medium leading-[1.15]">
-        {t('franchisePage.support.title')}
-      </h2>
-      <p class="text-[18px] font-light leading-[1.8] text-white/80">
-        {t('franchisePage.support.description')}
-      </p>
-    </section>
-
-    <section aria-labelledby="franchise-cta-title" class="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 rounded-[32px] border border-neutral-200 px-8 py-12 text-center md:px-10">
-      <h2 id="franchise-cta-title" class="text-[24px] font-black leading-[1.15] text-black md:text-[28px]">
-        {t('franchisePage.cta.title')}
-      </h2>
-      <p class="max-w-2xl text-[18px] font-light leading-[1.8] text-black/80">
-        {t('franchisePage.cta.description')}
-      </p>
-      <a
-        href="mailto:aciummilano@acium.group?subject=Franchise%20Opportunity"
-        class="inline-flex items-center border border-black bg-black px-6 py-3 text-center text-[11px] font-[700] uppercase tracking-[0.32em] text-white transition-colors duration-200 hover:bg-white hover:text-black"
-      >
-        {t('franchisePage.cta.button')}
-      </a>
+        </div>
+      </div>
     </section>
   </article>
 </PageLayout>

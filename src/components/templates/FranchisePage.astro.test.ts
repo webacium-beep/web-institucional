@@ -11,40 +11,60 @@ describe('FranchisePage.astro - template composition', () => {
     templateContent = readFileSync(COMPONENT_PATH, 'utf-8');
   });
 
-  it('imports PageLayout, Locales, usePageTranslations, and franchisePage', () => {
-    expect(templateContent).toMatch(/import\s+PageLayout\s+from\s+["']\.\.\/\.\.\/layouts\/PageLayout\.astro["']/);
-    expect(templateContent).toMatch(/import\s+type\s+\{[^}]*Locales[^}]*\}\s+from\s+["']\.\.\/\.\.\/i18n\/ui["']/);
-    expect(templateContent).toMatch(/import\s+\{\s*usePageTranslations\s*\}\s+from\s+["']\.\.\/\.\.\/i18n\/utils["']/);
-    expect(templateContent).toMatch(/import\s+\{\s*franchisePage\s*\}\s+from\s+["']\.\.\/\.\.\/i18n\/franchise-page["']/);
+  it('imports the franchise and world assets used by the page', () => {
+    expect(templateContent).toMatch(/import\s+bannerFranquicia\s+from\s+["']\.\.\/\.\.\/assets\/franquicia_ppage\/banner_franquicia\.png["']/);
+    expect(templateContent).toMatch(/import\s+masterFranquiciadoImage\s+from\s+["']\.\.\/\.\.\/assets\/franquicia_ppage\/master_franquiciado\.png["']/);
+    expect(templateContent).toMatch(/import\s+franquiciadoImage\s+from\s+["']\.\.\/\.\.\/assets\/franquicia_ppage\/franquicia\.png["']/);
+    expect(templateContent).toMatch(/import\s+solicitudEnviadaImage\s+from\s+["']\.\.\/\.\.\/assets\/franquicia_ppage\/solicitud_enviada\.png["']/);
+    expect(templateContent).toMatch(/import\s+worldMapImage\s+from\s+["']\.\.\/\.\.\/assets\/worldppage\/SECCION_MAPA_MUNDO\.webp["']/);
   });
 
-  it('declares lang: Locales props and creates a page-scoped translator', () => {
+  it('declares lang props and creates a page-scoped translator', () => {
     expect(templateContent).toMatch(/lang:\s*Locales/);
     expect(templateContent).toMatch(/const\s+\{\s*lang\s*\}\s+=\s+Astro\.props/);
     expect(templateContent).toMatch(/const\s+t\s*=\s*usePageTranslations\(lang,\s*franchisePage\)/);
   });
 
-  it('maps benefits and requirements from franchisePage keys only', () => {
-    expect(templateContent).toContain('const benefits = [');
-    expect(templateContent).toContain("'franchisePage.benefits.item3'");
-    expect(templateContent).toContain('const requirements = [');
-    expect(templateContent).toContain("'franchisePage.requirements.item3'");
-  });
-
-  it('wraps the page in PageLayout and article', () => {
+  it('wraps the page in PageLayout and renders all main franchise sections', () => {
     expect(templateContent).toMatch(/<PageLayout\s[^>]*lang=\{lang\}[\s\S]*<article[\s\S]*<\/article>[\s\S]*<\/PageLayout>/);
+    expect(templateContent).toContain('franchise-why-title');
+    expect(templateContent).toContain('franchise-types-title');
+    expect(templateContent).toContain('franchise-map-title');
+    expect(templateContent).toContain('franchise-expansion-title');
+    expect(templateContent).toContain('franchise-form-title');
+    expect(templateContent).toContain('franchise-success-title');
+    expect(templateContent).toContain('franchise-next-steps-title');
   });
 
-  it('renders standalone franchise foundation sections semantically', () => {
-    expect(templateContent).toContain("{t('franchisePage.title')}");
-    expect(templateContent).toContain('aria-labelledby="franchise-intro-title"');
-    expect(templateContent).toContain('aria-labelledby="franchise-foundation-title"');
-    expect(templateContent).toContain('aria-labelledby="franchise-support-title"');
-    expect(templateContent).toContain('aria-labelledby="franchise-cta-title"');
-    expect(templateContent).toContain("{t('franchisePage.hero.title')}");
-    expect(templateContent).toContain("{t('franchisePage.support.description')}");
-    expect(templateContent).toContain("{t('franchisePage.cta.button')}");
-    expect(templateContent).toContain('href="mailto:aciummilano@acium.group?subject=Franchise%20Opportunity"');
+  it('uses franchisePage keys for the text-driven sections and CTAs', () => {
+    expect(templateContent).toContain("const whyTitle = t('franchisePage.why.title');");
+    expect(templateContent).toContain("const whyParagraph1 = t('franchisePage.why.paragraph1');");
+    expect(templateContent).toContain("{t('franchisePage.types.title')}");
+    expect(templateContent).toContain("{t('franchisePage.types.master.label')}");
+    expect(templateContent).toContain("{t('franchisePage.types.master.description')}");
+    expect(templateContent).toContain("{t('franchisePage.types.design.label')}");
+    expect(templateContent).toContain("{t('franchisePage.types.design.description')}");
+    expect(templateContent).toContain("{t('franchisePage.map.description')}");
+    expect(templateContent).toContain("{t('franchisePage.expansion.title')}");
+    expect(templateContent).toContain("{t('franchisePage.expansion.regionAmerica')}");
+    expect(templateContent).toContain("{t('franchisePage.stats.countryLabel')}");
+    expect(templateContent).toContain("{t('franchisePage.form.title')}");
+    expect(templateContent).toContain("{t('franchisePage.form.fieldCountry')}");
+    expect(templateContent).toContain("{t('franchisePage.form.submit')}");
+    expect(templateContent).toContain("{t('franchisePage.success.title')}");
+    expect(templateContent).toContain("{t('franchisePage.success.cta')}");
+    expect(templateContent).toContain("{t('franchisePage.next.title')}");
+  });
+
+  it('renders the world map reuse and next-steps icon flow', () => {
+    expect(templateContent).toContain('worldMapImageSrc');
+    expect(templateContent).toContain('const nextSteps = [');
+    expect(templateContent).toContain('iconoSolicitudSrc');
+    expect(templateContent).toContain('iconoAnalisisSrc');
+    expect(templateContent).toContain('iconoConexionSrc');
+    expect(templateContent).toContain('iconoDesarrolloSrc');
+    expect(templateContent).toContain("'franchisePage.next.step1.title'");
+    expect(templateContent).toContain("'franchisePage.next.step4.description'");
   });
 
   it('keeps the page owned by the franchisePage namespace instead of shared Home keys', () => {
