@@ -47,7 +47,8 @@ describe('FranchisePage.astro - template composition', () => {
     expect(templateContent).toContain("{t('franchisePage.map.description')}");
     expect(templateContent).toContain("{t('franchisePage.expansion.title')}");
     expect(templateContent).toContain("{t('franchisePage.expansion.regionAmerica')}");
-    expect(templateContent).toContain("{t('franchisePage.stats.countryLabel')}");
+    expect(templateContent).toContain('id="franchise-stats-country-label"');
+    expect(templateContent).toContain('{defaultFranchiseContact.countryName}');
     expect(templateContent).toContain("{t('franchisePage.form.title')}");
     expect(templateContent).toContain("{t('franchisePage.form.fieldCountry')}");
     expect(templateContent).toContain("{t('franchisePage.form.submit')}");

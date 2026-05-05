@@ -262,7 +262,7 @@ const nextSteps = [
         <div class="mt-[77px] flex justify-center">
           <div class="flex h-[54px] w-[812px] max-w-full items-center text-black">
             <div class="flex items-center gap-9">
-              <span class="text-[34px] font-black uppercase leading-none">{t('franchisePage.stats.countryLabel')}</span>
+              <span id="franchise-stats-country-label" class="text-[34px] font-black uppercase leading-none">{defaultFranchiseContact.countryName}</span>
               <span class="block h-[47px] w-px bg-neutral-300" aria-hidden="true"></span>
             </div>
 
@@ -391,6 +391,7 @@ const nextSteps = [
       const franchiseCountryButtons = Array.from(document.querySelectorAll('[data-franchise-country]'));
       const franchiseStatsPdvValue = document.getElementById('franchise-stats-pdv-value');
       const franchiseStatsPdvLabel = document.getElementById('franchise-stats-pdv-label');
+      const franchiseStatsCountryLabel = document.getElementById('franchise-stats-country-label');
       const franchiseStatsMasterBrand = document.getElementById('franchise-stats-master-brand');
       const franchiseStatsMasterSpace = document.getElementById('franchise-stats-master-space');
       const franchiseStatsMasterText = document.getElementById('franchise-stats-master-text');
@@ -418,6 +419,10 @@ const nextSteps = [
 
         if (franchiseStatsPdvValue instanceof HTMLElement) {
           franchiseStatsPdvValue.textContent = selectedRow.pdv ?? '';
+        }
+
+        if (franchiseStatsCountryLabel instanceof HTMLElement) {
+          franchiseStatsCountryLabel.textContent = selectedRow.countryName;
         }
 
         if (franchiseStatsPdvLabel instanceof HTMLElement) {
