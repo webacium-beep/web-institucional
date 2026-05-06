@@ -105,23 +105,23 @@ const resolvedArticleCards = articleCards.map((articleCard) => {
 ---
 
 <PageLayout lang={lang}>
-  <article class="mx-auto flex w-full max-w-6xl flex-col gap-16 px-6 pt-12 md:gap-20 md:px-10 md:pt-16">
+  <article class="flex w-full max-w-none flex-col gap-16 px-6 pt-12 md:gap-20 md:px-10 md:pt-16">
     <header class="flex justify-center text-center">
       <h1 class="text-[30px] font-black uppercase tracking-[0.18em] text-black">
         {t('newsroomPage.title')}
       </h1>
     </header>
 
-    <section aria-labelledby="newsroom-hero-title" class="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.8fr)] lg:items-center lg:gap-[100px]">
-      <div class="flex justify-center lg:justify-start">
+    <section aria-labelledby="newsroom-hero-title" class="mx-auto grid w-fit gap-10 lg:grid-cols-[730px_360px] lg:items-center lg:gap-[105px]">
+      <div class="flex justify-center">
         <img
           src={newsroomHeroImageSrc}
           alt={t('newsroomPage.hero.imageAlt')}
-          class="h-auto w-full max-w-[620px] object-cover"
+          class="h-[465px] w-[730px] object-cover"
         />
       </div>
 
-      <div class="space-y-5 lg:max-w-[360px]">
+      <div class="space-y-5 lg:w-[360px]">
         <h2 id="newsroom-hero-title" class="text-[28px] font-black leading-[1.15] text-black">
           {t('newsroomPage.hero.title')}
         </h2>
@@ -137,20 +137,14 @@ const resolvedArticleCards = articleCards.map((articleCard) => {
       </div>
     </section>
 
-    <section aria-labelledby="newsroom-categories-title" class="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center lg:gap-[100px]">
-      <div class="flex justify-center lg:justify-start">
+    <section aria-labelledby="newsroom-categories-title" class="mx-auto grid w-[1219px] max-w-full gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center lg:gap-[105px]">
+      <div class="flex justify-center">
         <h2 id="newsroom-categories-title" class="text-[30px] font-black uppercase leading-none text-black">
           {t('newsroomPage.categories.title')}
         </h2>
       </div>
 
       <section aria-label={t('newsroomPage.categories.title')} role="region" class="relative w-full">
-        <div
-          aria-hidden="true"
-          class="pointer-events-none absolute inset-y-0 right-0 z-[1] hidden w-16 lg:block"
-          style="background: linear-gradient(to left, rgba(255,255,255,0.92), transparent);"
-        ></div>
-
         <div data-newsroom-categories-scroll class="w-full overflow-x-scroll overflow-y-hidden pb-3" style="scrollbar-width: none;">
           <ul class="flex min-w-max flex-row items-end gap-4" aria-label={t('newsroomPage.categories.title')}>
         {categories.map((category) => (
@@ -166,16 +160,16 @@ const resolvedArticleCards = articleCards.map((articleCard) => {
       </section>
     </section>
 
-    <section aria-labelledby="newsroom-featured-title" class="space-y-8">
-      <div class="flex justify-center px-6 py-8 md:px-10">
+    <section aria-labelledby="newsroom-featured-title" class="mx-auto flex w-[1219px] max-w-full flex-col items-center gap-[44px]">
+      <div class="h-[290px] w-[1219px] max-w-full">
         <img
           src={comingSoonFeatureImageSrc}
           alt={t('newsroomPage.featured.imageAlt')}
-          class="h-full w-auto max-w-full object-contain"
+          class="h-[290px] w-[1219px] max-w-full object-contain"
         />
       </div>
 
-      <div class="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
+      <div class="flex w-[1219px] max-w-full flex-col items-center gap-[44px] text-center">
         <h2 id="newsroom-featured-title" class="text-[25px] font-black leading-[1.2] text-black">
           <span class="tracking-[0.22em]">{featuredTitleBrand.split('').join(' ')}</span>
           {featuredTitleRest ? <span>{` ${featuredTitleRest}`}</span> : null}
@@ -197,7 +191,7 @@ const resolvedArticleCards = articleCards.map((articleCard) => {
     </section>
 
     <section aria-label={t('newsroomPage.articles.ariaLabel')}>
-      <div class="grid gap-x-[267px] gap-y-14 md:grid-cols-2">
+      <div class="mx-auto grid w-fit gap-x-[267px] gap-y-[104px] md:grid-cols-2">
         {resolvedArticleCards.map((articleCard) => (
           <article class="w-full max-w-[476px] space-y-5">
             <img src={articleCard.imageSrc} alt={t(articleCard.imageAlt)} class="h-[304px] w-full object-cover" />
