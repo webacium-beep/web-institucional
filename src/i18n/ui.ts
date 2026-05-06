@@ -121,7 +121,7 @@ export const ui: Record<Locales, UIContent> = {
     "world.hero.subtitle": "ALREDEDOR DEL",
     "world.hero.title": "MUNDO",
     "world.hero.description":
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+      "Desde Europa hasta América y Asia, A C I U M conecta personas a través de piezas con significado, construyendo una presencia global basada en estilo, emoción y expansión constante.",
     "world.hero.cta": "CONOCE MÁS",
     "world.format.kiosk": "KIOSKO",
     "world.format.stand": "STAND",
@@ -179,7 +179,7 @@ export const ui: Record<Locales, UIContent> = {
     "world.hero.subtitle": "AROUND THE",
     "world.hero.title": "WORLD",
     "world.hero.description":
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+      "From Europe to the Americas and Asia, A C I U M connects people through meaningful pieces, building a global presence shaped by style, emotion, and constant expansion.",
     "world.hero.cta": "LEARN MORE",
     "world.format.kiosk": "KIOSK",
     "world.format.stand": "STAND",
@@ -237,7 +237,7 @@ export const ui: Record<Locales, UIContent> = {
     "world.hero.subtitle": "NEL",
     "world.hero.title": "MONDO",
     "world.hero.description":
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+      "Dall’Europa alle Americhe e all’Asia, A C I U M connette le persone attraverso pezzi ricchi di significato, costruendo una presenza globale fondata su stile, emozione ed espansione costante.",
     "world.hero.cta": "SCOPRI DI PIÙ",
     "world.format.kiosk": "CHIOSCO",
     "world.format.stand": "STAND",
@@ -295,7 +295,7 @@ export const ui: Record<Locales, UIContent> = {
     "world.hero.subtitle": "AO REDOR DO",
     "world.hero.title": "MUNDO",
     "world.hero.description":
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+      "Da Europa até América e Ásia, a A C I U M conecta pessoas por meio de peças com significado, construindo uma presença global baseada em estilo, emoção e expansão constante.",
     "world.hero.cta": "SAIBA MAIS",
     "world.format.kiosk": "QUIOSQUE",
     "world.format.stand": "STAND",
@@ -353,7 +353,7 @@ export const ui: Record<Locales, UIContent> = {
     "world.hero.subtitle": "RUND UM DIE",
     "world.hero.title": "WELT",
     "world.hero.description":
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+      "Von Europa bis nach Amerika und Asien verbindet A C I U M Menschen durch bedeutungsvolle Schmuckstücke und baut so eine globale Präsenz auf, geprägt von Stil, Emotion und stetiger Expansion.",
     "world.hero.cta": "MEHR ERFAHREN",
     "world.format.kiosk": "KIOSK",
     "world.format.stand": "STAND",
@@ -411,7 +411,7 @@ export const ui: Record<Locales, UIContent> = {
     "world.hero.subtitle": "遍布",
     "world.hero.title": "全球",
     "world.hero.description":
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.",
+      "从欧洲到美洲与亚洲，A C I U M 通过富有意义的作品连接人们，打造以风格、情感与持续拓展为基础的全球版图。",
     "world.hero.cta": "了解更多",
     "world.format.kiosk": "专柜",
     "world.format.stand": "展台",
