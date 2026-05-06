@@ -84,21 +84,21 @@ const integratedModelFeatures = [
 ---
 
 <PageLayout lang={lang}>
-  <article class="mx-auto flex w-full max-w-6xl flex-col gap-16 px-6 pt-12 md:gap-24 md:px-10 md:pt-16">
+  <article class="flex w-full max-w-none flex-col gap-16 px-6 pt-12 md:gap-24 md:px-10 md:pt-16">
     <header class="flex justify-center">
       <p class="text-[30px] font-black uppercase tracking-[0.2em] text-black">{t('aboutPage.heroTitle')}</p>
     </header>
 
-    <section aria-labelledby="about-hero-title" class="grid items-center gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-14">
-      <div class="flex justify-center lg:justify-start">
+    <section aria-labelledby="about-hero-title" class="mx-auto grid w-fit items-center gap-10 lg:grid-cols-[730px_420px] lg:gap-[105px]">
+      <div class="flex justify-center">
         <img
           src={kioskoAboutUsSectionOneSrc}
           alt="ACIUM display kiosk"
-          class="h-auto w-full max-w-[520px] object-contain lg:max-w-[560px]"
+          class="h-[464px] w-[730px] object-contain"
         />
       </div>
 
-      <div class="space-y-6 lg:space-y-7">
+      <div class="space-y-6 lg:w-[420px] lg:space-y-7">
         <h1
           id="about-hero-title"
           class="max-w-[420px] text-[32px] font-black leading-[1.1] tracking-[-0.02em] text-black lg:text-[35px]"
@@ -121,12 +121,12 @@ const integratedModelFeatures = [
       </div>
     </section>
 
-    <section aria-labelledby="about-dna-title" class="grid gap-10 lg:grid-cols-[minmax(0,220px)_1fr] lg:items-start lg:gap-12">
-      <div class="space-y-2 text-center lg:w-[260px] lg:pt-14">
-        <p class="w-full text-center text-[34px] font-black uppercase leading-none tracking-[-0.03em] text-black lg:text-[36px]">
+    <section aria-labelledby="about-dna-title" class="mx-auto grid w-[1336px] max-w-full gap-10 lg:grid-cols-[minmax(0,220px)_1fr] lg:items-center lg:gap-12">
+      <div class="space-y-2 text-center lg:w-[260px]">
+        <p class="w-full text-center text-[34px] font-black uppercase leading-none tracking-[-0.03em] text-black lg:text-left lg:text-[36px]">
           {t('aboutPage.dna.titleLine1')}
         </p>
-        <h2 id="about-dna-title" class="w-full text-center text-[66px] font-black uppercase leading-[0.9] tracking-[0.18em] text-black lg:text-[72px]">
+        <h2 id="about-dna-title" class="w-full text-center text-[66px] font-black uppercase leading-[0.9] tracking-[0.18em] text-black lg:text-left lg:text-[72px]">
           {t('aboutPage.dna.titleLine2')}
         </h2>
       </div>
@@ -134,8 +134,8 @@ const integratedModelFeatures = [
       <ul class="grid gap-8 md:grid-cols-3 md:gap-6 lg:gap-8" aria-label={t('aboutPage.dna.title')}>
         {dnaCards.map((card) => (
           <li class="flex flex-col items-center text-center">
-            <div class="flex h-[250px] w-full max-w-[255px] items-center justify-center bg-white px-5 py-5">
-              <img src={card.imageSrc} alt={card.imageAlt} class="h-auto max-h-full w-full object-contain" />
+            <div class="flex h-[343px] w-[300px] items-center justify-center bg-white">
+              <img src={card.imageSrc} alt={card.imageAlt} class="h-[343px] w-[300px] object-contain" />
             </div>
 
             <h3 class="mt-5 text-[22px] font-medium uppercase leading-none text-black">{t(card.title)}</h3>
@@ -148,8 +148,8 @@ const integratedModelFeatures = [
     <section aria-labelledby="about-legacy-title" class="space-y-10">
       <div class="mx-auto h-px w-[64px] bg-neutral-300"></div>
 
-      <div class="grid items-center gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14">
-        <div class="space-y-6 lg:max-w-[420px]">
+      <div class="mx-auto grid h-auto w-[1032px] max-w-full items-center gap-10 lg:grid-cols-[375px_552px] lg:gap-[105px]">
+        <div class="space-y-6 lg:w-[375px]">
           <div class="space-y-4">
             <h2 id="about-legacy-title" class="text-[36px] font-black uppercase leading-none text-black">
               {t('aboutPage.legacy.title')}
@@ -170,11 +170,11 @@ const integratedModelFeatures = [
           </div>
         </div>
 
-        <div class="flex justify-center lg:justify-end">
+        <div class="flex justify-center">
           <img
             src={imagenNuestroLegadoSrc}
             alt="Dije corazón ACIUM con retrato grabado"
-            class="h-auto w-full max-w-[440px] object-contain lg:max-w-[500px]"
+            class="h-[610px] w-[552px] object-contain"
           />
         </div>
       </div>
@@ -182,7 +182,7 @@ const integratedModelFeatures = [
       <div class="mx-auto h-px w-[64px] bg-neutral-300"></div>
     </section>
 
-    <section aria-labelledby="about-integrated-model-title" class="grid gap-10 lg:grid-cols-[minmax(0,260px)_1fr] lg:items-start lg:gap-14">
+    <section aria-labelledby="about-integrated-model-title" class="mx-auto grid w-[1004px] max-w-full gap-10 lg:grid-cols-[minmax(0,260px)_1fr] lg:items-start lg:gap-14">
       <div class="space-y-4 text-center">
         <h2 id="about-integrated-model-title" class="text-center text-3xl font-semibold md:text-4xl">
           {t('aboutPage.integratedModel.title')}
