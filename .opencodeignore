@@ -1,0 +1,21 @@
+.git/
+.astro/
+.netlify/
+node_modules/
+dist/
+coverage/
+
+# Heavy media assets that are not useful for code indexing
+src/assets/**/*.mp4
+src/assets/**/*.webm
+src/assets/**/*.png
+src/assets/**/*.jpg
+src/assets/**/*.jpeg
+src/assets/**/*.webp
+src/assets/**/*.svg
+src/assets/**/*.avif
+src/assets/**/*.gif
+
+# Local environment files
+.env
+.env.*
