@@ -12,7 +12,7 @@ describe('FranchisePage.astro - template composition', () => {
   });
 
   it('imports the franchise and world assets used by the page', () => {
-    expect(templateContent).toMatch(/import\s+bannerFranquicia\s+from\s+["']\.\.\/\.\.\/assets\/franquicia_ppage\/banner_franquicia\.png["']/);
+    expect(templateContent).toMatch(/import\s+videoBannerFranquiciado\s+from\s+["']\.\.\/\.\.\/assets\/franquicia_ppage\/video_banner_franquiciado\.mp4["']/);
     expect(templateContent).toMatch(/import\s+masterFranquiciadoImage\s+from\s+["']\.\.\/\.\.\/assets\/franquicia_ppage\/master_franquiciado\.png["']/);
     expect(templateContent).toMatch(/import\s+franquiciadoImage\s+from\s+["']\.\.\/\.\.\/assets\/franquicia_ppage\/franquicia\.png["']/);
     expect(templateContent).toMatch(/import\s+solicitudEnviadaImage\s+from\s+["']\.\.\/\.\.\/assets\/franquicia_ppage\/solicitud_enviada\.png["']/);

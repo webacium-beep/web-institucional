@@ -5,7 +5,7 @@ import { usePageTranslations } from '../../i18n/utils';
 import { franchisePage } from '../../i18n/franchise-page';
 import { franchiseMarketInfo } from '../../i18n/franchise-market-info';
 import { franchiseContacts } from '../../data/franchise-contacts';
-import bannerFranquicia from '../../assets/franquicia_ppage/banner_franquicia.png';
+import videoBannerFranquiciado from '../../assets/franquicia_ppage/video_banner_franquiciado.mp4';
 import masterFranquiciadoImage from '../../assets/franquicia_ppage/master_franquiciado.png';
 import franquiciadoImage from '../../assets/franquicia_ppage/franquicia.png';
 import solicitudEnviadaImage from '../../assets/franquicia_ppage/solicitud_enviada.png';
@@ -23,7 +23,6 @@ const { lang } = Astro.props;
 const t = usePageTranslations(lang, franchisePage);
 const marketInfoT = usePageTranslations(lang, franchiseMarketInfo);
 
-const bannerFranquiciaSrc = typeof bannerFranquicia === 'string' ? bannerFranquicia : bannerFranquicia.src;
 const masterFranquiciadoImageSrc = typeof masterFranquiciadoImage === 'string' ? masterFranquiciadoImage : masterFranquiciadoImage.src;
 const franquiciadoImageSrc = typeof franquiciadoImage === 'string' ? franquiciadoImage : franquiciadoImage.src;
 const solicitudEnviadaImageSrc = typeof solicitudEnviadaImage === 'string' ? solicitudEnviadaImage : solicitudEnviadaImage.src;
@@ -126,11 +125,20 @@ const nextSteps = [
 
 <PageLayout lang={lang}>
   <article class="flex w-full flex-col bg-white text-black">
-    <section aria-label={t('franchisePage.hero.title')} class="w-full">
-      <img src={bannerFranquiciaSrc} alt={t('franchisePage.hero.title')} class="h-auto w-full object-cover" />
+    <section aria-label={t('franchisePage.hero.title')} class="relative w-full overflow-hidden bg-white">
+      <video
+        src={videoBannerFranquiciado}
+        autoplay
+        muted
+        loop
+        playsinline
+        class="h-auto w-full object-cover"
+        aria-hidden="true"
+      ></video>
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-white" aria-hidden="true"></div>
     </section>
 
-    <section aria-labelledby="franchise-why-title" class="bg-neutral-100 px-6 py-16 md:px-10 md:py-24">
+    <section aria-labelledby="franchise-why-title" class="bg-white px-6 py-16 md:px-10 md:py-24">
       <div class="mx-auto flex max-w-[788px] flex-col items-start text-left">
         <h2 id="franchise-why-title" class="w-full text-center text-[26px] font-black uppercase tracking-[0.08em] text-black md:text-[30px]">
           {whyTitlePrefix}{' '}

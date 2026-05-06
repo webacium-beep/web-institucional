@@ -111,6 +111,11 @@ describe('About localized route files', () => {
       expect(franchiseLink).toContain('href={franchiseHref}');
       expect(newsroomLink).toContain('href={newsroomHref}');
     });
+
+    it('wraps the header logo with a localized home link', () => {
+      expect(headerContent).toMatch(/const\s+homeHref\s*=\s*getLocalizedPageHref\(PAGE_ROUTE_ID\.HOME,\s*safeLocale\)/);
+      expect(headerContent).toMatch(/<a\s+href=\{homeHref\}\s+aria-label="ACIUM home">[\s\S]*<Image/);
+    });
   });
 
   describe('FooterSection.astro — nav.about href', () => {

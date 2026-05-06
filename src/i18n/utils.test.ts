@@ -22,12 +22,14 @@ describe('useTranslations', () => {
     const t = useTranslations('en');
 
     expect(t('nav.about')).toBe('ABOUT US');
+    expect(t('nav.cta')).toBe('BECOME A FRANCHISEE');
   });
 
   it('falls back to es translations when locale is invalid', () => {
     const t = useTranslations('fr');
 
     expect(t('nav.about')).toBe('SOBRE NOSOTROS');
+    expect(t('nav.cta')).toBe('SÉ UN FRANQUICIADO');
   });
 });
 

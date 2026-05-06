@@ -12,6 +12,7 @@ interface Props {
 const { locale } = Astro.props;
 const safeLocale = normalizeLocale(locale);
 const t = useTranslations(safeLocale);
+const homeHref = getLocalizedPageHref(PAGE_ROUTE_ID.HOME, safeLocale);
 const aboutHref = getLocalizedPageHref(PAGE_ROUTE_ID.ABOUT, safeLocale);
 const worldHref = getLocalizedPageHref(PAGE_ROUTE_ID.WORLD, safeLocale);
 const franchiseHref = getLocalizedPageHref(PAGE_ROUTE_ID.FRANCHISE, safeLocale);
@@ -24,7 +25,7 @@ const newsroomHref = getLocalizedPageHref(PAGE_ROUTE_ID.NEWSROOM, safeLocale);
     {/* Left: CTA Button */}
     <div class="flex-1 flex items-center">
       <a
-        href="#"
+        href={franchiseHref}
         class="cta-button border border-[#8F8F8F] text-[#9B9B9B] bg-transparent px-5 py-2 text-[13px] tracking-[0.2em] font-[500] transition-colors duration-200 hover:bg-[#999999] hover:text-white hover:font-[800]"
       >
         {t('nav.cta')}
@@ -33,12 +34,14 @@ const newsroomHref = getLocalizedPageHref(PAGE_ROUTE_ID.NEWSROOM, safeLocale);
 
     {/* Center: Logo */}
     <div class="flex-1 flex justify-center items-center">
-      <Image
-        src={logoParaLaNav}
-        alt="ACIUM Logo"
-        height={50}
-        class="object-contain w-auto"
-      />
+      <a href={homeHref} aria-label="ACIUM home">
+        <Image
+          src={logoParaLaNav}
+          alt="ACIUM Logo"
+          height={50}
+          class="object-contain w-auto"
+        />
+      </a>
     </div>
 
     {/* Right: Language Selector */}
