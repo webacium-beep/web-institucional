@@ -46,6 +46,14 @@ describe('buildLocaleUrl', () => {
     it('prepends /pt to /contact', () => {
       expect(buildLocaleUrl('pt', '/contact')).toBe('/pt/contact');
     });
+
+    it('does not truncate /engraving when switching to English', () => {
+      expect(buildLocaleUrl('en', '/engraving')).toBe('/en/engraving');
+    });
+
+    it('does not truncate /engraving when switching to Italian', () => {
+      expect(buildLocaleUrl('it', '/engraving')).toBe('/it/engraving');
+    });
   });
 });
 

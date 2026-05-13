@@ -47,16 +47,16 @@ function setLocaleCookie(code: string) {
  *   "/de/a/b/c"  → es: "/a/b/c" | it: "/it/a/b/c"
  */
 export function buildLocaleUrl(targetLocale: string, pathname: string): string {
-  const prefixPattern = new RegExp(`^\\/(${PREFIXED_LOCALES.join("|")})(\\/?)`);
+  const prefixPattern = new RegExp(`^\\/(${PREFIXED_LOCALES.join("|")})(?=\\/|$)`);
   const match = pathname.match(prefixPattern);
 
   // Strip existing locale prefix; normalize to '/' if the result is empty
   let pathWithoutLocale: string;
   if (match) {
-    // match[0] is the full prefix (e.g. "/en" or "/en/")
+    // match[0] is the locale prefix without consuming the following slash
     // Remainder is everything after the prefix
     const remainder = pathname.slice(match[0].length);
-    pathWithoutLocale = remainder ? `/${remainder}` : "/";
+    pathWithoutLocale = remainder || "/";
   } else {
     pathWithoutLocale = pathname || "/";
   }

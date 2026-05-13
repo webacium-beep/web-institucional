@@ -1,0 +1,124 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import type { Locales } from '../../i18n/ui';
+import { usePageTranslations } from '../../i18n/utils';
+import { engravingPage } from '../../i18n/engraving-page';
+import engravingBanner from '../../assets/section_engraving/banner.svg';
+import engravingIconMemory from '../../assets/section_engraving/icons/icon_grabado.svg';
+import engravingIconMaterials from '../../assets/section_engraving/icons/icon_materiales.svg';
+import engravingIconDesign from '../../assets/section_engraving/icons/ICONOS_GRABADO_1_4.svg';
+import engravingIconTechnology from '../../assets/section_engraving/icons/icon_tecnologia.svg';
+
+interface Props {
+  lang: Locales;
+}
+
+const { lang } = Astro.props;
+const t = usePageTranslations(lang, engravingPage);
+
+const heroDescription = t('engravingPage.hero.description');
+const [heroDescriptionBeforeBrand, heroDescriptionAfterBrand = ''] = heroDescription.split('A C I U M');
+
+const storyTitle = t('engravingPage.story.title');
+const [storyTitleBeforeBrand, storyTitleAfterBrand = ''] = storyTitle.split('A C I U M');
+const engravingVideoSrc: string | null = null;
+
+const engravingIcons = [
+  {
+    iconSrc: typeof engravingIconMemory === 'string' ? engravingIconMemory : engravingIconMemory.src,
+    title: 'engravingPage.icons.precision.title',
+    description: 'engravingPage.icons.precision.description',
+  },
+  {
+    iconSrc: typeof engravingIconTechnology === 'string' ? engravingIconTechnology : engravingIconTechnology.src,
+    title: 'engravingPage.icons.technology.title',
+    description: 'engravingPage.icons.technology.description',
+  },
+  {
+    iconSrc: typeof engravingIconDesign === 'string' ? engravingIconDesign : engravingIconDesign.src,
+    title: 'engravingPage.icons.meaning.title',
+    description: 'engravingPage.icons.meaning.description',
+  },
+  {
+    iconSrc: typeof engravingIconMaterials === 'string' ? engravingIconMaterials : engravingIconMaterials.src,
+    title: 'engravingPage.icons.materials.title',
+    description: 'engravingPage.icons.materials.description',
+  },
+] as const;
+
+const bannerSrc = typeof engravingBanner === 'string' ? engravingBanner : engravingBanner.src;
+---
+
+<PageLayout lang={lang}>
+  <article class="mx-auto flex w-full max-w-none flex-col items-center px-6 pb-[268px] pt-12 text-black md:px-10 md:pt-16">
+    <section class="flex w-full max-w-[1235px] flex-col items-center text-center" aria-labelledby="engraving-hero-title">
+      <h1 id="engraving-hero-title" class="text-[30px] font-[800] uppercase leading-[1.8] tracking-[0.04em] text-black">
+        {t('engravingPage.hero.title')}
+      </h1>
+
+      <p class="mt-[81px] w-full max-w-[1235px] text-[18px] font-light leading-[1.53] text-black">
+        {heroDescriptionBeforeBrand}
+        <span class="font-medium">A C I U M</span>
+        {heroDescriptionAfterBrand}
+      </p>
+
+      <ul class="mt-[97px] grid w-full max-w-[990px] grid-cols-2 gap-x-[152px] gap-y-[150px]" aria-label={t('engravingPage.hero.title')}>
+        {engravingIcons.map((item) => (
+          <li class="flex flex-col items-center justify-center text-center">
+            <img src={item.iconSrc} alt="" aria-hidden="true" class="h-[55px] w-[55px] object-contain" />
+            <h2 class="mt-[38px] text-[20px] font-black leading-[1.1] text-black">
+              {t(item.title)}
+            </h2>
+            <p class="mt-[24px] max-w-[334px] text-center text-[18px] font-light leading-[1.53] text-black">
+              {t(item.description)}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mt-[261px] w-screen" aria-label="Engraving banner">
+      <img src={bannerSrc} alt="" aria-hidden="true" class="h-auto max-h-[600px] w-full object-cover" />
+    </section>
+
+    <section class="mt-[126px] flex w-full max-w-[1235px] flex-col items-center text-center" aria-labelledby="engraving-story-title">
+      <h2 id="engraving-story-title" class="max-w-[1235px] text-[24px] font-light leading-[1.25] text-black">
+        <span class="font-black">{storyTitleBeforeBrand}A C I U M</span>
+        {storyTitleAfterBrand}
+      </h2>
+
+      <p class="mt-6 max-w-[1235px] text-[18px] font-light leading-[1.53] text-black">
+        {t('engravingPage.story.description')}
+      </p>
+    </section>
+
+    <section class="mt-[130px] flex w-full max-w-[1168px] flex-col items-center" aria-labelledby="engraving-experience-title">
+      <div class="grid w-full gap-[105px] lg:grid-cols-[730px_333px] lg:items-start">
+        {
+          engravingVideoSrc ? (
+            <video class="h-[465px] w-[730px] object-cover" controls playsinline preload="metadata">
+              <source src={engravingVideoSrc} type="video/mp4" />
+            </video>
+          ) : (
+            <div
+              class="h-[465px] w-[730px] bg-[#999999]"
+              data-engraving-video-placeholder
+              aria-label="Espacio reservado para video de grabado"
+              role="img"
+            ></div>
+          )
+        }
+
+        <div class="flex flex-col pt-[150px] text-left">
+          <h2 id="engraving-experience-title" class="max-w-[251px] text-[20px] font-black leading-[1.1] text-black">
+            {t('engravingPage.experience.title')}
+          </h2>
+
+          <p class="mt-[25px] max-w-[333px] text-[18px] font-light leading-[1.53] text-black">
+            {t('engravingPage.experience.description')}
+          </p>
+        </div>
+      </div>
+    </section>
+  </article>
+</PageLayout>

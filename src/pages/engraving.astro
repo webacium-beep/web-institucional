@@ -1,0 +1,8 @@
+---
+import EngravingPage from '../components/templates/EngravingPage.astro';
+import { normalizeLocale } from '../i18n/utils';
+
+const lang = normalizeLocale(Astro.currentLocale);
+---
+
+<EngravingPage lang={lang} />

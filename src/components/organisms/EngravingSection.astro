@@ -1,6 +1,7 @@
 ---
 import type { Locales } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
+import { getLocalizedPageHref, PAGE_ROUTE_ID } from '../../lib/site-navigation';
 
 interface Props {
   lang?: Locales | string | null;
@@ -8,7 +9,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const ctaHref = '#';
+const ctaHref = getLocalizedPageHref(PAGE_ROUTE_ID.ENGRAVING, lang);
 const mediaFallback = t('engraving.mediaFallback');
 const frameBasePath = '/V3/DIJE_GIRANDOrgb+alpha';
 const frameStart = 4;
